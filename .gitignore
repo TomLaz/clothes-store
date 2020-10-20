@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+code-lint-report.html
+code-lint-report.xml
+style-lint-report.html
