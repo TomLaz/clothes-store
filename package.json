@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-router-dom": "^5.1.6",
     "i18next": "^19.8.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -26,7 +27,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint:code": "lint-code --config=./config/.lint-code",
+    "ci:lint:code": "ci-lint-code --config=./config/.lint-code",
     "ci:lint:styles": "ci:lint:styles --config=./config/.lint-styles"
   },
   "eslintConfig": {
