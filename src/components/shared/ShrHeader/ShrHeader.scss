@@ -1,0 +1,215 @@
+@import '../../../styles/styles.scss';
+
+.shr-header {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+
+    /*** MOBILE BAR  ***/
+    &__mobile {
+        align-items: center;
+        background: $primary-dark-light;
+        display: none;
+        z-index: 5;
+        width: 100%;
+
+        &-bar {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 1%;
+            width: 100%;
+        }
+
+        &-actions {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+        }
+
+        &-login {
+            color: $primary;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        &-brand {
+            color: $primary;
+            cursor: pointer;
+        }
+
+        &-burger {
+            cursor: pointer;
+        }
+
+        &-burger span {
+            background: $primary;
+            display: block;
+            height: 3px;
+            margin: 6px;
+            width: 35px;
+        }
+
+        &-menu {
+            background: $primary-dark-light;
+            display: none;
+            padding-bottom: 100vh;
+            width: 100%;
+        }
+
+        &-option {
+            color:$primary;
+            display: block;
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: color 0.3s;
+            width: 100%;
+        }
+
+        &-option:hover {
+            background: $primary-dark-light-hover;
+        }
+
+        &-show {
+            display: block;
+        }
+
+        &-active {
+            background: $primary-dark-light-hover;
+            font-weight: 500;
+        }
+    }
+
+    @media (max-width: 980px) {
+        &__mobile {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+
+    /*** DESKTOP BAR  ***/
+    &__desktop {
+        align-items: center;
+        background: $primary-dark;
+        color: $primary;
+        display: none;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: .3em 1em;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+
+        &-info {
+            align-items: center;
+            display: flex;
+            gap: 1em;
+            min-width: 210px;
+            width: 20%;
+        }
+
+        &-dev {
+            cursor: pointer;
+        }
+
+        &-social {
+            margin-right: 30px;
+            padding: 6px 0;
+
+            .fab {
+                font-size: 25px;
+                margin: 0 2px;
+            };
+            .fa-facebook-square {
+                color:$primary-social-facebook;
+                cursor: pointer;
+            };
+            .fa-facebook-square:hover {
+                color:$primary-social-facebook-hover;
+            }
+
+            .fa-instagram-square {
+                color: $primary-social-instagram;
+                cursor: pointer;
+            }
+            .fa-instagram-square:hover {
+                color: $primary-social-instagram-hover;
+            }
+
+            .fa-twitter-square {
+                color: $primary-social-twitter;
+                cursor: pointer;
+            }
+            .fa-twitter-square:hover {
+                color: $primary-social-twitter-hover;
+            }
+
+            .fa-youtube-square {
+                color: $primary-social-youtube;
+                cursor: pointer;
+            }
+            .fa-youtube-square:hover {
+                color: $primary-social-youtube-hover;
+            }
+        }
+
+        &-actions {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            width: 80%;
+        }
+
+        &-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        &-option {
+            border: 1.5px solid transparent;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin: 0 0.9rem;
+            padding: 5px;
+            text-transform: uppercase;
+            transition: border-color 200ms ease-in-out;
+        };
+
+        &-option:hover {
+            border-bottom: 1.5px solid $primary-lighter;
+        }
+
+        &-login {
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: 1.5px solid $primary-lighter;
+            transition: border-color 200ms ease-in-out;
+            padding: 5px 15px;
+            transition: 200ms ease-in-out;
+        }
+
+        &-login:hover {
+            background: $primary;
+            color:$primary-dark;
+        }
+    }
+
+    @media ( min-width: 980px ) {
+        &__desktop {
+            display: flex;
+        }
+    }
+}
