@@ -1,8 +1,0 @@
-{
-    "src" : "./src/**/*.{tsx,ts}",
-    "report" : "./code-lint-report",
-    "reportFormats": ["html","checkstyle"] ,
-    "linterConfig" : "./.eslintrc",
-    "maxErrors" : 0,
-    "maxWarnings" : 0
-}

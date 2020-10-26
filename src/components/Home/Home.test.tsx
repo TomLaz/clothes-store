@@ -1,10 +1,11 @@
 import React from 'react';
 import { render, RenderResult } from '@testing-library/react';
-import App from './App';
+import Home from './Home';
+import '@testing-library/jest-dom/extend-expect';
 
-describe( 'App', () => {
+describe( 'Home', () => {
     const getRender = (): RenderResult => {
-        return render( <App /> );
+        return render( <Home /> );
     };
 
     test( 'Should render without error', () => {

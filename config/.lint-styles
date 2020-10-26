@@ -1,5 +1,0 @@
-{
-    "src" : "./src/**/*.scss",
-    "linterConfig" : "./.stylelintrc",
-    "report" : "./style-lint-report.html"
-}

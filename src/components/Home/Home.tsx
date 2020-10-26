@@ -1,5 +1,4 @@
 import React from 'react';
-import './Home.scss';
 import i18n from '../../i18n';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
 

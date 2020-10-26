@@ -61,7 +61,7 @@
         }
 
         &-option {
-            color:$primary;
+            color: $primary;
             display: block;
             margin: 0;
             padding: 10px;
@@ -92,7 +92,6 @@
         }
     }
 
-
     /*** DESKTOP BAR  ***/
     &__desktop {
         align-items: center;
@@ -101,7 +100,7 @@
         display: none;
         flex-direction: row;
         justify-content: space-between;
-        padding: .3em 1em;
+        padding: 0.3em 1em;
         position: relative;
         width: 100%;
         z-index: 1;
@@ -121,42 +120,47 @@
         &-social {
             margin-right: 30px;
             padding: 6px 0;
+        }
 
-            .fab {
-                font-size: 25px;
-                margin: 0 2px;
-            };
-            .fa-facebook-square {
-                color:$primary-social-facebook;
-                cursor: pointer;
-            };
-            .fa-facebook-square:hover {
-                color:$primary-social-facebook-hover;
-            }
+        &-social .fab {
+            font-size: 25px;
+            margin: 0 2px;
+        }
 
-            .fa-instagram-square {
-                color: $primary-social-instagram;
-                cursor: pointer;
-            }
-            .fa-instagram-square:hover {
-                color: $primary-social-instagram-hover;
-            }
+        &-social .fa-facebook-square {
+            color: $primary-social-facebook;
+            cursor: pointer;
+        }
 
-            .fa-twitter-square {
-                color: $primary-social-twitter;
-                cursor: pointer;
-            }
-            .fa-twitter-square:hover {
-                color: $primary-social-twitter-hover;
-            }
+        &-social .fa-facebook-square:hover {
+            color: $primary-social-facebook-hover;
+        }
 
-            .fa-youtube-square {
-                color: $primary-social-youtube;
-                cursor: pointer;
-            }
-            .fa-youtube-square:hover {
-                color: $primary-social-youtube-hover;
-            }
+        &-social .fa-instagram-square {
+            color: $primary-social-instagram;
+            cursor: pointer;
+        }
+
+        &-social .fa-instagram-square:hover {
+            color: $primary-social-instagram-hover;
+        }
+
+        &-social .fa-twitter-square {
+            color: $primary-social-twitter;
+            cursor: pointer;
+        }
+
+        &-social .fa-twitter-square:hover {
+            color: $primary-social-twitter-hover;
+        }
+
+        &-social .fa-youtube-square {
+            color: $primary-social-youtube;
+            cursor: pointer;
+        }
+
+        &-social .fa-youtube-square:hover {
+            color: $primary-social-youtube-hover;
         }
 
         &-actions {
@@ -183,7 +187,7 @@
             padding: 5px;
             text-transform: uppercase;
             transition: border-color 200ms ease-in-out;
-        };
+        }
 
         &-option:hover {
             border-bottom: 1.5px solid $primary-lighter;
@@ -198,16 +202,15 @@
             border: 1.5px solid $primary-lighter;
             transition: border-color 200ms ease-in-out;
             padding: 5px 15px;
-            transition: 200ms ease-in-out;
         }
 
         &-login:hover {
             background: $primary;
-            color:$primary-dark;
+            color: $primary-dark;
         }
     }
 
-    @media ( min-width: 980px ) {
+    @media (min-width: 980px) {
         &__desktop {
             display: flex;
         }

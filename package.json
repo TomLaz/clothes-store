@@ -17,18 +17,19 @@
     "react-i18next": "^11.7.3",
     "react-image-gallery": "^1.0.8",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "^3.4.0",
     "typeface-roboto": "^1.1.13",
     "typescript": "~3.7.2",
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "precommit": "npm run codelint && npm run stylelint && react-scripts test --watchAll=false --coverage",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ci:lint:code": "ci-lint-code --config=./config/.lint-code",
-    "ci:lint:styles": "ci:lint:styles --config=./config/.lint-styles"
+    "codelint": "eslint ./src",
+    "stylelint": "stylelint src/**/*.scss"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,7 +47,37 @@
     ]
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "eslint": "^7.12.0",
+    "eslint-plugin-react": "^7.21.5",
     "node-sass": "^4.14.1",
-    "stylelint-config-sass-guidelines": "^7.1.0"
+    "stylelint": "^13.7.2",
+    "stylelint-config-standard": "^20.0.0"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "serviceWorker",
+      ".eslintrc",
+      "src/locales",
+      "setupTest",
+      "src/index.tsx",
+      "react-app-env.d.ts",
+      "i18n.ts",
+      "browserMockControl.ts",
+      "src/mocks"
+    ],
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "text-summary",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/*.{ts,tsx}",
+      "src/**/*.{ts,tsx}",
+      "src/**/**/*.{ts,tsx}"
+    ]
   }
 }
