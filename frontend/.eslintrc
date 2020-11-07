@@ -29,6 +29,7 @@
         "semi": ["error", "always"],
         "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
         "no-trailing-spaces": "error",
-        "comma-dangle": ["error", "never"]
+        "comma-dangle": ["error", "never"],
+        "no-use-before-define": ["error", { "functions": false, "classes": false }]
     }
 }
