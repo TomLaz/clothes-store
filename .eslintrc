@@ -30,6 +30,16 @@
         "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
         "no-trailing-spaces": "error",
         "comma-dangle": ["error", "never"],
-        "no-use-before-define": ["error", { "functions": false, "classes": false }]
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/ban-types": ["error",
+            {
+                "types": {
+                    "Function": false
+                },
+                "extendDefaults": true
+            }
+        ]
     }
 }
