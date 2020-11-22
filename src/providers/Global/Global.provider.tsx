@@ -15,6 +15,12 @@ export interface GlobalContextProps {
     updateCurrentUser: Function;
     updateClientes: Function;
     updateLoading: Function;
+    signup: Function;
+    login: Function;
+    logout: Function;
+    resetPassword: Function;
+    updateEmail: Function;
+    updatePassword: Function;
 }
 
 export const defaultMenuItems: MenuItems[] = [ {
@@ -34,7 +40,13 @@ export const GlobalContext = createContext<GlobalContextProps>({
     updateMenuItems: Function,
     updateCurrentUser: Function,
     updateClientes: Function,
-    updateLoading: Function
+    updateLoading: Function,
+    signup: Function,
+    login: Function,
+    logout: Function,
+    resetPassword: Function,
+    updateEmail: Function,
+    updatePassword: Function
 });
 
 export const GlobalProvider: React.FC = ({ children }) => {

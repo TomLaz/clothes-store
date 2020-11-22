@@ -1,6 +1,6 @@
-import React, { useContext, useRef, useState } from 'react';
-import './SignIn.scss';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import './UserProfile.scss';
+import { useHistory } from 'react-router-dom';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button, TextField } from '@material-ui/core';
@@ -10,47 +10,61 @@ import LockIcon from '@material-ui/icons/Lock';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
 
-const SignIn: React.FC = () => {
-    const emailRef = useRef<any>();
+const UserProfile: React.FC = () => {
     const passwordRef = useRef<any>();
+    const passwordConfirmRef = useRef<any>();
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
+    const [ email, setEmail ] = useState( '' );
     const history = useHistory();
     const globalContext = useContext( GlobalContext );
 
     const handleSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
         e.preventDefault();
 
+        if ( passwordRef.current.value !== passwordConfirmRef.current.value ) {
+            return setError( i18n.t( 'sign-up.error-not-match' ) );
+        }
+
         try {
             setError( '' );
             setLoading( true );
-            await globalContext.login( emailRef.current.value, passwordRef.current.value );
-            history.push( '/' );
+            await globalContext.signup(
+                email,
+                passwordRef.current.value );
+            history.push( GlobalService.states.signIn );
         } catch {
-            setError( i18n.t( 'sign-in.error' ) );
+            setError( i18n.t( 'sign-up.error' ) );
+        } finally {
+            setLoading( false );
         }
-
-        setLoading( true );
     };
 
+    useEffect( () => {
+        if ( globalContext.data.currentUser ) {
+            setEmail( globalContext.data.currentUser.email );
+        }
+    }, [ globalContext.data.currentUser ] );
+
     return (
-        <div className='sign-in'>
-            <ShrHeader showSignIn={false} />
-            <div className='sign-in__body'>
-                <div className='sign-in__top'>
-                    <h2 className='sign-in__title'>
-                        {i18n.t( 'sign-in.title' )}
+        <div className='user-profile'>
+            <ShrHeader showSignUp={false} />
+            <div className='user-profile__body'>
+                <div className='user-profile__top'>
+                    <h2 className='user-profile__title'>
+                        {i18n.t( 'user-profile.update' )}
                     </h2>
                 </div>
-                <div className='sign-in__bottom'>
+                <div className='user-profile__bottom'>
                     <form
                         onSubmit={handleSubmit}
-                        className='sign-in__form'>
-                        <div className='sign-in__option'>
+                        className='user-profile__form'>
+                        <div className='user-profile__option'>
                             <TextField
                                 fullWidth={true}
                                 id='email'
-                                inputRef={emailRef}
+                                value={email}
+                                onChange={( item ): void => setEmail( item.target.value )}
                                 label={i18n.t( 'global.email' )}
                                 name='email'
                                 placeholder='email'
@@ -64,8 +78,9 @@ const SignIn: React.FC = () => {
                                 }}
                                 type='input'/>
                         </div>
-                        <div className='sign-in__option'>
+                        <div className='user-profile__option'>
                             <TextField
+                                helperText={i18n.t( 'user-profile.password-blank' )}
                                 fullWidth={true}
                                 id='password'
                                 inputRef={passwordRef}
@@ -81,35 +96,38 @@ const SignIn: React.FC = () => {
                                 }}
                                 type='password'/>
                         </div>
-                        {error && <div className='sign-in__option sign-in__error'>{error}</div>}
-                        <div className='sign-in__option'>
-                            <Button
-                                className='sign-in__option'
+                        <div className='user-profile__option'>
+                            <TextField
                                 fullWidth={true}
+                                id='password-confirm'
+                                inputRef={passwordConfirmRef}
+                                label={i18n.t( 'global.password-confirm' )}
+                                name='password-confirm'
+                                required={true}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position='end'>
+                                            <LockIcon />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                type='password'/>
+                        </div>
+                        {error && <div className='user-profile__option user-profile__error'>{error}</div>}
+                        <div className='user-profile__option'>
+                            <Button
                                 type='submit'
+                                fullWidth={true}
                                 variant='contained'
                                 disabled={loading}>
-                                {i18n.t( 'sign-in.confirm' )}
+                                {i18n.t( 'user-profile.update' )}
                             </Button>
                         </div>
                     </form>
-                    <Link
-                        className='sign-in__forgot'
-                        to={GlobalService.states.forgotPassword}>
-                        {i18n.t( 'sign-in.forgot-password' )}
-                    </Link>
-                    <div className='sign-in__signup'>
-                        {i18n.t( 'sign-in.need-account' )}
-                        <Link
-                            className='sign-in__register'
-                            to={GlobalService.states.signUp}>
-                            {i18n.t( 'sign-up' )}
-                        </Link>
-                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-export default SignIn;
+export default UserProfile;

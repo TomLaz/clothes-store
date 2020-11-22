@@ -1,21 +1,19 @@
 import React, { useContext, useRef, useState } from 'react';
-import './SignIn.scss';
-import { Link, useHistory } from 'react-router-dom';
+import './ForgotPassword.scss';
+import { Link } from 'react-router-dom';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button, TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import LockIcon from '@material-ui/icons/Lock';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
 
-const SignIn: React.FC = () => {
+const ForgotPassword: React.FC = () => {
     const emailRef = useRef<any>();
-    const passwordRef = useRef<any>();
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
-    const history = useHistory();
+    const [ message, setMessage ] = useState( '' );
     const globalContext = useContext( GlobalContext );
 
     const handleSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
@@ -24,29 +22,29 @@ const SignIn: React.FC = () => {
         try {
             setError( '' );
             setLoading( true );
-            await globalContext.login( emailRef.current.value, passwordRef.current.value );
-            history.push( '/' );
+            await globalContext.resetPassword( emailRef.current.value );
+            setMessage( i18n.t( 'forgot-password.success' ) );
         } catch {
-            setError( i18n.t( 'sign-in.error' ) );
+            setError( i18n.t( 'forgot-password.error' ) );
+        } finally {
+            setLoading( false );
         }
-
-        setLoading( true );
     };
 
     return (
-        <div className='sign-in'>
-            <ShrHeader showSignIn={false} />
-            <div className='sign-in__body'>
-                <div className='sign-in__top'>
-                    <h2 className='sign-in__title'>
-                        {i18n.t( 'sign-in.title' )}
+        <div className='forgot-password'>
+            <ShrHeader />
+            <div className='forgot-password__body'>
+                <div className='forgot-password__top'>
+                    <h2 className='forgot-password__title'>
+                        {i18n.t( 'forgot-password.title' )}
                     </h2>
                 </div>
-                <div className='sign-in__bottom'>
+                <div className='forgot-password__bottom'>
                     <form
                         onSubmit={handleSubmit}
-                        className='sign-in__form'>
-                        <div className='sign-in__option'>
+                        className='forgot-password__form'>
+                        <div className='forgot-password__option'>
                             <TextField
                                 fullWidth={true}
                                 id='email'
@@ -64,44 +62,27 @@ const SignIn: React.FC = () => {
                                 }}
                                 type='input'/>
                         </div>
-                        <div className='sign-in__option'>
-                            <TextField
-                                fullWidth={true}
-                                id='password'
-                                inputRef={passwordRef}
-                                label={i18n.t( 'global.password' )}
-                                name='password'
-                                required={true}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <LockIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                type='password'/>
-                        </div>
-                        {error && <div className='sign-in__option sign-in__error'>{error}</div>}
-                        <div className='sign-in__option'>
+                        {error && <div className='forgot-password__option forgot-password__error'>{error}</div>}
+                        {message && <div className='forgot-password__option forgot-password__success'>{message}</div>}
+                        <div className='forgot-password__option'>
                             <Button
-                                className='sign-in__option'
                                 fullWidth={true}
                                 type='submit'
                                 variant='contained'
                                 disabled={loading}>
-                                {i18n.t( 'sign-in.confirm' )}
+                                {i18n.t( 'forgot-password.recover' )}
                             </Button>
                         </div>
                     </form>
                     <Link
-                        className='sign-in__forgot'
-                        to={GlobalService.states.forgotPassword}>
-                        {i18n.t( 'sign-in.forgot-password' )}
+                        className='forgot-password__forgot'
+                        to={GlobalService.states.signIn}>
+                        {i18n.t( 'sign-in.title' )}
                     </Link>
-                    <div className='sign-in__signup'>
+                    <div className='forgot-password__signup'>
                         {i18n.t( 'sign-in.need-account' )}
                         <Link
-                            className='sign-in__register'
+                            className='forgot-password__register'
                             to={GlobalService.states.signUp}>
                             {i18n.t( 'sign-up' )}
                         </Link>
@@ -112,4 +93,4 @@ const SignIn: React.FC = () => {
     );
 };
 
-export default SignIn;
+export default ForgotPassword;

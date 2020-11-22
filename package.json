@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "precommit": "npm run codelint && npm run stylelint && react-scripts test --watchAll=false --coverage",
+    "precommit": "npm run codelint && npm run stylelint",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false --coverage --runInBand",
     "eject": "react-scripts eject",

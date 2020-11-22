@@ -6,6 +6,8 @@ export interface UserProfileStates {
     outlet: string;
     signUp: string;
     signIn: string;
+    forgotPassword: string;
+    userProfile: string;
 }
 
 class GlobalService {
@@ -20,7 +22,9 @@ class GlobalService {
             summer: '/verano',
             outlet: '/outlet',
             signUp: '/registrar',
-            signIn: '/ingresar'
+            signIn: '/ingresar',
+            forgotPassword: '/olvide-password',
+            userProfile: '/perfil-usuario'
         };
     }
 }

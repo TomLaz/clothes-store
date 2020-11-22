@@ -1,4 +1,65 @@
+@import '../../styles/styles.scss';
+
 .sign-in {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        max-width: 600px;
+        width: 100%;
+    }
+
+    @media (min-width: 600px) {
+        &__body {
+            border: 2px solid #000;
+            margin: 50px auto;
+        }
+    }
+
+    &__top {
+        padding: 50px;
+    }
+
+    &__title {
+        text-transform: uppercase;
+    }
+
+    &__bottom {
+        background: $primary-dark-lighter;
+        flex: 1;
+        padding: 0 50px 25px 50px;
+    }
+
+    &__error {
+        color: red;
+    }
+
+    &__form {
+        margin-bottom: 5px;
+    }
+
+    &__option .MuiFormControl-root,
+    &__option .MuiButtonBase-root {
+        margin: 15px 0;
+    }
+
+    &__forgot,
+    &__register {
+        color: $primary-dark;
+        font-weight: 500;
+    }
+
+    &__signup {
+        margin-top: 15px;
+    }
+}
+
+@media (min-width: 600px) {
+    .sign-in {
+        height: auto;
+    }
 }

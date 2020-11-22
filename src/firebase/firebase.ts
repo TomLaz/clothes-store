@@ -4,13 +4,13 @@ import 'firebase/storage';
 import 'firebase/firestore';
 
 const app = firebase.initializeApp({
-    apiKey: 'AIzaSyAFA_9szlM05fYsnwCRnkOI9FuwOLYchJ8',
-    authDomain: 'ninja-firegram-a898d.firebaseapp.com',
-    databaseURL: 'https://ninja-firegram-a898d.firebaseio.com',
-    projectId: 'ninja-firegram-a898d',
-    storageBucket: 'ninja-firegram-a898d.appspot.com',
-    messagingSenderId: '1055344145962',
-    appId: '1:1055344145962:web:be82999d9b47e771b6f553'
+    apiKey: 'AIzaSyAUcs7hh9FIZtfiyAjfiXdClB0qY7_Aauo',
+    authDomain: 'clothes-store-cc681.firebaseapp.com',
+    databaseURL: 'https://clothes-store-cc681.firebaseio.com',
+    projectId: 'clothes-store-cc681',
+    storageBucket: 'clothes-store-cc681.appspot.com',
+    messagingSenderId: '605875862257',
+    appId: '1:605875862257:web:07bd83d9428f6ce15e0750'
 });
 
 const projectStorage = firebase.storage();

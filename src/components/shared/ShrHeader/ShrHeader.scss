@@ -1,8 +1,6 @@
 @import '../../../styles/styles.scss';
 
 .shr-header {
-    overflow: hidden;
-    position: fixed;
     top: 0;
     width: 100%;
     z-index: 5;
@@ -12,6 +10,8 @@
         align-items: center;
         background: $primary-dark-light;
         display: none;
+        overflow: hidden;
+        position: fixed;
         z-index: 5;
         width: 100%;
 
@@ -73,7 +73,9 @@
         }
 
         &-sign-up,
-        &-sign-in {
+        &-sign-in,
+        &-log-out,
+        &-user-profile {
             margin: 0 0.2rem;
             width: 100%;
             max-width: 300px;
@@ -111,8 +113,8 @@
 
     &__mobile-sign-in .MuiButtonBase-root,
     &__mobile-sign-up .MuiButtonBase-root,
-    &__mobile-sign-in .MuiButtonBase-root:hover,
-    &__mobile-sign-up .MuiButtonBase-root:hover {
+    &__mobile-log-out .MuiButtonBase-root,
+    &__mobile-user-profile .MuiButtonBase-root {
         color: $primary;
         border: 1px solid $primary;
     }
@@ -132,8 +134,9 @@
         display: none;
         flex-direction: row;
         justify-content: space-between;
+        overflow: hidden;
         padding: 0.3em 1em;
-        position: relative;
+        position: fixed;
         width: 100%;
         z-index: 1;
 
@@ -233,19 +236,61 @@
         &-sign-in {
             margin: 0 0.2rem;
         }
+
+        &-log-out {
+            display: flex;
+            align-items: center;
+        }
+
+        &-log-out-icon {
+            display: flex;
+            cursor: pointer;
+        }
     }
 
     &__desktop-sign-in .MuiButtonBase-root,
     &__desktop-sign-up .MuiButtonBase-root,
-    &__desktop-sign-in .MuiButtonBase-root:hover,
-    &__desktop-sign-up .MuiButtonBase-root:hover {
+    &__desktop-log-out .MuiButton-root {
         color: $primary;
         border: 1px solid $primary;
+        font-size: 12px;
+    }
+
+    &__desktop-log-out .MuiIconButton-root {
+        padding: 0;
+    }
+
+    &__desktop-log-out .MuiSvgIcon-root {
+        color: $primary;
+        margin: 0 0 0 10px;
+        font-size: 30px;
+    }
+
+    &__span {
+        padding-top: 50px;
     }
 
     @media (min-width: 980px) {
         &__desktop {
             display: flex;
         }
+    }
+
+    /* mobile hover */
+    &__mobile-sign-in .MuiButtonBase-root:hover,
+    &__mobile-sign-up .MuiButtonBase-root:hover,
+    &__mobile-log-out .MuiButtonBase-root:hover,
+    &__mobile-user-profile .MuiButtonBase-root:hover {
+        color: $primary;
+        border: 1px solid $primary;
+    }
+
+    /* desktop hover */
+    &__desktop-sign-in .MuiButtonBase-root:hover,
+    &__desktop-sign-up .MuiButtonBase-root:hover,
+    &__desktop-log-out .MuiButton-root:hover {
+        color: $primary;
+        border: 1px solid $primary;
+        font-size: 12px;
     }
 }

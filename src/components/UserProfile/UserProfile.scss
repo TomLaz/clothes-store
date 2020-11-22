@@ -1,6 +1,6 @@
 @import '../../styles/styles.scss';
 
-.sign-up {
+.user-profile {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -15,7 +15,7 @@
 
     @media (min-width: 600px) {
         &__body {
-            border: 2px solid #000;
+            border: 2px solid $primary-dark;
             margin: 50px auto;
         }
     }
@@ -59,7 +59,7 @@
 }
 
 @media (min-width: 600px) {
-    .sign-up {
+    .user-profile {
         height: auto;
     }
 }
