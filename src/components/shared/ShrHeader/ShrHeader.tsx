@@ -8,6 +8,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import GlobalService from '../../../services/Global/Global.service';
 import { GlobalContext } from '../../../providers/Global/Global.provider';
 import { IconButton } from '@material-ui/core';
+import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
+import useFirestore from '../../../firebase/useFirestore';
 
 type ShrHeaderProps = {
     showSignIn?: boolean;
@@ -18,6 +20,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
     const history = useHistory();
     const [ showMenu, setShowMenu ] = useState( false );
     const globalContext = useContext( GlobalContext );
+    const basketProducts = useFirestore( 'basket' );
 
     return (
         <div className='shr-header'>
@@ -29,6 +32,20 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
                         {i18n.t( 'global.brand' )}
                     </div>
                     <div className='shr-header__mobile-actions'>
+                        {
+                            globalContext.data.currentUser &&
+                            <div
+                                className='shr-header__mobile-basket'
+                                aria-label={i18n.t( 'shr-header.basket' )}
+                                title={i18n.t( 'shr-header.basket' )}>
+                                <ShoppingBasket  />
+                                <span className='shr-header__mobile-basket-qty'>
+                                    {basketProducts.docs
+                                        .map( item =>
+                                            item.id === globalContext.data.currentUser.uid && item.products.length )}
+                                </span>
+                            </div>
+                        }
                         <p
                             className='shr-header__mobile-burger'
                             onClick={ (): void => setShowMenu( !showMenu ) }>
@@ -165,21 +182,35 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
                         }
                         {
                             globalContext.data.currentUser &&
-                            <div className='shr-header__desktop-log-out'>
+                            <div className='shr-header__desktop-logged'>
                                 <Button
                                     onClick={( async (): Promise<void> => await globalContext.logout() )}
                                     variant='outlined'
                                     color='primary'
+                                    aria-label={i18n.t( 'global.log-out' )}
                                     size='small'>
                                     {i18n.t( 'global.log-out' )}
                                 </Button>
                                 <IconButton
                                     onClick={( (): void => history.push( GlobalService.states.userProfile ) )}
-                                    color="primary"
-                                    aria-label="user profile"
-                                    component="span">
+                                    color='primary'
+                                    aria-label={i18n.t( 'shr-header.profile' )}
+                                    title={i18n.t( 'shr-header.profile' )}
+                                    component='span'>
                                     <AccountCircle />
                                 </IconButton>
+                                <div
+                                    className='shr-header__desktop-basket'
+                                    aria-label={i18n.t( 'shr-header.basket' )}
+                                    title={i18n.t( 'shr-header.basket' )}>
+                                    <ShoppingBasket aria-label={i18n.t( 'shr-header.basket' )} />
+                                    <span className='shr-header__desktop-basket-qty'>
+                                        {basketProducts.docs
+                                            .map( item =>
+                                                item.id === globalContext.data.currentUser.uid &&
+                                                item.products.length )}
+                                    </span>
+                                </div>
                             </div>
                         }
                     </div>

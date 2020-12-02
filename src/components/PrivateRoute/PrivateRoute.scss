@@ -1,0 +1,108 @@
+@import '../../styles/styles.scss';
+
+.upload-product {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        max-width: 600px;
+        width: 100%;
+    }
+
+    @media (min-width: 600px) {
+        &__body {
+            border: 2px solid $primary-dark;
+            margin: 50px auto;
+        }
+    }
+
+    &__top {
+        padding: 50px;
+    }
+
+    &__title {
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    &__bottom {
+        background: $primary-dark-lighter;
+        flex: 1;
+        padding: 0 50px 25px 50px;
+    }
+
+    &__error {
+        color: red;
+    }
+
+    &__form {
+        margin-bottom: 5px;
+    }
+
+    &__image {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    &__categories {
+        width: 100%;
+    }
+
+    &__option {
+        margin: 20px 0;
+    }
+
+    &__checkbox {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    &__checkbox .MuiFormControlLabel-label {
+        color: #888;
+    }
+
+    &__progress-bar {
+        height: 5px;
+        background: #efb6b2;
+        margin: 20px 0;
+    }
+
+    &__products {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    &__products-title {
+        text-transform: uppercase;
+        text-align: center;
+    }
+}
+
+@media (min-width: 600px) {
+    .upload-product {
+        &__image .MuiButton-contained,
+        &__submit-btn .MuiButton-contained {
+            width: auto;
+        }
+
+        &__image {
+            flex-direction: row;
+        }
+
+        &__products-title {
+            text-align: left;
+            width: 90%;
+            margin: 0 auto;
+        }
+    }
+}

@@ -1,25 +1,27 @@
 import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import './PrivateRoute.scss';
+import { Route } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import GlobalService from '../../services/Global/Global.service';
+import SignIn from '../SignIn/SignIn';
 
 type PrivateRouteProps = {
     path: string;
     component: React.FC;
+    exact: boolean;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ( props: any ) => {
     const globalContext = useContext( GlobalContext );
-    const { component: Component, path } = props;
+    const { component: Component, path, exact } = props;
 
     return (
         <Route
-            exact
+            exact={exact}
             path={path}
             render={ (): JSX.Element => {
                 return globalContext.data.currentUser ?
                     <Component /> :
-                    <Redirect to={GlobalService.states.signIn} />;
+                    <SignIn />;
             }}
         />
     );

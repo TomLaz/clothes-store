@@ -50,6 +50,16 @@ const UserProfile: React.FC = () => {
         <div className='user-profile'>
             <ShrHeader showSignUp={false} />
             <div className='user-profile__body'>
+                <Button
+                    onClick={(): void => {history.push( GlobalService.states.uploadProduct );}}
+                    type='submit'
+                    fullWidth={true}
+                    variant='contained'
+                    disabled={loading}>
+                    {'Subir Producto'}
+                </Button>
+            </div>
+            <div className='user-profile__body'>
                 <div className='user-profile__top'>
                     <h2 className='user-profile__title'>
                         {i18n.t( 'user-profile.update' )}

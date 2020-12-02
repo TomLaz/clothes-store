@@ -10,7 +10,11 @@ import LockIcon from '@material-ui/icons/Lock';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
 
-const SignIn: React.FC = () => {
+type SignInType = {
+    shouldRedirect?: boolean;
+}
+
+const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
     const emailRef = useRef<any>();
     const passwordRef = useRef<any>();
     const [ error, setError ] = useState( '' );
@@ -25,12 +29,14 @@ const SignIn: React.FC = () => {
             setError( '' );
             setLoading( true );
             await globalContext.login( emailRef.current.value, passwordRef.current.value );
-            history.push( '/' );
+            if ( shouldRedirect ) {
+                history.push( '/' );
+            }
         } catch {
             setError( i18n.t( 'sign-in.error' ) );
+        } finally {
+            setLoading( false );
         }
-
-        setLoading( true );
     };
 
     return (
@@ -110,6 +116,10 @@ const SignIn: React.FC = () => {
             </div>
         </div>
     );
+};
+
+SignIn.defaultProps = {
+    shouldRedirect: false
 };
 
 export default SignIn;

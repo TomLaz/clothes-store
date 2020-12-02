@@ -1,13 +1,21 @@
 import React from 'react';
-import i18n from '../../i18n';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
+import MainHome from '../MainHome/MainHome';
+import LatestNews from '../LatestNews/LatestNews';
+import OutletPresentation from '../OutletPresentation/OutletPresentation';
+import SendOptions from '../SendOptions/SendOptions';
+import ShrFooter from '../shared/ShrFooter/ShrFooter';
 
 const Home = (): JSX.Element => {
 
     return (
         <div className='home'>
             <ShrHeader />
-            {i18n.t( 'home.title' )}
+            <MainHome />
+            <LatestNews />
+            <OutletPresentation />
+            <SendOptions />
+            <ShrFooter />
         </div>
     );
 };

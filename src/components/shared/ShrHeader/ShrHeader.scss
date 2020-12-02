@@ -74,7 +74,7 @@
 
         &-sign-up,
         &-sign-in,
-        &-log-out,
+        &-logged,
         &-user-profile {
             margin: 0 0.2rem;
             width: 100%;
@@ -108,6 +108,27 @@
         &-active {
             background: $primary-dark-light-hover;
             font-weight: 500;
+        }
+
+        &-basket {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            grid-gap: 5px;
+            gap: 5px;
+            cursor: pointer;
+            color: #fff;
+            margin-right: 7px;
+        }
+
+        &-basket .MuiSvgIcon-root {
+            font-size: 21px;
+        }
+
+        &-basket-qty {
+            font-size: 23px;
+            margin-top: 1px;
         }
     }
 
@@ -237,37 +258,45 @@
             margin: 0 0.2rem;
         }
 
-        &-log-out {
+        &-logged {
             display: flex;
             align-items: center;
         }
 
-        &-log-out-icon {
+        &-basket {
             display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
             cursor: pointer;
+        }
+
+        &-basket-qty {
+            font-size: 25px;
         }
     }
 
     &__desktop-sign-in .MuiButtonBase-root,
     &__desktop-sign-up .MuiButtonBase-root,
-    &__desktop-log-out .MuiButton-root {
+    &__desktop-logged .MuiButton-root {
         color: $primary;
         border: 1px solid $primary;
         font-size: 12px;
     }
 
-    &__desktop-log-out .MuiIconButton-root {
+    &__desktop-logged .MuiIconButton-root {
         padding: 0;
+        margin: 0 18px;
     }
 
-    &__desktop-log-out .MuiSvgIcon-root {
+    &__desktop-logged .MuiSvgIcon-root {
         color: $primary;
-        margin: 0 0 0 10px;
         font-size: 30px;
     }
 
     &__span {
-        padding-top: 50px;
+        padding-top: 40px;
     }
 
     @media (min-width: 980px) {
@@ -279,7 +308,7 @@
     /* mobile hover */
     &__mobile-sign-in .MuiButtonBase-root:hover,
     &__mobile-sign-up .MuiButtonBase-root:hover,
-    &__mobile-log-out .MuiButtonBase-root:hover,
+    &__mobile-logged .MuiButtonBase-root:hover,
     &__mobile-user-profile .MuiButtonBase-root:hover {
         color: $primary;
         border: 1px solid $primary;
@@ -288,7 +317,7 @@
     /* desktop hover */
     &__desktop-sign-in .MuiButtonBase-root:hover,
     &__desktop-sign-up .MuiButtonBase-root:hover,
-    &__desktop-log-out .MuiButton-root:hover {
+    &__desktop-logged .MuiButton-root:hover {
         color: $primary;
         border: 1px solid $primary;
         font-size: 12px;

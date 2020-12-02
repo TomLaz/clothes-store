@@ -4,19 +4,19 @@ import i18n from 'i18next';
 const menuItems = [
     {
         url: GlobalService.states.mens,
-        title: i18n.t( 'items.mens' )
+        title: i18n.t( 'global.categories.mens' )
     },
     {
         url: GlobalService.states.womens,
-        title: i18n.t( 'items.womens' )
+        title: i18n.t( 'global.categories.women' )
     },
     {
         url: GlobalService.states.summer,
-        title: i18n.t( 'items.summer' )
+        title: i18n.t( 'global.categories.summer' )
     },
     {
         url: GlobalService.states.outlet,
-        title: i18n.t( 'items.outlet' )
+        title: i18n.t( 'global.categories.outlet' )
     }
 ];
 
