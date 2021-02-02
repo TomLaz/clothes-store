@@ -1,0 +1,35 @@
+.shr-select {
+    display: flex;
+    .shr-select__title {
+        margin-right: 15px;
+        font-size: 12px;
+        padding: 5px 0;
+        letter-spacing: 2px;
+    }
+    .shr-select__select {
+        width: 60px;
+        border: 1px solid #000;
+        background: #8080801a;
+        .shr-select__option {
+            background: #8080801a;
+        }
+    }
+}
+
+@media ( max-width: 768px ) {
+    .shr-select {
+        justify-content: center;
+        margin: 20px 0 15px 0;
+    }
+}
+
+@media ( max-width: 480px ) {
+    .shr-select {
+        .shr-select__title {
+            font-size: 10px;
+        }
+        .shr-select__select {
+            width: 50px;
+        }
+    }
+}

@@ -9,6 +9,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
+import ShrFooter from '../shared/ShrFooter/ShrFooter';
 
 const UserProfile: React.FC = () => {
     const passwordRef = useRef<any>();
@@ -136,6 +137,7 @@ const UserProfile: React.FC = () => {
                     </form>
                 </div>
             </div>
+            <ShrFooter />
         </div>
     );
 };

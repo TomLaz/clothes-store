@@ -1,26 +1,10 @@
 import React from 'react';
 import './ProductItem.scss';
 import { motion } from 'framer-motion';
-
-type CreatedAtType = {
-    nanoseconds: number;
-    seconds: number;
-}
-
-type ProductType = {
-    categoryId: number;
-    createdAt: CreatedAtType;
-    description: string;
-    id: string;
-    imgUrl: string;
-    price: number;
-    subcategoryId: number;
-    title: string;
-    userId: string;
-}
+import { Product } from '../../providers/Global/Global.model';
 
 type ProductItemType = {
-    product: ProductType;
+    product: Product;
 }
 
 const ProductItem: React.FC<ProductItemType> = ({ product: { imgUrl, title, description, price }}) => {

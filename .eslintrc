@@ -19,7 +19,7 @@
         "array-bracket-spacing": [ "error", "always", { "arraysInArrays": false } ],
         "array-element-newline": [ "error", "consistent" ],
         "max-len": [ "error", {
-            "code": 120,
+            "code": 150,
             "ignorePattern": "^import\\s.+\\sfrom\\s.+;$"
         } ],
         "@typescript-eslint/explicit-function-return-type": "error",

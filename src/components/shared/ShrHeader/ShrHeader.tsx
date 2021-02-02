@@ -37,7 +37,8 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
                             <div
                                 className='shr-header__mobile-basket'
                                 aria-label={i18n.t( 'shr-header.basket' )}
-                                title={i18n.t( 'shr-header.basket' )}>
+                                title={i18n.t( 'shr-header.basket' )}
+                                onClick={( (): void => history.push( GlobalService.states.basket ) )}>
                                 <ShoppingBasket  />
                                 <span className='shr-header__mobile-basket-qty'>
                                     {basketProducts.docs
@@ -202,7 +203,8 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
                                 <div
                                     className='shr-header__desktop-basket'
                                     aria-label={i18n.t( 'shr-header.basket' )}
-                                    title={i18n.t( 'shr-header.basket' )}>
+                                    title={i18n.t( 'shr-header.basket' )}
+                                    onClick={( (): void => history.push( GlobalService.states.basket ) )}>
                                     <ShoppingBasket aria-label={i18n.t( 'shr-header.basket' )} />
                                     <span className='shr-header__desktop-basket-qty'>
                                         {basketProducts.docs

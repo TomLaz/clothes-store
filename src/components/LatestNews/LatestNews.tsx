@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './LatestNews.scss';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -7,54 +7,52 @@ import useFirestore from '../../firebase/useFirestore';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
+import GlobalService from '../../services/Global/Global.service';
 
 const LatestNews: React.FC = () => {
     const history = useHistory();
     const globalContext = useContext( GlobalContext );
-    const favourites = useFirestore( 'favourites' );
-    const products = useFirestore( 'products' );
-    const basketProducts = useFirestore( 'basket' );
 
     const addFavouriteHandler = ( id: string ): void => {
         try {
-            const prods = !!favourites.docs.filter( item => item.id === globalContext.data.currentUser.uid ).length ?
-                favourites.docs.filter( item => item.id === globalContext.data.currentUser.uid )[0].products : [];
+            const prods = !!globalContext.data.favourites.filter( item => item.id === globalContext.data.currentUser.uid ).length ?
+                globalContext.data.favourites.filter( item => item.id === globalContext.data.currentUser.uid )[0].products : [];
 
             prods.push( id );
-            favourites.updateCollection( globalContext.data.currentUser.uid, prods );
+            globalContext.updateFavouritesCollection( globalContext.data.currentUser.uid, prods );
         } catch {}
     };
 
     const removeFavouriteHandler = ( id: string ): void => {
         try {
-            const prods = favourites.docs
+            const prods = globalContext.data.favourites
                 .filter( item => item.id === globalContext.data.currentUser.uid )[0].products
                 .filter( ( prod: string ) => prod !== id );
-            favourites.updateCollection( globalContext.data.currentUser.uid, prods );
+            globalContext.updateFavouritesCollection( globalContext.data.currentUser.uid, prods );
         } catch {}
     };
 
-    const addProductHandler = ( id: string ): void => {
-        try {
-            const prods = !!basketProducts.docs
-                .filter( item => item.id === globalContext.data.currentUser.uid ).length ?
-                basketProducts.docs.filter( item => item.id === globalContext.data.currentUser.uid )[0].products : [];
+    // const addProductHandler = ( id: string ): void => {
+    //     try {
+    //         const prods = !!basketProducts.docs
+    //             .filter( item => item.id === globalContext.data.currentUser.uid ).length ?
+    //             basketProducts.docs.filter( item => item.id === globalContext.data.currentUser.uid )[0].products : [];
 
-            prods.push( id );
+    //         prods.push( id );
 
-            basketProducts.updateCollection( globalContext.data.currentUser.uid, prods );
-        } catch {}
-    };
+    //         basketProducts.updateCollection( globalContext.data.currentUser.uid, prods );
+    //     } catch {}
+    // };
 
-    const removeProductHandler = ( id: string ): void => {
-        try {
-            const prods = basketProducts.docs
-                .filter( item => item.id === globalContext.data.currentUser.uid )[0].products
-                .filter( ( prod: string ) => prod !== id );
+    // const removeProductHandler = ( id: string ): void => {
+    //     try {
+    //         const prods = basketProducts.docs
+    //             .filter( item => item.id === globalContext.data.currentUser.uid )[0].products
+    //             .filter( ( prod: string ) => prod !== id );
 
-            basketProducts.updateCollection( globalContext.data.currentUser.uid, prods );
-        } catch {}
-    };
+    //         basketProducts.updateCollection( globalContext.data.currentUser.uid, prods );
+    //     } catch {}
+    // };
 
     return (
         <section className='latest-news'>
@@ -62,15 +60,16 @@ const LatestNews: React.FC = () => {
                 Latest News
             </h3>
             {
-                !!products.docs.length &&
+                !!globalContext.data.products.length &&
                 <div className='latest-news__gallery'>
                     {
-                        products.docs.slice( 0, 9 ).map( ( product ) => {
+                        globalContext.data.products.slice( 0, 9 ).map( ( product ) => {
                             return (
                                 <div className='latest-news__product' key={product.id}>
                                     <span
                                         className='latest-news__img-wrapper'
-                                        onClick={(): void => history.push( '/detail' ) }>
+                                        onClick={(): void =>
+                                            history.push( `${GlobalService.states.productDetail}/${product.id}` ) }>
                                         <div className='latest-news__img-container'>
                                             <img
                                                 className='latest-news__img'
@@ -86,11 +85,7 @@ const LatestNews: React.FC = () => {
                                             <div className='latest-news__title-container'>
                                                 {product.title}
                                             </div>
-                                            {/* <AddIcon /> */}
-                                            {/* <div className='latest-news__check-icon'>
-                                                <CheckIcon />
-                                            </div> */}
-                                            {!!globalContext.data.currentUser ?
+                                            {/* {!!globalContext.data.currentUser ?
                                                 !!basketProducts.docs
                                                     .filter( item => item.id === globalContext.data.currentUser.uid )
                                                     .filter( data => data.products.includes( product.id ) ).length ?
@@ -105,9 +100,9 @@ const LatestNews: React.FC = () => {
                                                         <AddIcon />
                                                     </div> :
                                                 <></>
-                                            }
+                                            } */}
                                             {!!globalContext.data.currentUser ?
-                                                !!favourites.docs
+                                                !!globalContext.data.favourites
                                                     .filter( item => item.id === globalContext.data.currentUser.uid )
                                                     .filter( data => data.products.includes( product.id ) ).length ?
                                                     <div

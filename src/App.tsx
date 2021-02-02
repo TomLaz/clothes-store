@@ -10,6 +10,8 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import UploadProduct from './components/UploadProduct/UploadProduct';
 import UserProfile from './components/UserProfile/UserProfile';
+import ProductDetail from './components/ProductDetail/ProductDetail';
+import Basket from './components/Basket/Basket';
 
 const App = (): JSX.Element => {
     return (
@@ -43,6 +45,15 @@ const App = (): JSX.Element => {
                         exact={true}
                         path={GlobalService.states.userProfile}
                         component={UserProfile} />
+
+                    <Route
+                        exact path={GlobalService.states.productDetail + '/:id'}
+                        component={ProductDetail} />
+
+                    <PrivateRoute
+                        exact={true}
+                        path={GlobalService.states.basket}
+                        component={Basket} />
                 </GlobalProvider>
             </Switch>
         </Router>

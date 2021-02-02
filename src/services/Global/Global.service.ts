@@ -9,6 +9,8 @@ export interface UserProfileStates {
     forgotPassword: string;
     userProfile: string;
     uploadProduct: string;
+    productDetail: string;
+    basket: string;
 }
 
 class GlobalService {
@@ -26,7 +28,9 @@ class GlobalService {
             signIn: '/ingresar',
             forgotPassword: '/olvide-password',
             userProfile: '/perfil-usuario',
-            uploadProduct: '/subir-producto'
+            uploadProduct: '/subir-producto',
+            productDetail: '/detalle-producto',
+            basket: '/carro-compras'
         };
     }
 }

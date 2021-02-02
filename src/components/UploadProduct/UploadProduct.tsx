@@ -12,6 +12,7 @@ const UploadProduct: React.FC = () => {
     const globalContext = useContext( GlobalContext );
     const titleRef = useRef<any>();
     const descriptionRef = useRef<any>();
+    const colorRef = useRef<any>();
     const priceRef = useRef<any>();
 
     const [ error, setError ] = useState( '' );
@@ -40,6 +41,7 @@ const UploadProduct: React.FC = () => {
             descriptionRef.current.value = '';
             priceRef.current.value = '';
             titleRef.current.value = '';
+            colorRef.current.value = '';
             setCategorySelected( '' );
             setSubcategorySelected( '' );
             setIsOutlet( false );
@@ -58,6 +60,7 @@ const UploadProduct: React.FC = () => {
         if ( titleRef.current.value === '' ||
             descriptionRef.current.value === '' ||
             priceRef.current.value === '' ||
+            colorRef.current.value === '' ||
             file === null ||
             categorySelected === '' ||
             subcategorySelected === '' ) {
@@ -80,15 +83,40 @@ const UploadProduct: React.FC = () => {
                 const imgUrl = await storageRef.getDownloadURL();
                 const createdAt = timestamp();
 
+                const sizes = [
+                    {
+                        size: 'S',
+                        stock: 10
+                    },
+                    {
+                        size: 'M',
+                        stock: 8
+                    },
+                    {
+                        size: 'L',
+                        stock: 5
+                    },
+                    {
+                        size: 'XL',
+                        stock: 7
+                    },
+                    {
+                        size: 'XXL',
+                        stock: 14
+                    }
+                ];
+
                 collectionRef.add({
                     createdAt: createdAt,
                     description: descriptionRef.current.value,
+                    color: colorRef.current.value,
                     imgUrl: imgUrl,
                     price: +priceRef.current.value,
                     title: titleRef.current.value,
                     categoryId: +categorySelected,
                     subcategoryId: +subcategorySelected,
-                    userId: globalContext.data.currentUser.uid
+                    userId: globalContext.data.currentUser.uid,
+                    sizes: sizes
                 }).then( productAdded => {
                     setUrl( imgUrl );
 
@@ -133,6 +161,7 @@ const UploadProduct: React.FC = () => {
     const onChangeHandler = (): void => {
         if (
             descriptionRef?.current?.value === '' ||
+            colorRef?.current?.value === '' ||
             priceRef?.current?.value === '' ||
             titleRef?.current?.value === '' ||
             file === null ||
@@ -168,7 +197,7 @@ const UploadProduct: React.FC = () => {
             <div className='upload-product__body'>
                 <div className='upload-product__top'>
                     <h2 className='upload-product__title'>
-                        Product Upload
+                        Subir Producto
                     </h2>
                 </div>
                 <form onSubmit={handleSubmit} className='upload-product__bottom'>
@@ -178,7 +207,7 @@ const UploadProduct: React.FC = () => {
                             variant='contained'
                             component='label'
                             disabled={loading}>
-                            Select Image
+                            Seleccionar Imagen
                             <input type='file' onChange={imageHandler} hidden />
                         </Button>
                         {file && <p>{file.name}</p>}
@@ -188,7 +217,7 @@ const UploadProduct: React.FC = () => {
                             fullWidth={true}
                             id='title'
                             inputRef={titleRef}
-                            label='Title'
+                            label='Título'
                             name='title'
                             placeholder='Title'
                             onChange={onChangeHandler}
@@ -200,9 +229,21 @@ const UploadProduct: React.FC = () => {
                             fullWidth={true}
                             id='description'
                             inputRef={descriptionRef}
-                            label='Description'
+                            label='Descripción'
                             name='description'
                             placeholder='Description'
+                            onChange={onChangeHandler}
+                            required={true}
+                            type='input'/>
+                    </div>
+                    <div className='upload-product__option'>
+                        <TextField
+                            fullWidth={true}
+                            id='color'
+                            inputRef={colorRef}
+                            label='Color'
+                            name='color'
+                            placeholder='Color'
                             onChange={onChangeHandler}
                             required={true}
                             type='input'/>
@@ -258,7 +299,7 @@ const UploadProduct: React.FC = () => {
                             fullWidth={true}
                             id='price'
                             inputRef={priceRef}
-                            label='Price'
+                            label='Precio'
                             name='price'
                             placeholder='Price'
                             onChange={onChangeHandler}
@@ -293,7 +334,7 @@ const UploadProduct: React.FC = () => {
                             type='submit'
                             variant='contained'
                             disabled={ loading || isButtonDisabled}>
-                            Upload Product
+                            Subir Producto
                         </Button>
                     </div>
                     <motion.div
@@ -304,12 +345,13 @@ const UploadProduct: React.FC = () => {
             </div>
             <div className='upload-product__products'>
                 {
-                    !!( products.docs.length &&
-                        products.docs.filter( item => item.userId === globalContext.data.currentUser.uid ).length ) &&
+                    !!( globalContext.data.products.length &&
+                        globalContext.data.products
+                            .filter( item => item.userId === globalContext.data.currentUser.uid ).length ) &&
                     <>
                         <h2 className='upload-product__products-title'>My Products</h2>
                         {
-                            products.docs.map( product => (
+                            globalContext.data.products.map( product => (
                                 <ProductItem product={product} key={product.id} />
                             ) )
                         }
