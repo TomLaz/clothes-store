@@ -12,6 +12,7 @@ import UploadProduct from './components/UploadProduct/UploadProduct';
 import UserProfile from './components/UserProfile/UserProfile';
 import ProductDetail from './components/ProductDetail/ProductDetail';
 import Basket from './components/Basket/Basket';
+import Products from './components/Products/Products';
 
 const App = (): JSX.Element => {
     return (
@@ -35,6 +36,10 @@ const App = (): JSX.Element => {
                     <Route
                         exact path={GlobalService.states.forgotPassword}
                         component={ForgotPassword} />
+
+                    <Route
+                        exact path={GlobalService.states.products}
+                        component={Products} />
 
                     <PrivateRoute
                         exact={true}

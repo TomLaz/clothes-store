@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { MenuItems, Product, Category, Subcategory, Favourite } from './Global.model';
+import { MenuItems, Product, Category, SubCategory, Favourite, TempCategory } from './Global.model';
 import { auth } from '../../firebase/firebase';
 import useFirestore from '../../firebase/useFirestore';
 
@@ -9,7 +9,8 @@ export interface GlobalProviderData {
     clientes: any;
     products: Product[];
     categories: Category[];
-    subcategories: Subcategory[];
+    subCategories: SubCategory[];
+    tempCategories: TempCategory[];
     favourites: Favourite[];
     loading: boolean;
 }
@@ -21,7 +22,8 @@ export interface GlobalContextProps {
     updateClientes: Function;
     updateProducts: Function;
     updateCategories: Function;
-    updateSubcategories: Function;
+    updateSubCategories: Function;
+    updateTempCategories: Function;
     updateFavourites: Function;
     updateFavouritesCollection: Function;
     updateLoading: Function;
@@ -44,7 +46,8 @@ export const defaultGlobalProviderData: GlobalProviderData = {
     clientes: [],
     products: [],
     categories: [],
-    subcategories: [],
+    subCategories: [],
+    tempCategories: [],
     favourites: [],
     loading: false
 };
@@ -56,7 +59,8 @@ export const GlobalContext = createContext<GlobalContextProps>({
     updateClientes: Function,
     updateProducts: Function,
     updateCategories: Function,
-    updateSubcategories: Function,
+    updateSubCategories: Function,
+    updateTempCategories: Function,
     updateFavourites: Function,
     updateFavouritesCollection: Function,
     updateLoading: Function,
@@ -72,8 +76,9 @@ export const GlobalProvider: React.FC = ({ children }) => {
     const [ providerValue, setProviderValue ] = useState( defaultGlobalProviderData );
     const productsFirestore = useFirestore( 'products' );
     const categories = useFirestore( 'categories' );
-    const subcategories = useFirestore( 'subcategories' );
+    const subCategoriesFirestore = useFirestore( 'subcategories' );
     const favouritesFirestore = useFirestore( 'favourites' );
+    const tempCategoriesFirestore = useFirestore( 'tempcategories' );
 
     const updateLoading = ( loading: boolean ): void => {
         setProviderValue( ( prevValues ) => {
@@ -119,13 +124,23 @@ export const GlobalProvider: React.FC = ({ children }) => {
         }) );
     };
 
-    const updateSubcategories = ( subcategories: Subcategory[] ): void => {
+    const updateSubCategories = ( subCategories: SubCategory[] ): void => {
         updateLoading( true );
 
         setProviderValue( ( prevState ) => ({
             ...prevState,
             dataLoading: false,
-            subcategories
+            subCategories
+        }) );
+    };
+
+    const updateTempCategories = ( tempCategories: TempCategory[] ): void => {
+        updateLoading( true );
+
+        setProviderValue( ( prevState ) => ({
+            ...prevState,
+            dataLoading: false,
+            tempCategories
         }) );
     };
 
@@ -194,11 +209,18 @@ export const GlobalProvider: React.FC = ({ children }) => {
     }, [ categories ] );
 
     useEffect( (): void => {
-        if ( !!subcategories.docs.length && providerValue.subcategories.length === 0 ) {
-            updateSubcategories( subcategories.docs );
+        if ( !!subCategoriesFirestore.docs.length && providerValue.subCategories.length === 0 ) {
+            updateSubCategories( subCategoriesFirestore.docs );
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ subcategories ] );
+    }, [ subCategoriesFirestore ] );
+
+    useEffect( (): void => {
+        if ( !!tempCategoriesFirestore.docs.length && providerValue.tempCategories.length === 0 ) {
+            updateTempCategories( tempCategoriesFirestore.docs );
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ tempCategoriesFirestore ] );
 
     useEffect( (): void => {
         if ( ( !!favouritesFirestore.docs.length && providerValue.favourites.length === 0 ) ||
@@ -215,7 +237,8 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateClientes,
         updateProducts,
         updateCategories,
-        updateSubcategories,
+        updateSubCategories,
+        updateTempCategories,
         updateFavourites,
         updateFavouritesCollection,
         signup,

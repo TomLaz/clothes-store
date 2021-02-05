@@ -1,0 +1,87 @@
+.product {
+    display: flex;
+    flex-direction: column;
+    // height: 100%;
+    // margin: 12px 0;
+
+    &__img-wrapper {
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+        color: white;
+        cursor: pointer;
+    }
+
+    &__img-container {
+        overflow: hidden;
+        height: 100%;
+    }
+
+    &__img {
+        width: 100%;
+        transition: all 0.4s;
+    }
+
+    &__img-wrapper:hover .product__info {
+        opacity: 1;
+    }
+
+    &__img-wrapper:hover img {
+        filter: grayscale(1);
+        transform: scale(1.1);
+    }
+
+    &__info {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        color: #fff;
+        opacity: 0;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        font-size: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5rem;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    &__description {
+        text-align: left;
+        padding: 5px 5px 0 3px;
+    }
+
+    &__title-container {
+        align-items: center;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    &__heart {
+        display: flex;
+    }
+
+    &__heart .MuiSvgIcon-root {
+        color: #ff0000e8;
+        cursor: pointer;
+        font-size: 26px;
+        padding-left: 6px;
+    }
+}
+
+@media (min-width: 500px) {
+    .product {
+        width: 50%;
+        padding: 2%;
+    }
+}
+
+@media (min-width: 768px) {
+    .product {
+        width: 33%;
+    }
+}

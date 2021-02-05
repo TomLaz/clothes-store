@@ -77,55 +77,11 @@
         padding-left: 6px;
     }
 
-    &__img-wrapper {
-        overflow: hidden;
-        position: relative;
-        text-align: center;
-        color: white;
-        cursor: pointer;
-    }
-
-    &__img-container {
-        overflow: hidden;
-        height: 100%;
-    }
-
-    &__img {
-        width: 100%;
-        transition: all 0.4s;
-    }
-
     &__product {
         display: flex;
         flex-direction: column;
         height: 100%;
         margin: 12px 0;
-    }
-
-    &__info {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        color: #fff;
-        opacity: 0;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        font-size: 20px;
-        text-transform: uppercase;
-        letter-spacing: 0.5rem;
-        transition: opacity 0.3s, visibility 0.3s;
-    }
-
-    &__img-wrapper:hover .latest-news__info {
-        opacity: 1;
-    }
-
-    &__img-wrapper:hover img {
-        filter: grayscale(1);
-        transform: scale(1.1);
     }
 }
 

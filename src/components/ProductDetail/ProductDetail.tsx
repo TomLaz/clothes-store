@@ -21,7 +21,7 @@ const ProductDetail: React.FC = () => {
         globalContext.data.products.find( ( prod ) => prod.id.toString() === id.toString() ) : '';
     const category = !!product ? globalContext.data.categories.find( ( cat: any ) => cat.id.toString() === product?.categoryId.toString() ) : '';
     const subcategory = !!product ?
-        globalContext.data.subcategories.find( ( subcat: any ) => subcat.id.toString() === product?.subcategoryId.toString() ) : '';
+        globalContext.data.subCategories.find( ( subcat: any ) => subcat.id.toString() === product?.subcategoryId.toString() ) : '';
 
     const [ sizeSelected, setSizeSelected ] = useState<string>( '' );
     const [ qtyOptions, setQtyOptions ] = useState<string[]>( [] );

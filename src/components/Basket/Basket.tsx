@@ -61,7 +61,7 @@ const Basket: React.FC = () => {
                             <div className='basket__product-size'>Tamaño: {product.size}</div>
                             <div className='basket__product-qty'>Cantidad: {product.quantity}</div>
                             <div className='basket__product-unit-price'>Precio Unitario: ${
-                                globalContext.data.products.find( data => data.id === product.productId )?.price || 0
+                                globalContext.data.products.find( data => data.id === product.productId )?.price.toFixed( 2 ) || 0
                             }</div>
                             <div onClick={(): void => removeProductHandler( product.id )}>
                                 <DeleteForeverIcon />
@@ -70,7 +70,7 @@ const Basket: React.FC = () => {
                         <div className='basket__product-price'>
                             ${!!globalContext.data.products.find( data => data.id === product.productId )?.price ?
                                 ( Number( globalContext.data.products.find( data => data.id === product.productId )?.price ) *
-                                Number( product.quantity ) ) : 0
+                                Number( product.quantity ) ).toFixed( 2 ) : 0
                             }
                         </div>
                     </div>

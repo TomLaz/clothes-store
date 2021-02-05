@@ -32,7 +32,7 @@ export interface Category {
     createdAt: CreatedAtType;
 }
 
-export interface Subcategory {
+export interface SubCategory {
     categoryId: number;
     name: string;
     createdAt: CreatedAtType;
@@ -41,5 +41,13 @@ export interface Subcategory {
 export interface Favourite {
     createdAt: CreatedAtType;
     id: string;
-    products: any[]
+    products: any[];
 }
+
+export interface TempCategory {
+    createdAt: CreatedAtType;
+    id: string;
+    name: string;
+    products: string[];
+}
+
