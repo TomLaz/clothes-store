@@ -114,14 +114,18 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
                     </div>
                     <div className='shr-header__mobile-option shr-header__mobile-active'>Home</div>
                     {
-                        menuItems &&
-                        menuItems.map( ( option, key ) => {
+                        globalContext.data.filters.length > 0 &&
+                        globalContext.data.filters.map( ( option, key ) => {
                             return (
                                 <div
                                     key={key}
                                     className='shr-header__mobile-option'
-                                    onClick={( (): void => history.push( option.url ) )}>
-                                    {option.title}
+                                    onClick={( (): void => {
+                                        console.log( 'entro al onclick' );
+                                        globalContext.updateFilteredOptions( [ option.name ] );
+                                        history.push( GlobalService.states.products );
+                                    })}>
+                                    {option.name}
                                 </div>
                             );
                         })
@@ -143,14 +147,18 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
                 <div className='shr-header__desktop-actions'>
                     <div className='shr-header__desktop-options'>
                         {
-                            menuItems &&
-                            menuItems.map( ( option, key ) => {
+                            globalContext.data.filters.length > 0 &&
+                            globalContext.data.filters.map( ( option, key ) => {
                                 return (
                                     <div
                                         key={key}
                                         className='shr-header__desktop-option'
-                                        onClick={( (): void => history.push( option.url ) )}>
-                                        {option.title}
+                                        onClick={( (): void => {
+                                            console.log( 'entro al onclick' );
+                                            globalContext.updateFilteredOptions( [ option.name ] );
+                                            history.push( GlobalService.states.products );
+                                        })}>
+                                        {option.name}
                                     </div>
                                 );
                             })

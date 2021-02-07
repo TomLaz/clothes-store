@@ -3,10 +3,32 @@
     flex-direction: column;
     height: 100vh;
 
+    &__box {
+        display: flex;
+        padding: 30px;
+    }
+
     &__categories {
         display: flex;
         justify-content: center;
         margin-top: 30px;
+        width: 15%;
+        gap: 10px;
+        border: 1px solid #000;
+        height: fit-content;
+        padding: 15px 5px;
+        flex-direction: column;
+    }
+
+    &__check {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    &__category {
+        color: #000;
     }
 
     &__gallery {
@@ -15,6 +37,7 @@
         gap: 15px;
         justify-content: center;
         margin: 0 0 30px 0;
+        width: 85%;
     }
 
     &__progress {

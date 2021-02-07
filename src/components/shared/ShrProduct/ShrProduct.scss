@@ -1,8 +1,6 @@
-.product {
+.shr-product {
     display: flex;
     flex-direction: column;
-    // height: 100%;
-    // margin: 12px 0;
 
     &__img-wrapper {
         overflow: hidden;
@@ -22,7 +20,7 @@
         transition: all 0.4s;
     }
 
-    &__img-wrapper:hover .product__info {
+    &__img-wrapper:hover .shr-product__info {
         opacity: 1;
     }
 
@@ -74,14 +72,14 @@
 }
 
 @media (min-width: 500px) {
-    .product {
+    .shr-product {
         width: 50%;
         padding: 2%;
     }
 }
 
 @media (min-width: 768px) {
-    .product {
+    .shr-product {
         width: 33%;
     }
 }

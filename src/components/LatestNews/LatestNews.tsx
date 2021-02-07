@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import './LatestNews.scss';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import Product from '../Product/Product';
+import ShrProduct from '../shared/ShrProduct/ShrProduct';
 
 const LatestNews: React.FC = () => {
     const globalContext = useContext( GlobalContext );
@@ -17,7 +17,7 @@ const LatestNews: React.FC = () => {
                     {
                         globalContext.data.products.slice( 0, 29 ).map( ( product ) => {
                             return (
-                                <Product product={product} key={product.id} />
+                                <ShrProduct product={product} key={product.id} />
                             );
                         })
                     }

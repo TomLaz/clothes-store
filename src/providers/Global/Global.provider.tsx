@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { MenuItems, Product, Category, SubCategory, Favourite, TempCategory } from './Global.model';
+import { MenuItems, Product, Category, SubCategory, Favourite, TempCategory, Filter } from './Global.model';
 import { auth } from '../../firebase/firebase';
 import useFirestore from '../../firebase/useFirestore';
 
@@ -12,6 +12,8 @@ export interface GlobalProviderData {
     subCategories: SubCategory[];
     tempCategories: TempCategory[];
     favourites: Favourite[];
+    filters: Filter[];
+    filteredOptions: [];
     loading: boolean;
 }
 
@@ -26,13 +28,15 @@ export interface GlobalContextProps {
     updateTempCategories: Function;
     updateFavourites: Function;
     updateFavouritesCollection: Function;
-    updateLoading: Function;
     signup: Function;
     login: Function;
     logout: Function;
     resetPassword: Function;
     updateEmail: Function;
     updatePassword: Function;
+    updateFilters: Function;
+    updateFilteredOptions: Function;
+    updateLoading: Function;
 }
 
 export const defaultMenuItems: MenuItems[] = [ {
@@ -49,6 +53,8 @@ export const defaultGlobalProviderData: GlobalProviderData = {
     subCategories: [],
     tempCategories: [],
     favourites: [],
+    filters: [],
+    filteredOptions: [],
     loading: false
 };
 
@@ -63,13 +69,15 @@ export const GlobalContext = createContext<GlobalContextProps>({
     updateTempCategories: Function,
     updateFavourites: Function,
     updateFavouritesCollection: Function,
-    updateLoading: Function,
     signup: Function,
     login: Function,
     logout: Function,
     resetPassword: Function,
     updateEmail: Function,
-    updatePassword: Function
+    updatePassword: Function,
+    updateFilters: Function,
+    updateFilteredOptions: Function,
+    updateLoading: Function
 });
 
 export const GlobalProvider: React.FC = ({ children }) => {
@@ -154,6 +162,26 @@ export const GlobalProvider: React.FC = ({ children }) => {
         }) );
     };
 
+    const updateFilters = ( filters: Filter[] ): void => {
+        updateLoading( true );
+
+        setProviderValue( ( prevState ) => ({
+            ...prevState,
+            dataLoading: false,
+            filters
+        }) );
+    };
+
+    const updateFilteredOptions = ( filteredOptions: [] ): void => {
+        updateLoading( true );
+
+        setProviderValue( ( prevState ) => ({
+            ...prevState,
+            dataLoading: false,
+            filteredOptions
+        }) );
+    };
+
     const updateFavouritesCollection = ( uid: any, prods: any ): void => {
         favouritesFirestore.updateCollection( uid, prods );
         updateFavourites( favouritesFirestore.docs );
@@ -230,6 +258,49 @@ export const GlobalProvider: React.FC = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ favouritesFirestore ] );
 
+    useEffect( ():void => {
+        if ( providerValue.categories.length > 0 && !providerValue.filters.some( r => providerValue.categories
+            .map( ( item ) => { return item.name; }).indexOf( r.name ) >= 0 ) ) {
+            const newFiltered = [ ...providerValue.filters ];
+
+            providerValue.categories.forEach( ( item ) => {
+                const filtered = providerValue.products.filter( ( prod ) => {
+                    return prod.categoryId.toString() === item.id.toString() &&
+                    prod.userId.toString() === providerValue.currentUser.uid.toString();
+                });
+                newFiltered.push({
+                    'name': item.name.toString(),
+                    'products': filtered.map( filt => filt.id )
+                });
+            });
+            updateFilters( newFiltered.sort( ( a, b ) => ( a.name > b.name ) ? 1 : -1 ) );
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ providerValue.categories ] );
+
+    useEffect( ():void => {
+        if ( providerValue.tempCategories.length > 0 && !providerValue.filters.some( r => providerValue.tempCategories
+            .map( ( item ) => { return item.name; }).indexOf( r.name ) >= 0 ) ) {
+            const newFiltered = [ ...providerValue.filters ];
+
+            providerValue.tempCategories.forEach( ( item ) => {
+                const filtered = item.products.filter( ( res ) => {
+                    return providerValue.products.filter( ( prod ) => {
+                        return prod.id.toString() === res.toString();
+                    });
+                });
+
+                newFiltered.push({
+                    'name': item.name.toString(),
+                    'products': filtered.map( result => result )
+                });
+            });
+
+            updateFilters( newFiltered.sort( ( a, b ) => ( a.name > b.name ) ? 1 : -1 ) );
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ providerValue.tempCategories ] );
+
     const providerData = {
         data: providerValue,
         updateMenuItems,
@@ -247,6 +318,8 @@ export const GlobalProvider: React.FC = ({ children }) => {
         resetPassword,
         updateEmail,
         updatePassword,
+        updateFilters,
+        updateFilteredOptions,
         updateLoading
     };
 

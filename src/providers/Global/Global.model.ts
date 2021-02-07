@@ -28,6 +28,7 @@ type Size = {
 }
 
 export interface Category {
+    id: number;
     name: string;
     createdAt: CreatedAtType;
 }
@@ -51,3 +52,7 @@ export interface TempCategory {
     products: string[];
 }
 
+export interface Filter {
+    name: string;
+    products: string[];
+}
