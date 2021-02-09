@@ -8,7 +8,7 @@ import './Products.scss';
 import { Product } from '../../providers/Global/Global.model';
 
 const Products: React.FC = () => {
-    const { data: { filters, products, filteredOptions }} = useContext( GlobalContext );
+    const { data: { filters, products, filteredOptions, categories, tempCategories }} = useContext( GlobalContext );
     const [ checkedFilters, setCheckedFilters ] = useState<any>({});
     const [ filteredProducts, setFilteredProducts ] = useState<Product[]>( [] );
 
@@ -31,17 +31,10 @@ const Products: React.FC = () => {
             Object.values( checkedFilters ).some( ( check ) => check ) ) {
             const tempFilteredProducts = [ ...filteredProducts ];
             filters.forEach( ( item ) => {
-                // console.log( 'checkedFilters[ item.name ]: ', checkedFilters[ item.name.toLowerCase() ] );
-                // console.log( 'checkedFilters: ', checkedFilters );
-                // console.log( 'item.name: ', item.name.toLowerCase() );
-
                 if ( checkedFilters[ item.name.toLowerCase() ] ) {
-                    // console.log( 'entro al checkedFilters' );
                     products.forEach( ( prod ) => {
                         if ( item.products.includes( prod.id ) && !filteredProducts.includes( prod ) ) {
-                            // console.log( 'filteredProducts dentro del if: ', filteredProducts );
                             tempFilteredProducts.push( prod );
-                            // console.log( 'tempFilteredProducts: ', tempFilteredProducts );
                         }
                     });
                 }
@@ -51,24 +44,30 @@ const Products: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ filters, filteredOptions, products, checkedFilters ] );
 
-    // console.log( 'products: ', products );
-    // console.log( 'filteredProducts: ', filteredProducts );
-    console.log( 'filters: ', filters );
-    console.log( 'checkedFilters: ', checkedFilters );
-
     const onCheckedChange = ( name: string ): void => {
-        checkedFilters[ name.toLowerCase() ] = !checkedFilters[ name.toLowerCase() ];
-        setCheckedFilters( checkedFilters );
+        const copyCheckedFilters = JSON.parse( JSON.stringify( checkedFilters ) );
+        copyCheckedFilters[ name.toLowerCase() ] = !checkedFilters[ name.toLowerCase() ];
+        setCheckedFilters( copyCheckedFilters );
+
+        let temp = 0;
+        filters.forEach( ( item ) => {
+            if ( !filteredOptions.some( ( res: string ) => res.toLowerCase() === item.name.toLowerCase() ) ) {
+                temp += 1;
+            }
+        });
+        if ( temp > 0 ) {
+            setFilteredProducts( [] );
+        }
     };
 
     return (
         <div className='products'>
             <ShrHeader />
             <div className='products__box'>
-                { filters.length > 0 ?
+                { filters.length > 0 && Object.keys( checkedFilters ).length ===
+                ( categories.length + tempCategories.length ) ?
                     <div className='products__categories'>
                         {filters.map( ( item, index ) => {
-                            console.log( 'checkedFilters dentr: ', checkedFilters );
                             return (
                                 <FormControlLabel
                                     key={index}
@@ -89,7 +88,7 @@ const Products: React.FC = () => {
                 { !!products.length && filteredProducts.length === 0 ?
                     <div className='products__gallery'>
                         {
-                            products.slice( 0, 9 ).map( ( product ) => {
+                            products.map( ( product ) => {
                                 return (
                                     <ShrProduct product={product} key={product.id} />
                                 );
@@ -99,9 +98,9 @@ const Products: React.FC = () => {
                     filteredProducts.length > 0 ?
                         <div className='products__gallery'>
                             {
-                                filteredProducts.slice( 0, 9 ).map( ( product ) => {
+                                filteredProducts.map( ( product, index ) => {
                                     return (
-                                        <ShrProduct product={product} key={product.id} />
+                                        <ShrProduct product={product} key={index} />
                                     );
                                 })
                             }
