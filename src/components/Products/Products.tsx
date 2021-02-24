@@ -8,7 +8,7 @@ import './Products.scss';
 import { Product } from '../../providers/Global/Global.model';
 
 const Products: React.FC = () => {
-    const { data: { filters, products, filteredOptions, categories, tempCategories }} = useContext( GlobalContext );
+    const { data: { filters, products, filteredOptions }} = useContext( GlobalContext );
     const [ checkedFilters, setCheckedFilters ] = useState<any>({});
     const [ filteredProducts, setFilteredProducts ] = useState<Product[]>( [] );
 
@@ -62,10 +62,10 @@ const Products: React.FC = () => {
 
     return (
         <div className='products'>
-            <ShrHeader />
+            <ShrHeader showCategories={false} />
             <div className='products__box'>
-                { filters.length > 0 && Object.keys( checkedFilters ).length ===
-                ( categories.length + tempCategories.length ) ?
+                {/* BARRA LATERAL IZQ, FILTROS */}
+                { filters.length > 0 && Object.keys( checkedFilters ).length > 0 ?
                     <div className='products__categories'>
                         {filters.map( ( item, index ) => {
                             return (
@@ -85,7 +85,8 @@ const Products: React.FC = () => {
                     </div> :
                     <></>
                 }
-                { !!products.length && filteredProducts.length === 0 ?
+                {/* LADO DERECHO, CUERPO DE IMAGENES */}
+                { products.length > 0 && filteredProducts.length === 0 ?
                     <div className='products__gallery'>
                         {
                             products.map( ( product ) => {

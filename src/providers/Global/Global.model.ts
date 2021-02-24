@@ -45,12 +45,12 @@ export interface Favourite {
     products: any[];
 }
 
-export interface TempCategory {
-    createdAt: CreatedAtType;
-    id: string;
-    name: string;
-    products: string[];
-}
+// export interface TempCategory {
+//     createdAt: CreatedAtType;
+//     id: string;
+//     name: string;
+//     products: string[];
+// }
 
 export interface Filter {
     name: string;

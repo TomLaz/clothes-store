@@ -10,7 +10,7 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import UploadProduct from './components/UploadProduct/UploadProduct';
 import UserProfile from './components/UserProfile/UserProfile';
-import ProductDetail from './components/ProductDetail/ProductDetail';
+import AddProduct from './components/AddProduct/AddProduct';
 import Basket from './components/Basket/Basket';
 import Products from './components/Products/Products';
 
@@ -52,8 +52,8 @@ const App = (): JSX.Element => {
                         component={UserProfile} />
 
                     <Route
-                        exact path={GlobalService.states.productDetail + '/:id'}
-                        component={ProductDetail} />
+                        exact path={GlobalService.states.addProduct + '/:id'}
+                        component={AddProduct} />
 
                     <PrivateRoute
                         exact={true}

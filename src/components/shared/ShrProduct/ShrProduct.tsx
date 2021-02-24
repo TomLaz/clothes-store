@@ -38,7 +38,7 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
             <span
                 className='shr-product__img-wrapper'
                 onClick={(): void =>
-                    history.push( `${GlobalService.states.productDetail}/${product.id}` ) }>
+                    history.push( `${GlobalService.states.addProduct}/${product.id}` ) }>
                 <div className='shr-product__img-container'>
                     <img
                         className='shr-product__img'

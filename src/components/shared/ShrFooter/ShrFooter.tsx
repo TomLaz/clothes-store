@@ -1,6 +1,10 @@
 import React from 'react';
 import './ShrFooter.scss';
 import i18n from '../../../i18n';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 
 const ShrFooter: React.FC = () => {
     return (
@@ -53,10 +57,10 @@ const ShrFooter: React.FC = () => {
                         {i18n.t( 'shr-footer.social-media' )}
                     </div>
                     <div className='shr-footer__social-media'>
-                        <i className='fab fa-facebook shr-footer__icon'></i>
-                        <i className='fab fa-instagram shr-footer__icon'></i>
-                        <i className='fab fa-twitter shr-footer__icon'></i>
-                        <i className='fab fa-youtube shr-footer__icon'></i>
+                        <FacebookIcon className='shr-footer__icon' />
+                        <InstagramIcon className='shr-footer__icon' />
+                        <TwitterIcon className='shr-footer__icon' />
+                        <YouTubeIcon className='shr-footer__icon' />
                     </div>
                 </div>
                 <div className='shr-footer__subscribe'>

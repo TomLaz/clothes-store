@@ -1,13 +1,17 @@
 .shr-select {
     display: flex;
-    .shr-select__title {
+    justify-content: center;
+    margin: 20px 0 15px 0;
+
+    &__title {
         margin-right: 15px;
-        font-size: 12px;
+        font-size: 10px;
         padding: 5px 0;
         letter-spacing: 2px;
     }
-    .shr-select__select {
-        width: 60px;
+
+    &__select {
+        width: 50px;
         border: 1px solid #000;
         background: #8080801a;
         .shr-select__option {
@@ -16,20 +20,21 @@
     }
 }
 
-@media ( max-width: 768px ) {
+@media ( min-width: 480px ) {
     .shr-select {
-        justify-content: center;
-        margin: 20px 0 15px 0;
+        &__title {
+            font-size: 12px;
+        }
+
+        &__select {
+            width: 60px;
+        }
     }
 }
 
-@media ( max-width: 480px ) {
+@media ( min-width: 768px ) {
     .shr-select {
-        .shr-select__title {
-            font-size: 10px;
-        }
-        .shr-select__select {
-            width: 50px;
-        }
+        justify-content: left;
+        margin: 0;
     }
 }

@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import './ShrHeader.scss';
 import { useHistory } from 'react-router-dom';
 import i18n from '../../../i18n';
-import menuItems from './ShrHeader.items';
 import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import GlobalService from '../../../services/Global/Global.service';
@@ -10,13 +9,18 @@ import { GlobalContext } from '../../../providers/Global/Global.provider';
 import { IconButton } from '@material-ui/core';
 import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import useFirestore from '../../../firebase/useFirestore';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 
 type ShrHeaderProps = {
     showSignIn?: boolean;
     showSignUp?: boolean;
+    showCategories?: boolean;
 }
 
-const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
+const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCategories }) => {
     const history = useHistory();
     const [ showMenu, setShowMenu ] = useState( false );
     const globalContext = useContext( GlobalContext );
@@ -115,13 +119,13 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
                     <div className='shr-header__mobile-option shr-header__mobile-active'>Home</div>
                     {
                         globalContext.data.filters.length > 0 &&
+                        showCategories &&
                         globalContext.data.filters.map( ( option, key ) => {
                             return (
                                 <div
                                     key={key}
                                     className='shr-header__mobile-option'
                                     onClick={( (): void => {
-                                        console.log( 'entro al onclick' );
                                         globalContext.updateFilteredOptions( [ option.name ] );
                                         history.push( GlobalService.states.products );
                                     })}>
@@ -138,23 +142,23 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
                         {i18n.t( 'global.brand' )}
                     </span>
                     <span className='shr-header__desktop-social'>
-                        <i className='fab fa-facebook-square'></i>
-                        <i className='fab fa-instagram-square'></i>
-                        <i className='fab fa-twitter-square'></i>
-                        <i className='fab fa-youtube-square'></i>
+                        <FacebookIcon className='shr-header__desktop-facebook' />
+                        <InstagramIcon className='shr-header__desktop-instagram' />
+                        <TwitterIcon className='shr-header__desktop-twitter' />
+                        <YouTubeIcon className='shr-header__desktop-youtube' />
                     </span>
                 </div>
                 <div className='shr-header__desktop-actions'>
                     <div className='shr-header__desktop-options'>
                         {
                             globalContext.data.filters.length > 0 &&
+                            showCategories &&
                             globalContext.data.filters.map( ( option, key ) => {
                                 return (
                                     <div
                                         key={key}
                                         className='shr-header__desktop-option'
                                         onClick={( (): void => {
-                                            console.log( 'entro al onclick' );
                                             globalContext.updateFilteredOptions( [ option.name ] );
                                             history.push( GlobalService.states.products );
                                         })}>
@@ -233,7 +237,8 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp }) => {
 
 ShrHeader.defaultProps = {
     showSignIn: true,
-    showSignUp: true
+    showSignUp: true,
+    showCategories: true
 };
 
 export default ShrHeader;

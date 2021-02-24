@@ -9,6 +9,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
+import ShrFooter from '../shared/ShrFooter/ShrFooter';
 
 const SignUp: React.FC = () => {
     const emailRef = useRef<any>();
@@ -126,6 +127,7 @@ const SignUp: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <ShrFooter />
         </div>
     );
 };

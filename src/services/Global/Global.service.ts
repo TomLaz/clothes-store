@@ -9,7 +9,7 @@ export interface UserProfileStates {
     forgotPassword: string;
     userProfile: string;
     uploadProduct: string;
-    productDetail: string;
+    addProduct: string;
     basket: string;
     products: string;
 }
@@ -30,7 +30,7 @@ class GlobalService {
             forgotPassword: '/olvide-password',
             userProfile: '/perfil-usuario',
             uploadProduct: '/subir-producto',
-            productDetail: '/detalle-producto',
+            addProduct: '/agregar-producto',
             basket: '/carro-compras',
             products: '/productos'
         };

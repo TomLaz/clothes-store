@@ -349,7 +349,7 @@ const UploadProduct: React.FC = () => {
                         globalContext.data.products
                             .filter( item => item.userId === globalContext.data.currentUser.uid ).length ) &&
                     <>
-                        <h2 className='upload-product__products-title'>My Products</h2>
+                        <h2 className='upload-product__products-title'>Mis Productos</h2>
                         {
                             globalContext.data.products.map( product => (
                                 <ProductItem product={product} key={product.id} />

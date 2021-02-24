@@ -5,8 +5,9 @@ import ShrFooter from '../shared/ShrFooter/ShrFooter';
 import useFirestore from '../../firebase/useFirestore';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import Dialog from '@material-ui/core/Dialog';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Button, CircularProgress, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import ProductDetail from '../ProductDetail/ProductDetail';
+import i18n from '../../i18n';
 
 const Basket: React.FC = () => {
     const globalContext = useContext( GlobalContext );
@@ -42,75 +43,70 @@ const Basket: React.FC = () => {
     return (
         <div className='basket'>
             <ShrHeader />
-            <div className='basket__products'>
-                {!!productsToBuy[0] &&
-                productsToBuy[0].products.map( ( product: any, index: number ) => (
-                    <div
-                        className='basket__product'
-                        key={index}>
-                        <img
-                            className='basket__product-img'
-                            src={globalContext.data.products.find( data => data.id === product.productId )?.imgUrl}
-                            alt={globalContext.data.products.find( data => data.id === product.productId )?.title || ''} />
-                        <div className='basket__product-detail'>
-                            <div className='basket__product-description'>
-                                {!!globalContext.data.products.find( data => data.id === product.productId )?.title ?
-                                    globalContext.data.products.find( data => data.id === product.productId )?.title : ''
+            {
+                ( basketProducts.docs.length > 0 &&
+                globalContext.data.currentUser.uid !== undefined ) ?
+                    <div className='basket__products'>
+                        {!!productsToBuy[0] &&
+                        productsToBuy[0].products.map( ( product: any, index: number ) => (
+                            <ProductDetail
+                                key={index}
+                                imgUrl={globalContext.data.products.find( data => data.id === product.productId )?.imgUrl || ''}
+                                imgAlt={globalContext.data.products.find( data => data.id === product.productId )?.title || ''}
+                                productDescription={globalContext.data.products.find( data => data.id === product.productId )?.title || ''}
+                                productSize={'Tamaño: ' + product.size}
+                                productQty={'Cantidad: ' + product.quantity}
+                                productUnitPrice={'Precio Unitario: $' +
+                                    globalContext.data.products.find( data => data.id === product.productId )?.price.toFixed( 2 ).toString() || '0'
                                 }
+                                productPrice={'$' + !!globalContext.data.products.find( data => data.id === product.productId )?.price ?
+                                    ( Number( globalContext.data.products.find( data => data.id === product.productId )?.price ) *
+                                    Number( product.quantity ) ).toFixed( 2 ).toString() : '0'
+                                }
+                                onRemoveProductHandler={(): void => removeProductHandler( product.id )}/>
+                        ) )}
+                        {!!!total &&
+                        basketProducts.docs.length > 0 &&
+                        globalContext.data.currentUser.uid !== undefined &&
+                            <div className='basket__empty'>
+                                <div className='basket__empty-title'>
+                                    {i18n.t( 'basket.empty' )}
+                                </div>
                             </div>
-                            <div className='basket__product-size'>Tamaño: {product.size}</div>
-                            <div className='basket__product-qty'>Cantidad: {product.quantity}</div>
-                            <div className='basket__product-unit-price'>Precio Unitario: ${
-                                globalContext.data.products.find( data => data.id === product.productId )?.price.toFixed( 2 ) || 0
-                            }</div>
-                            <div onClick={(): void => removeProductHandler( product.id )}>
-                                <DeleteForeverIcon />
+                        }
+                        <div className='basket__total'>
+                            <div className='basket__total-title'>{i18n.t( 'basket.total' )}</div>
+                            <div className='basket__total-price'>
+                                ${total.toFixed( 2 )}
                             </div>
                         </div>
-                        <div className='basket__product-price'>
-                            ${!!globalContext.data.products.find( data => data.id === product.productId )?.price ?
-                                ( Number( globalContext.data.products.find( data => data.id === product.productId )?.price ) *
-                                Number( product.quantity ) ).toFixed( 2 ) : 0
-                            }
-                        </div>
+                    </div> :
+                    <div className='basket__spinner'>
+                        <CircularProgress />
                     </div>
-                ) )}
-                {!!!total &&
-                    <div className='basket__empty'>
-                        <div className='basket__empty-title'>
-                            No hay productos en tu canasta
-                        </div>
-                    </div>
-                }
-                <div className='basket__total'>
-                    <div className='basket__total-title'>TOTAL</div>
-                    <div className='basket__total-price'>
-                        ${total.toFixed( 2 )}
-                    </div>
-                </div>
-            </div>
+            }
             <Dialog
                 open={!!removeId}
                 onClose={(): void => setRemoveId( '' )}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle>Eliminar Producto</DialogTitle>
+                <DialogTitle>{i18n.t( 'basket.delete-product' )}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        ¿Desea eliminar el producto de la canasta?
+                        {i18n.t( 'basket.delete-check' )}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button
                         onClick={(): void => setRemoveId( '' )}
                         color='primary'>
-                        Cancelar
+                        {i18n.t( 'basket.cancel' )}
                     </Button>
                     <Button
                         onClick={onConfirmRemoveHandler}
                         color='primary'>
-                        Aceptar
+                        {i18n.t( 'basket.agree' )}
                     </Button>
                 </DialogActions>
             </Dialog>

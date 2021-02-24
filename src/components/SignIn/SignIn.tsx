@@ -9,6 +9,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
+import ShrFooter from '../shared/ShrFooter/ShrFooter';
 
 type SignInType = {
     shouldRedirect?: boolean;
@@ -114,6 +115,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                     </div>
                 </div>
             </div>
+            <ShrFooter />
         </div>
     );
 };

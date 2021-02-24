@@ -49,5 +49,12 @@ export default {
     'shr-footer.social-media': 'Redes Sociales',
     'shr-footer.subscribe': 'Suscribirse',
     'shr-footer.insert-email': 'Ingresá tu email',
-    'shr-footer.copyright': 'Todos los derechos reservados © [TomLaz] 2020'
+    'shr-footer.copyright': 'Todos los derechos reservados © [TomLaz] 2020',
+    'basket.empty': 'No hay productos en tu canasta',
+    'basket.total': 'TOTAL',
+    'basket.delete-product': 'Eliminar Producto',
+    'basket.delete-check': '¿Desea eliminar el producto de la canasta?',
+    'basket.cancel': 'Cancelar',
+    'basket.agree': 'Aceptar',
+    'latest-news.title': 'Últimas Novedades'
 };
