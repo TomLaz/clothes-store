@@ -4,19 +4,21 @@ import './ShrCircularOption.scss';
 type ShrCircularOptionProps = {
     size: string;
     sizeSelected: string;
-    onOptionSelected: any;
+    onOptionSelected: () => void;
 }
 
-const ShrCircularOption: React.FC<ShrCircularOptionProps> = ( props ) => {
+const ShrCircularOption: React.FC<ShrCircularOptionProps> = ({ size, sizeSelected, onOptionSelected }) => {
     return (
         <div
-            className={props.size === props.sizeSelected ?
+            className={size === sizeSelected ?
                 'shr-circular-option__option shr-circular-option__active' :
                 'shr-circular-option__option'}
-            onClick={props.onOptionSelected}>
-            {/* <input type="radio" name="size" stock={item.stock} value={item.size}/> */}
-            <input type='radio' name='size' value={props.size}/>
-            <span>{props.size}</span>
+            onClick={onOptionSelected}>
+            <input
+                type='radio'
+                name='size'
+                value={size}/>
+            <span>{size}</span>
         </div>
     );
 };

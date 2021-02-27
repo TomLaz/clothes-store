@@ -21,17 +21,17 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
     const history = useHistory();
-    const globalContext = useContext( GlobalContext );
+    const { login } = useContext( GlobalContext );
 
-    const handleSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
+    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
         e.preventDefault();
 
         try {
             setError( '' );
             setLoading( true );
-            await globalContext.login( emailRef.current.value, passwordRef.current.value );
+            await login( emailRef.current.value, passwordRef.current.value );
             if ( shouldRedirect ) {
-                history.push( '/' );
+                history.push( GlobalService.states.home );
             }
         } catch {
             setError( i18n.t( 'sign-in.error' ) );
@@ -51,7 +51,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                 </div>
                 <div className='sign-in__bottom'>
                     <form
-                        onSubmit={handleSubmit}
+                        onSubmit={onSubmitHandler}
                         className='sign-in__form'>
                         <div className='sign-in__option'>
                             <TextField
@@ -88,7 +88,12 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                                 }}
                                 type='password'/>
                         </div>
-                        {error && <div className='sign-in__option sign-in__error'>{error}</div>}
+                        {
+                            error &&
+                            <div className='sign-in__option sign-in__error'>
+                                {error}
+                            </div>
+                        }
                         <div className='sign-in__option'>
                             <Button
                                 className='sign-in__option'

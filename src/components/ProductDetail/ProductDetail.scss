@@ -1,3 +1,5 @@
+@import '../../styles/styles.scss';
+
 .product-detail {
     display: flex;
     flex-direction: column;
@@ -5,8 +7,8 @@
     justify-content: center;
     width: 80%;
     margin: 0 auto;
-    background: whitesmoke;
-    border: 1px solid #000;
+    background: $primary-light-product;
+    border: 1px solid $primary-dark;
 
     &__img {
         width: 100%;
@@ -26,9 +28,14 @@
         }
     }
 
-    &__description {
+    &__title {
         font-size: 20px;
         text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    &__description {
+        font-size: 18px;
     }
 
     &__price {
@@ -84,6 +91,7 @@
 
         &__container {
             width: 55%;
+            padding: 7px 7px 0 20px;
         }
     }
 }

@@ -1,13 +1,15 @@
-.outlet-presentation {
+@import '../../../styles/styles.scss';
+
+.shr-horizontal-image {
     &__wrapper {
         height: 300px;
-        background: url(../../assets/images/medium_edit.png);
+        background: url(../../../assets/images/medium_edit.png);
         background-blend-mode: multiply;
         background-repeat: no-repeat;
         background-position: center center;
         background-size: cover;
         display: flex;
-        color: white;
+        color: $primary;
         flex-direction: column;
         justify-content: center;
         align-items: flex-end;
@@ -30,7 +32,7 @@
 }
 
 @media (min-width: 400px) {
-    .outlet-presentation {
+    .shr-horizontal-image {
         &__container {
             margin-left: 40%;
         }
@@ -38,7 +40,7 @@
 }
 
 @media (min-width: 600px) {
-    .outlet-presentation {
+    .shr-horizontal-image {
         &__container {
             margin-right: 10%;
         }
@@ -54,7 +56,7 @@
 }
 
 @media (min-width: 900px) {
-    .outlet-presentation {
+    .shr-horizontal-image {
         &__container {
             text-transform: uppercase;
             margin-right: 15%;
@@ -71,7 +73,7 @@
 }
 
 @media (min-width: 1200px) {
-    .outlet-presentation {
+    .shr-horizontal-image {
         &__container {
             text-transform: uppercase;
             margin-right: 25%;

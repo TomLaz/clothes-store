@@ -1,6 +1,8 @@
+@import '../../styles/styles.scss';
+
 .latest-news {
     overflow: hidden;
-    background: #fff;
+    background: $primary;
     width: 60%;
     margin: 40px auto 60px auto;
     display: flex;
@@ -16,7 +18,7 @@
 
     &__title::before,
     &__title::after {
-        background-color: #000;
+        background-color: $primary-dark;
         content: "";
         display: inline-block;
         height: 1px;
@@ -63,7 +65,7 @@
     }
 
     &__check .MuiSvgIcon-root {
-        color: #ff0000e8;
+        color: $primary-red-check;
     }
 
     &__heart {
@@ -71,7 +73,7 @@
     }
 
     &__heart .MuiSvgIcon-root {
-        color: #ff0000e8;
+        color: $primary-red-check;
         cursor: pointer;
         font-size: 26px;
         padding-left: 6px;

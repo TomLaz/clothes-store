@@ -5,6 +5,7 @@ import GlobalService from '../../../services/Global/Global.service';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import './ShrProduct.scss';
+import i18n from '../../../i18n';
 
 type ShrProductProps = {
     product: any;
@@ -12,29 +13,31 @@ type ShrProductProps = {
 
 const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
     const history = useHistory();
-    const globalContext = useContext( GlobalContext );
+    const { data: { favourites, currentUser }, updateFavouritesCollection } = useContext( GlobalContext );
 
     const addFavouriteHandler = ( id: string ): void => {
         try {
-            const prods = !!globalContext.data.favourites.filter( item => item.id === globalContext.data.currentUser.uid ).length ?
-                globalContext.data.favourites.filter( item => item.id === globalContext.data.currentUser.uid )[0].products : [];
+            const prods = !!favourites.filter( item => item.id === currentUser.uid ).length ?
+                favourites.filter( item => item.id === currentUser.uid )[0].products : [];
 
             prods.push( id );
-            globalContext.updateFavouritesCollection( globalContext.data.currentUser.uid, prods );
+            updateFavouritesCollection( currentUser.uid, prods );
         } catch {}
     };
 
     const removeFavouriteHandler = ( id: string ): void => {
         try {
-            const prods = globalContext.data.favourites
-                .filter( item => item.id === globalContext.data.currentUser.uid )[0].products
+            const prods = favourites
+                .filter( item => item.id === currentUser.uid )[0].products
                 .filter( ( prod: string ) => prod !== id );
-            globalContext.updateFavouritesCollection( globalContext.data.currentUser.uid, prods );
+            updateFavouritesCollection( currentUser.uid, prods );
         } catch {}
     };
 
     return (
-        <div className='shr-product' key={product.id}>
+        <div
+            className='shr-product'
+            key={product.id}>
             <span
                 className='shr-product__img-wrapper'
                 onClick={(): void =>
@@ -46,7 +49,7 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
                         alt={product.title} />
                 </div>
                 <div className='shr-product__info'>
-                    +Info
+                    {i18n.t( 'shr-product.info' )}
                 </div>
             </span>
             <div className='shr-product__description'>
@@ -54,9 +57,9 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
                     <div className='shr-product__title-container'>
                         {product.title}
                     </div>
-                    {!!globalContext.data.currentUser ?
-                        !!globalContext.data.favourites
-                            .filter( item => item.id === globalContext.data.currentUser.uid )
+                    {!!currentUser ?
+                        !!favourites
+                            .filter( item => item.id === currentUser.uid )
                             .filter( data => data.products.includes( product.id ) ).length ?
                             <div
                                 className='shr-product__heart'

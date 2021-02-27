@@ -18,7 +18,7 @@ const SignUp: React.FC = () => {
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
     const history = useHistory();
-    const globalContext = useContext( GlobalContext );
+    const { signup } = useContext( GlobalContext );
 
     const handleSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
         e.preventDefault();
@@ -30,9 +30,11 @@ const SignUp: React.FC = () => {
         try {
             setError( '' );
             setLoading( true );
-            await globalContext.signup(
+
+            await signup(
                 emailRef.current.value,
                 passwordRef.current.value );
+
             history.push( GlobalService.states.signIn );
         } catch {
             setError( i18n.t( 'sign-up.error' ) );
@@ -106,7 +108,12 @@ const SignUp: React.FC = () => {
                                 }}
                                 type='password'/>
                         </div>
-                        {error && <div className='sign-up__option sign-up__error'>{error}</div>}
+                        {
+                            error &&
+                            <div className='sign-up__option sign-up__error'>
+                                {error}
+                            </div>
+                        }
                         <div className='sign-up__option'>
                             <Button
                                 type='submit'

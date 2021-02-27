@@ -14,7 +14,7 @@ type PrivateRouteProps = {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ( props: any ) => {
-    const globalContext = useContext( GlobalContext );
+    const { data: { currentUser }} = useContext( GlobalContext );
     const { component: Component, path, exact } = props;
 
     return (
@@ -22,15 +22,18 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ( props: any ) => {
             exact={exact}
             path={path}
             render={ (): JSX.Element => {
-                return globalContext.data.currentUser === undefined ?
+                return currentUser === undefined ?
                     <div className='private-route__loading'>
-                        <ShrHeader showSignIn={false} showSignUp={false} showCategories={true} />
+                        <ShrHeader
+                            showSignIn={false}
+                            showSignUp={false}
+                            showCategories={true} />
                         <div className='private-route__spinner'>
                             <CircularProgress />
                         </div>
                         <ShrFooter />
                     </div> :
-                    globalContext.data.currentUser === null ?
+                    currentUser === null ?
                         <SignIn /> :
                         <Component />;
             }}

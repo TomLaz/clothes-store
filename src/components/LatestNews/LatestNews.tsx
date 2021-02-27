@@ -5,7 +5,7 @@ import ShrProduct from '../shared/ShrProduct/ShrProduct';
 import i18n from '../../i18n';
 
 const LatestNews: React.FC = () => {
-    const globalContext = useContext( GlobalContext );
+    const { data: { products }} = useContext( GlobalContext );
 
     return (
         <section className='latest-news'>
@@ -13,12 +13,14 @@ const LatestNews: React.FC = () => {
                 {i18n.t( 'latest-news.title' )}
             </h3>
             {
-                !!globalContext.data.products.length &&
+                !!products.length &&
                 <div className='latest-news__gallery'>
                     {
-                        globalContext.data.products.slice( 0, 29 ).map( ( product ) => {
+                        products.slice( 0, 29 ).map( ( product ) => {
                             return (
-                                <ShrProduct product={product} key={product.id} />
+                                <ShrProduct
+                                    product={product}
+                                    key={product.id} />
                             );
                         })
                     }

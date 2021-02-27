@@ -10,11 +10,9 @@ export interface GlobalProviderData {
     products: Product[];
     categories: Category[];
     subCategories: SubCategory[];
-    // tempCategories: TempCategory[];
     favourites: Favourite[];
     filters: Filter[];
     filteredOptions: [];
-    // tempCategoriesFiltered: Filter[];
     loading: boolean;
 }
 
@@ -26,7 +24,6 @@ export interface GlobalContextProps {
     updateProducts: Function;
     updateCategories: Function;
     updateSubCategories: Function;
-    // updateTempCategories: Function;
     updateFavourites: Function;
     updateFavouritesCollection: Function;
     signup: Function;
@@ -37,7 +34,6 @@ export interface GlobalContextProps {
     updatePassword: Function;
     updateFilters: Function;
     updateFilteredOptions: Function;
-    // updateTempCategoriesFiltered: Function;
     updateLoading: Function;
 }
 
@@ -53,11 +49,9 @@ export const defaultGlobalProviderData: GlobalProviderData = {
     products: [],
     categories: [],
     subCategories: [],
-    // tempCategories: [],
     favourites: [],
     filters: [],
     filteredOptions: [],
-    // tempCategoriesFiltered: [],
     loading: false
 };
 
@@ -69,7 +63,6 @@ export const GlobalContext = createContext<GlobalContextProps>({
     updateProducts: Function,
     updateCategories: Function,
     updateSubCategories: Function,
-    // updateTempCategories: Function,
     updateFavourites: Function,
     updateFavouritesCollection: Function,
     signup: Function,
@@ -80,7 +73,6 @@ export const GlobalContext = createContext<GlobalContextProps>({
     updatePassword: Function,
     updateFilters: Function,
     updateFilteredOptions: Function,
-    // updateTempCategoriesFiltered: Function,
     updateLoading: Function
 });
 
@@ -90,7 +82,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
     const categories = useFirestore( 'categories' );
     const subCategoriesFirestore = useFirestore( 'subcategories' );
     const favouritesFirestore = useFirestore( 'favourites' );
-    // const tempCategoriesFirestore = useFirestore( 'tempcategories' );
 
     const updateLoading = ( loading: boolean ): void => {
         setProviderValue( ( prevValues ) => {
@@ -146,16 +137,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateLoading( false );
     };
 
-    // const updateTempCategories = ( tempCategories: TempCategory[] ): void => {
-    //     updateLoading( true );
-
-    //     setProviderValue( ( prevState ) => ({
-    //         ...prevState,
-    //         dataLoading: false,
-    //         tempCategories
-    //     }) );
-    // };
-
     const updateFavourites = ( favourites: Favourite[] ): void => {
         updateLoading( true );
 
@@ -185,16 +166,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
 
         updateLoading( false );
     };
-
-    // const updateTempCategoriesFiltered = ( tempCategoriesFiltered: Filter[] ): void => {
-    //     updateLoading( true );
-
-    //     setProviderValue( ( prevState ) => ({
-    //         ...prevState,
-    //         dataLoading: false,
-    //         tempCategoriesFiltered
-    //     }) );
-    // };
 
     const updateFavouritesCollection = ( uid: any, prods: any ): void => {
         favouritesFirestore.updateCollection( uid, prods );
@@ -257,13 +228,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ subCategoriesFirestore ] );
 
-    // useEffect( (): void => {
-    //     if ( !!tempCategoriesFirestore.docs.length && providerValue.tempCategories.length === 0 ) {
-    //         updateTempCategories( tempCategoriesFirestore.docs );
-    //     }
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [ tempCategoriesFirestore ] );
-
     useEffect( (): void => {
         if ( ( !!favouritesFirestore.docs.length && providerValue.favourites.length === 0 ) ||
         ( !!favouritesFirestore.docs.length && providerValue.favourites !== favouritesFirestore.docs ) ) {
@@ -276,7 +240,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
         if ( providerValue.categories.length > 0 &&
             !providerValue.filters.some( r => providerValue.categories
                 .map( ( item ) => { return item.name; }).indexOf( r.name ) >= 0 ) ) {
-            console.log( 'entro al if' );
             const newFiltered = [ ...providerValue.filters ];
 
             providerValue.categories.forEach( ( item ) => {
@@ -293,32 +256,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ providerValue.categories ] );
 
-    // useEffect( ():void => {
-    //     //te quedaste aca viendo pq no guarda bien los tempCategories, hasta ahora los guarda junto
-    //     // a los filters
-    //     // !!!!!!!!!!!!!!!!!!!!!!!!
-    //     if ( providerValue.tempCategories.length > 0 && !providerValue.filters.some( r => providerValue.tempCategories
-    //         .map( ( item ) => { return item.name; }).indexOf( r.name ) >= 0 ) ) {
-    //         const newFiltered = [ ...providerValue.filters ];
-
-    //         providerValue.tempCategories.forEach( ( item ) => {
-    //             const filtered = item.products.filter( ( res ) => {
-    //                 return providerValue.products.filter( ( prod ) => {
-    //                     return prod.id.toString() === res.toString();
-    //                 });
-    //             });
-
-    //             newFiltered.push({
-    //                 'name': item.name.toString(),
-    //                 'products': filtered.map( result => result )
-    //             });
-    //         });
-
-    //         updateTempCategoriesFiltered( newFiltered.sort( ( a, b ) => ( a.name > b.name ) ? 1 : -1 ) );
-    //     }
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [ providerValue.tempCategories ] );
-
     const providerData = {
         data: providerValue,
         updateMenuItems,
@@ -327,7 +264,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateProducts,
         updateCategories,
         updateSubCategories,
-        // updateTempCategories,
         updateFavourites,
         updateFavouritesCollection,
         signup,
@@ -338,7 +274,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updatePassword,
         updateFilters,
         updateFilteredOptions,
-        // updateTempCategoriesFiltered,
         updateLoading
     };
 

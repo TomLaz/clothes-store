@@ -1,3 +1,5 @@
+@import '../../../styles/styles.scss';
+
 .shr-select {
     display: flex;
     justify-content: center;
@@ -12,15 +14,16 @@
 
     &__select {
         width: 50px;
-        border: 1px solid #000;
-        background: #8080801a;
+        border: 1px solid $primary-dark;
+        background: $primary-dark-lighter;
+
         .shr-select__option {
-            background: #8080801a;
+            background: $primary-dark-lighter;
         }
     }
 }
 
-@media ( min-width: 480px ) {
+@media (min-width: 480px) {
     .shr-select {
         &__title {
             font-size: 12px;
@@ -32,7 +35,7 @@
     }
 }
 
-@media ( min-width: 768px ) {
+@media (min-width: 768px) {
     .shr-select {
         justify-content: left;
         margin: 0;

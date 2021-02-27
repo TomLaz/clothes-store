@@ -1,3 +1,5 @@
+@import '../../styles/styles.scss';
+
 .basket {
     display: flex;
     flex-direction: column;
@@ -17,8 +19,8 @@
         justify-content: center;
         width: 80%;
         margin: 0 auto;
-        background: whitesmoke;
-        border: 1px solid #000;
+        background: $primary-light-product;
+        border: 1px solid $primary-dark;
     }
 
     &__product-img {
@@ -56,10 +58,10 @@
         flex-direction: row;
         width: 80%;
         margin: 0 auto;
-        background: whitesmoke;
+        background: $primary-light-product;
         padding: 20px;
         margin-bottom: 30px;
-        border: 2px solid #000;
+        border: 2px solid $primary-dark;
     }
 
     &__total-title {
@@ -81,12 +83,12 @@
         display: flex;
         flex-direction: row;
         width: 80%;
-        background: whitesmoke;
+        background: $primary-light-product;
         padding: 20px;
-        margin-bottom: 30px;
-        border: 1px solid #000;
-        text-transform: uppercase;
         margin: 100px auto;
+        margin-bottom: 30px;
+        border: 1px solid $primary-dark;
+        text-transform: uppercase;
     }
 
     &__empty-title {

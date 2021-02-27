@@ -4,10 +4,10 @@
     color: white;
     text-align: center;
     padding: 12em 0;
-    background: #222;
+    background: $primary-dark-bg-home;
 
     @supports (background-blend-mode: multiply) {
-        background: url(../../assets/images/bg_main_top.jpg), radial-gradient(#212121, #545454);
+        background: url(../../assets/images/bg_main_top.jpg), radial-gradient($primary-dark-bg-gradient-left, $primary-dark-bg-gradient-right);
         background-blend-mode: multiply;
         background-attachment: fixed;
         background-repeat: no-repeat;

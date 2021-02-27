@@ -1,3 +1,5 @@
+@import '../../styles/styles.scss';
+
 .send-options {
     display: flex;
     flex-direction: column;
@@ -21,7 +23,7 @@
     &__bar {
         width: 50%;
         margin: 10px auto 0 auto;
-        background: #e0e0e0;
+        background: $primary-light-option-bar;
         height: 2px;
     }
 }
@@ -57,7 +59,7 @@
             flex-direction: row;
             padding: 0 3%;
             width: 25%;
-            border-right: 1px solid #e4e4e4;
+            border-right: 1px solid $primary-light-option;
         }
 
         &__option:last-of-type {

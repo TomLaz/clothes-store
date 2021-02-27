@@ -62,8 +62,18 @@ const ForgotPassword: React.FC = () => {
                                 }}
                                 type='input'/>
                         </div>
-                        {error && <div className='forgot-password__option forgot-password__error'>{error}</div>}
-                        {message && <div className='forgot-password__option forgot-password__success'>{message}</div>}
+                        {
+                            error &&
+                            <div className='forgot-password__option forgot-password__error'>
+                                {error}
+                            </div>
+                        }
+                        {
+                            message &&
+                            <div className='forgot-password__option forgot-password__success'>
+                                {message}
+                            </div>
+                        }
                         <div className='forgot-password__option'>
                             <Button
                                 fullWidth={true}

@@ -11,13 +11,7 @@
         height: 100%;
         max-width: 600px;
         width: 100%;
-    }
-
-    @media (min-width: 600px) {
-        &__body {
-            border: 2px solid $primary-dark;
-            margin: 50px auto;
-        }
+        border-bottom: 12px solid $primary-dark;
     }
 
     &__top {
@@ -35,7 +29,7 @@
     }
 
     &__error {
-        color: red;
+        color: $primary-error;
     }
 
     &__form {
@@ -61,5 +55,10 @@
 @media (min-width: 600px) {
     .user-profile {
         height: auto;
+
+        &__body {
+            border: 2px solid $primary-dark;
+            margin: 50px auto;
+        }
     }
 }

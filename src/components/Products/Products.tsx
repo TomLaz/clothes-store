@@ -15,6 +15,7 @@ const Products: React.FC = () => {
     useEffect( (): void => {
         if ( filters.length > 0 && filters.length !== Object.keys( checkedFilters ).length ) {
             const elementsChecked: any = {};
+
             filters.forEach( ( item ) => {
                 if ( filteredOptions.some( ( res: string ) => res.toLowerCase() === item.name.toLowerCase() ) ) {
                     elementsChecked[ item.name.toLowerCase() ] = true;
@@ -22,6 +23,7 @@ const Products: React.FC = () => {
                     elementsChecked[ item.name.toLowerCase() ] = false;
                 }
             });
+
             setCheckedFilters( elementsChecked );
         }
 
@@ -30,6 +32,7 @@ const Products: React.FC = () => {
             products.length > 0 &&
             Object.values( checkedFilters ).some( ( check ) => check ) ) {
             const tempFilteredProducts = [ ...filteredProducts ];
+
             filters.forEach( ( item ) => {
                 if ( checkedFilters[ item.name.toLowerCase() ] ) {
                     products.forEach( ( prod ) => {
@@ -39,6 +42,7 @@ const Products: React.FC = () => {
                     });
                 }
             });
+
             setFilteredProducts( tempFilteredProducts );
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,6 +59,7 @@ const Products: React.FC = () => {
                 temp += 1;
             }
         });
+
         if ( temp > 0 ) {
             setFilteredProducts( [] );
         }
@@ -65,50 +70,58 @@ const Products: React.FC = () => {
             <ShrHeader showCategories={false} />
             <div className='products__box'>
                 {/* BARRA LATERAL IZQ, FILTROS */}
-                { filters.length > 0 && Object.keys( checkedFilters ).length > 0 ?
-                    <div className='products__categories'>
-                        {filters.map( ( item, index ) => {
-                            return (
-                                <FormControlLabel
-                                    key={index}
-                                    control={
-                                        <Checkbox
-                                            checked={checkedFilters[item.name.toLowerCase()]}
-                                            onChange={(): void => onCheckedChange( item.name )}
-                                            color='default'
-                                            value={item.name} />
-                                    }
-                                    label={item.name}
-                                />
-                            );
-                        })}
-                    </div> :
-                    <></>
+                {
+                    filters.length > 0 &&
+                    Object.keys( checkedFilters ).length > 0 ?
+                        <div className='products__categories'>
+                            {filters.map( ( item, index ) => {
+                                return (
+                                    <FormControlLabel
+                                        key={index}
+                                        control={
+                                            <Checkbox
+                                                checked={checkedFilters[item.name.toLowerCase()]}
+                                                onChange={(): void => onCheckedChange( item.name )}
+                                                color='default'
+                                                value={item.name} />
+                                        }
+                                        label={item.name}
+                                    />
+                                );
+                            })}
+                        </div> :
+                        <></>
                 }
                 {/* LADO DERECHO, CUERPO DE IMAGENES */}
-                { products.length > 0 && filteredProducts.length === 0 ?
-                    <div className='products__gallery'>
-                        {
-                            products.map( ( product ) => {
-                                return (
-                                    <ShrProduct product={product} key={product.id} />
-                                );
-                            })
-                        }
-                    </div> :
-                    filteredProducts.length > 0 ?
+                {
+                    products.length > 0 &&
+                    filteredProducts.length === 0 ?
                         <div className='products__gallery'>
                             {
-                                filteredProducts.map( ( product, index ) => {
+                                products.map( ( product ) => {
                                     return (
-                                        <ShrProduct product={product} key={index} />
+                                        <ShrProduct
+                                            product={product}
+                                            key={product.id} />
                                     );
                                 })
                             }
                         </div> :
-                        <div className='products__progress'>
-                            <CircularProgress />
-                        </div>
+                        filteredProducts.length > 0 ?
+                            <div className='products__gallery'>
+                                {
+                                    filteredProducts.map( ( product, index ) => {
+                                        return (
+                                            <ShrProduct
+                                                product={product}
+                                                key={index} />
+                                        );
+                                    })
+                                }
+                            </div> :
+                            <div className='products__progress'>
+                                <CircularProgress />
+                            </div>
                 }
             </div>
             <ShrFooter />

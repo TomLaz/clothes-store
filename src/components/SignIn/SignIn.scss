@@ -15,7 +15,7 @@
 
     @media (min-width: 600px) {
         &__body {
-            border: 2px solid #000;
+            border: 2px solid $primary-dark;
             margin: 50px auto;
         }
     }
@@ -35,7 +35,7 @@
     }
 
     &__error {
-        color: red;
+        color: $primary-error;
     }
 
     &__form {

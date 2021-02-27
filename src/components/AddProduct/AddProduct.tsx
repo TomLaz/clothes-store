@@ -10,6 +10,7 @@ import { Button, CircularProgress } from '@material-ui/core';
 import GlobalService from '../../services/Global/Global.service';
 import ShrFooter from '../shared/ShrFooter/ShrFooter';
 import useFirestore from '../../firebase/useFirestore';
+import i18n from '../../i18n';
 
 const AddProduct: React.FC = () => {
     const { id } = useParams();
@@ -109,16 +110,19 @@ const AddProduct: React.FC = () => {
                                     className='add-product__image'
                                     onClick={(): void => imageSelectedHandler( product?.imgUrl || '' )} />
                                 {!!selectedImg &&
-                                    <ModalImage selectedImg={selectedImg} setSelectedImg={setSelectedImg} title='titulo' />
+                                    <ModalImage
+                                        selectedImg={selectedImg}
+                                        setSelectedImg={setSelectedImg}
+                                        title={product.title} />
                                 }
                             </div>
                         </div>
-                        <div className='add-product_wrapper'>
+                        <div className='add-product__wrapper'>
                             <div className='add-product__info'>
                                 <div className='add-product__info-description'>
                                     <span className='add-product__name'>{!!product && product.title}</span>
                                     <p className='add-product__price'>{!!product && `$${product.price.toFixed( 2 )}`}</p>
-                                    <p className='add-product__code'>{!!product && `COD: ${product.id}`}</p>
+                                    <p className='add-product__code'>{!!product && i18n.t( 'add-product.code', { code: product.id })}</p>
                                     <div className='add-product__color-box'>
                                         <p>
                                             <span className='add-product__color-title'>
@@ -129,7 +133,7 @@ const AddProduct: React.FC = () => {
                                 </div>
                                 <div className='add-product__sizes-box'>
                                     <div className='add-product__shr-circular-options'>
-                                        <p className='add-product__shr-circular-options-title'>Seleccione Talle</p>
+                                        <p className='add-product__shr-circular-options-title'>{i18n.t( 'add-product.size.title' )}</p>
                                         <div className='add-product__shr-circular-options-box'>
                                             {
                                                 product.sizes.map( item => (
@@ -156,7 +160,7 @@ const AddProduct: React.FC = () => {
                                 {productAdded ?
                                     <div className='add-product__btn add-product__added'>
                                         <div className='add-product__btn add-product__added-box'>
-                                            Producto Agregado
+                                            {i18n.t( 'add-product.added' )}
                                         </div>
                                     </div> :
                                     <div className='add-product__btn add-product__add'>
@@ -165,7 +169,7 @@ const AddProduct: React.FC = () => {
                                             variant='outlined'
                                             color='primary'
                                             size='large'>
-                                            Agregar al canasto
+                                            {i18n.t( 'add-product.add' )}
                                         </Button>
                                     </div>
                                 }
@@ -179,14 +183,14 @@ const AddProduct: React.FC = () => {
                     <div className='add-product__not-found-box'>
                         <div className='add-product__not-found'>
                             <h2>
-                                Producto No Encontrado
+                                {i18n.t( 'add-product.not-found' )}
                             </h2>
                             <Button
                                 onClick={(): void => {history.push( GlobalService.states.home );}}
                                 type='submit'
                                 fullWidth={true}
                                 variant='contained'>
-                                Ir al Inicio
+                                {i18n.t( 'add-product.home' )}
                             </Button>
                         </div>
                     </div>

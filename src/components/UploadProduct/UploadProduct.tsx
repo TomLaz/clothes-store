@@ -1,15 +1,20 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './UploadProduct.scss';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
-import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { projectStorage, projectFirestore, timestamp } from '../../firebase/firebase';
 import { motion } from 'framer-motion';
 import useFirestore from '../../firebase/useFirestore';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import ProductItem from '../ProductItem/ProductItem';
+import sizes from './ProductsSizes';
+import i18n from '../../i18n';
+import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
+import ShrFooter from '../shared/ShrFooter/ShrFooter';
+import ProductDetail from '../ProductDetail/ProductDetail';
 
 const UploadProduct: React.FC = () => {
-    const globalContext = useContext( GlobalContext );
+    const { data: { currentUser, products }} = useContext( GlobalContext );
     const titleRef = useRef<any>();
     const descriptionRef = useRef<any>();
     const colorRef = useRef<any>();
@@ -24,13 +29,10 @@ const UploadProduct: React.FC = () => {
     const [ categorySelected, setCategorySelected ] = useState( '' );
     const [ subcategorySelected, setSubcategorySelected ] = useState( '' );
     const [ subcategoriesFiltered, setSubcategoriesFiltered ] = useState<any>();
-    const [ isOutlet, setIsOutlet ] = useState( false );
-    const [ isSummer, setIsSummer ] = useState( false );
 
     const types = [ 'image/png', 'image/jpeg' ];
     const categories = useFirestore( 'categories' );
     const subcategories = useFirestore( 'subcategories' );
-    const products = useFirestore( 'products' );
 
     useEffect( () => {
         if ( url ) {
@@ -44,8 +46,6 @@ const UploadProduct: React.FC = () => {
             colorRef.current.value = '';
             setCategorySelected( '' );
             setSubcategorySelected( '' );
-            setIsOutlet( false );
-            setIsSummer( false );
         }
     }, [ url, setFile ] );
 
@@ -54,7 +54,7 @@ const UploadProduct: React.FC = () => {
         setSubcategoriesFiltered( filtered );
     }, [ categorySelected, subcategories.docs ] );
 
-    const handleSubmit = async ( e: any ): Promise<void> => {
+    const onSubmitHandler = async ( e: any ): Promise<void> => {
         e.preventDefault();
 
         if ( titleRef.current.value === '' ||
@@ -64,7 +64,7 @@ const UploadProduct: React.FC = () => {
             file === null ||
             categorySelected === '' ||
             subcategorySelected === '' ) {
-            return setError( 'Complete all fields.' );
+            return setError( i18n.t( 'upload-product.complete-fields' ) );
         }
 
         setLoading( true );
@@ -83,29 +83,6 @@ const UploadProduct: React.FC = () => {
                 const imgUrl = await storageRef.getDownloadURL();
                 const createdAt = timestamp();
 
-                const sizes = [
-                    {
-                        size: 'S',
-                        stock: 10
-                    },
-                    {
-                        size: 'M',
-                        stock: 8
-                    },
-                    {
-                        size: 'L',
-                        stock: 5
-                    },
-                    {
-                        size: 'XL',
-                        stock: 7
-                    },
-                    {
-                        size: 'XXL',
-                        stock: 14
-                    }
-                ];
-
                 collectionRef.add({
                     createdAt: createdAt,
                     description: descriptionRef.current.value,
@@ -115,36 +92,22 @@ const UploadProduct: React.FC = () => {
                     title: titleRef.current.value,
                     categoryId: +categorySelected,
                     subcategoryId: +subcategorySelected,
-                    userId: globalContext.data.currentUser.uid,
+                    userId: currentUser.uid,
                     sizes: sizes
-                }).then( productAdded => {
+                }).then( () => {
                     setUrl( imgUrl );
-
-                    if ( isOutlet ) {
-                        projectFirestore.collection( 'outlet' ).add({
-                            createdAt: createdAt,
-                            productId: productAdded.id
-                        });
-                    }
-
-                    if ( isSummer ) {
-                        projectFirestore.collection( 'summer' ).add({
-                            createdAt: createdAt,
-                            productId: productAdded.id
-                        });
-                    }
                 }).catch( () => {
-                    setError( 'Failed to create product' );
+                    setError( i18n.t( 'upload-product.create-failed' ) );
                 });
             });
         } catch {
-            setError( 'Failed to create product' );
+            setError( i18n.t( 'upload-product.create-failed' ) );
         } finally {
             setLoading( false );
         }
     };
 
-    const imageHandler = ( e: any ): void => {
+    const onImageChange = ( e: any ): void => {
         const selected = e.target.files[0];
 
         if ( selected && types.includes( selected.type ) ) {
@@ -152,7 +115,7 @@ const UploadProduct: React.FC = () => {
             setError( '' );
         } else {
             setFile( null );
-            setError( 'Please select an image file (png or jpeg)' );
+            setError( i18n.t( 'upload-product.image-format' ) );
         }
 
         onChangeHandler();
@@ -174,21 +137,13 @@ const UploadProduct: React.FC = () => {
         }
     };
 
-    const handleCategoryChange = ( e: any ): void => {
+    const onCategoryChange = ( e: any ): void => {
         setSubcategorySelected( '' );
         setCategorySelected( e.target.value );
     };
 
-    const handleSubcategoryChange = ( e: any ): void => {
+    const onSubcategoryChange = ( e: any ): void => {
         setSubcategorySelected( e.target.value );
-    };
-
-    const isOutletChange = (): void => {
-        setIsOutlet( !isOutlet );
-    };
-
-    const isSummerChange = (): void => {
-        setIsSummer( !isSummer );
     };
 
     return (
@@ -197,19 +152,31 @@ const UploadProduct: React.FC = () => {
             <div className='upload-product__body'>
                 <div className='upload-product__top'>
                     <h2 className='upload-product__title'>
-                        Subir Producto
+                        {i18n.t( 'upload-product.upload-title' )}
                     </h2>
                 </div>
-                <form onSubmit={handleSubmit} className='upload-product__bottom'>
+                <form
+                    onSubmit={onSubmitHandler}
+                    className='upload-product__bottom'>
                     <div className='upload-product__option upload-product__image'>
-                        <Button
-                            fullWidth
-                            variant='contained'
-                            component='label'
-                            disabled={loading}>
-                            Seleccionar Imagen
-                            <input type='file' onChange={imageHandler} hidden />
-                        </Button>
+                        <input
+                            accept='image/*'
+                            onChange={onImageChange}
+                            style={{ display: 'none' }}
+                            id='file-upload'
+                            multiple
+                            type='file'
+                        />
+                        <label htmlFor='file-upload'>
+                            <ShrButton
+                                fullWidth={true}
+                                variant={ButtonVariant.contained}
+                                disabled={loading}
+                                color={ButtonColor.default}
+                                type={ButtonType.button}
+                                title={i18n.t( 'upload-product.image-selection' )}
+                                size={ButtonSize.large} />
+                        </label>
                         {file && <p>{file.name}</p>}
                     </div>
                     <div className='upload-product__option'>
@@ -217,9 +184,9 @@ const UploadProduct: React.FC = () => {
                             fullWidth={true}
                             id='title'
                             inputRef={titleRef}
-                            label='Título'
+                            label={i18n.t( 'upload-product.field-title' )}
                             name='title'
-                            placeholder='Title'
+                            placeholder={i18n.t( 'upload-product.field-title' )}
                             onChange={onChangeHandler}
                             required={true}
                             type='input'/>
@@ -229,9 +196,9 @@ const UploadProduct: React.FC = () => {
                             fullWidth={true}
                             id='description'
                             inputRef={descriptionRef}
-                            label='Descripción'
+                            label={i18n.t( 'upload-product.field-description' )}
                             name='description'
-                            placeholder='Description'
+                            placeholder={i18n.t( 'upload-product.field-description' )}
                             onChange={onChangeHandler}
                             required={true}
                             type='input'/>
@@ -241,9 +208,9 @@ const UploadProduct: React.FC = () => {
                             fullWidth={true}
                             id='color'
                             inputRef={colorRef}
-                            label='Color'
+                            label={i18n.t( 'upload-product.field-color' )}
                             name='color'
-                            placeholder='Color'
+                            placeholder={i18n.t( 'upload-product.field-color' )}
                             onChange={onChangeHandler}
                             required={true}
                             type='input'/>
@@ -252,21 +219,25 @@ const UploadProduct: React.FC = () => {
                         !!categories.docs.length &&
                         <div className='upload-product__option'>
                             <FormControl className='upload-product__categories'>
-                                <InputLabel className='sid-cla-dropdown-label'>Categoria</InputLabel>
+                                <InputLabel className='sid-cla-dropdown-label'>
+                                    {i18n.t( 'upload-product.category' )}
+                                </InputLabel>
                                 <Select
                                     fullWidth
                                     displayEmpty
                                     className='sid-cla-dropdown-select cla-dropdown__select'
                                     value={categorySelected}
-                                    onChange={handleCategoryChange} >
-                                    {categories.docs.map( element => (
-                                        <MenuItem
-                                            className='sid-cla-dropdown-option'
-                                            key={ element.id }
-                                            value={element.id + ''}>
-                                            { element.name }
-                                        </MenuItem>
-                                    ) )}
+                                    onChange={onCategoryChange} >
+                                    {
+                                        categories.docs.map( element => (
+                                            <MenuItem
+                                                className='sid-cla-dropdown-option'
+                                                key={ element.id }
+                                                value={element.id.toString()}>
+                                                { element.name }
+                                            </MenuItem>
+                                        ) )
+                                    }
                                 </Select>
                             </FormControl>
                         </div>
@@ -275,21 +246,25 @@ const UploadProduct: React.FC = () => {
                         subcategoriesFiltered &&
                         <div className='upload-product__option'>
                             <FormControl className='upload-product__categories'>
-                                <InputLabel className='sid-cla-dropdown-label'>Subcategoria</InputLabel>
+                                <InputLabel className='sid-cla-dropdown-label'>
+                                    {i18n.t( 'upload-product.subcategory' )}
+                                </InputLabel>
                                 <Select
                                     fullWidth
                                     displayEmpty
                                     className='sid-cla-dropdown-select cla-dropdown__select'
                                     value={subcategorySelected}
-                                    onChange={handleSubcategoryChange} >
-                                    {subcategoriesFiltered.map( ( val: any ) => (
-                                        <MenuItem
-                                            className='sid-cla-dropdown-option'
-                                            key={ val.id }
-                                            value={ val.id }>
-                                            { val.name }
-                                        </MenuItem>
-                                    ) )}
+                                    onChange={onSubcategoryChange} >
+                                    {
+                                        subcategoriesFiltered.map( ( val: any ) => (
+                                            <MenuItem
+                                                className='sid-cla-dropdown-option'
+                                                key={ val.id }
+                                                value={ val.id }>
+                                                { val.name }
+                                            </MenuItem>
+                                        ) )
+                                    }
                                 </Select>
                             </FormControl>
                         </div>
@@ -307,35 +282,21 @@ const UploadProduct: React.FC = () => {
                             inputProps={{ step: 0.01 }}
                             type='number'/>
                     </div>
-                    <div className='upload-product__option upload-product__checkbox'>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={isOutlet}
-                                    onChange={isOutletChange}
-                                    name="outlet"
-                                    color="default"/>
-                            }
-                            label='Outlet' />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={isSummer}
-                                    onChange={isSummerChange}
-                                    name="outlet"
-                                    color="default"/>
-                            }
-                            label='Verano' />
-                    </div>
-                    {error && <div className='upload-product__option upload-product__error'>{error}</div>}
+                    {
+                        error &&
+                        <div className='upload-product__option upload-product__error'>
+                            {error}
+                        </div>
+                    }
                     <div className='upload-product__option upload-product__submit-btn'>
-                        <Button
-                            fullWidth
-                            type='submit'
-                            variant='contained'
-                            disabled={ loading || isButtonDisabled}>
-                            Subir Producto
-                        </Button>
+                        <ShrButton
+                            fullWidth={true}
+                            variant={ButtonVariant.contained}
+                            color={ButtonColor.default}
+                            disabled={ loading || isButtonDisabled}
+                            type={ButtonType.submit}
+                            title={i18n.t( 'upload-product.upload-title' )}
+                            size={ButtonSize.large} />
                     </div>
                     <motion.div
                         initial={{ width: 0 }}
@@ -345,19 +306,29 @@ const UploadProduct: React.FC = () => {
             </div>
             <div className='upload-product__products'>
                 {
-                    !!( globalContext.data.products.length &&
-                        globalContext.data.products
-                            .filter( item => item.userId === globalContext.data.currentUser.uid ).length ) &&
+                    !!( products.length > 0 &&
+                        products.filter( item => item.userId === currentUser.uid ).length ) &&
                     <>
-                        <h2 className='upload-product__products-title'>Mis Productos</h2>
+                        <h2 className='upload-product__products-title'>
+                            {i18n.t( 'upload-product.my-products' )}
+                        </h2>
                         {
-                            globalContext.data.products.map( product => (
-                                <ProductItem product={product} key={product.id} />
+                            products.map( ( product, index ) => (
+                                // <ProductItem product={product} key={product.id} />
+                                <ProductDetail
+                                    key={index}
+                                    imgUrl={product.imgUrl}
+                                    imgAlt={product.title}
+                                    title={product.title}
+                                    color={product.color}
+                                    productDescription={product.description}
+                                    productPrice={product.price.toString()} />
                             ) )
                         }
                     </>
                 }
             </div>
+            <ShrFooter />
         </div>
     );
 };

@@ -30,14 +30,12 @@ const Basket: React.FC = () => {
     };
 
     const onConfirmRemoveHandler = (): void => {
-        try {
-            const prods = basketProducts.docs
-                .filter( item => item.id === globalContext.data.currentUser.uid )[0].products
-                .filter( ( prod: any ) => prod.id.toString() !== removeId.toString() );
+        const prods = basketProducts.docs
+            .filter( item => item.id === globalContext.data.currentUser.uid )[0].products
+            .filter( ( prod: any ) => prod.id.toString() !== removeId.toString() );
 
-            basketProducts.updateCollection( globalContext.data.currentUser.uid, prods );
-            setRemoveId( '' );
-        } catch {}
+        basketProducts.updateCollection( globalContext.data.currentUser.uid, prods );
+        setRemoveId( '' );
     };
 
     return (
@@ -53,13 +51,12 @@ const Basket: React.FC = () => {
                                 key={index}
                                 imgUrl={globalContext.data.products.find( data => data.id === product.productId )?.imgUrl || ''}
                                 imgAlt={globalContext.data.products.find( data => data.id === product.productId )?.title || ''}
-                                productDescription={globalContext.data.products.find( data => data.id === product.productId )?.title || ''}
-                                productSize={'Tamaño: ' + product.size}
-                                productQty={'Cantidad: ' + product.quantity}
-                                productUnitPrice={'Precio Unitario: $' +
-                                    globalContext.data.products.find( data => data.id === product.productId )?.price.toFixed( 2 ).toString() || '0'
-                                }
-                                productPrice={'$' + !!globalContext.data.products.find( data => data.id === product.productId )?.price ?
+                                title={globalContext.data.products.find( data => data.id === product.productId )?.title || ''}
+                                productSize={product.size}
+                                productQty={product.quantity}
+                                productUnitPrice={globalContext.data.products
+                                    .find( data => data.id === product.productId )?.price.toFixed( 2 ).toString() || '0'}
+                                productPrice={!!globalContext.data.products.find( data => data.id === product.productId )?.price ?
                                     ( Number( globalContext.data.products.find( data => data.id === product.productId )?.price ) *
                                     Number( product.quantity ) ).toFixed( 2 ).toString() : '0'
                                 }

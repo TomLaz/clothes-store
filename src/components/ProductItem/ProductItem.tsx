@@ -21,11 +21,17 @@ const ProductItem: React.FC<ProductItemType> = ({ product: { imgUrl, title, desc
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }} />
             <div className='product-item__body'>
-                <h3 className='product-item__title'>{title}</h3>
-                <p className='product-item__description'>{description}</p>
-                <span className='product-item__price'>${price}</span>
+                <h3 className='product-item__title'>
+                    {title}
+                </h3>
+                <p className='product-item__description'>
+                    {description}
+                </p>
+                <span className='product-item__price'>
+                    ${price}
+                </span>
             </div>
-            <div className='product-item__bar'></div>
+            <div className='product-item__bar' />
         </motion.section>
     );
 };

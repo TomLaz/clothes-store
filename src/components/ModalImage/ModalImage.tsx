@@ -9,7 +9,7 @@ type ModalImageProps = {
 }
 
 const ModalImage: React.FC<ModalImageProps> = ({ selectedImg, setSelectedImg, title }) => {
-    const handleClick = ( e: any ): void => {
+    const onClickHandler = ( e: any ): void => {
         if ( e.target.classList.contains( 'backdrop' ) ) {
             setSelectedImg( null );
         }
@@ -20,7 +20,7 @@ const ModalImage: React.FC<ModalImageProps> = ({ selectedImg, setSelectedImg, ti
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className='backdrop'
-            onClick={handleClick}>
+            onClick={onClickHandler}>
             <motion.img
                 initial={{ y: '-100vh' }}
                 animate={{ y: '0' }}

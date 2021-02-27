@@ -118,7 +118,7 @@
             grid-gap: 5px;
             gap: 5px;
             cursor: pointer;
-            color: #fff;
+            color: $primary;
             margin-right: 7px;
         }
 
@@ -138,6 +138,11 @@
     &__mobile-user-profile .MuiButtonBase-root {
         color: $primary;
         border: 1px solid $primary;
+    }
+
+    &__mobile-log-out,
+    &__mobile-user-profile {
+        width: 50%;
     }
 
     @media (max-width: 980px) {
@@ -305,7 +310,7 @@
         }
     }
 
-    /* mobile hover */
+    /* Mobile hover */
     &__mobile-sign-in .MuiButtonBase-root:hover,
     &__mobile-sign-up .MuiButtonBase-root:hover,
     &__mobile-logged .MuiButtonBase-root:hover,
@@ -314,7 +319,7 @@
         border: 1px solid $primary;
     }
 
-    /* desktop hover */
+    /* Desktop hover */
     &__desktop-sign-in .MuiButtonBase-root:hover,
     &__desktop-sign-up .MuiButtonBase-root:hover,
     &__desktop-logged .MuiButton-root:hover {

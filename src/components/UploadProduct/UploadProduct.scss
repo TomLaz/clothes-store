@@ -8,7 +8,6 @@
     &__body {
         display: flex;
         flex-direction: column;
-        height: 100%;
         max-width: 600px;
         width: 100%;
     }
@@ -36,7 +35,7 @@
     }
 
     &__error {
-        color: red;
+        color: $primary-error;
     }
 
     &__form {
@@ -66,12 +65,12 @@
     }
 
     &__checkbox .MuiFormControlLabel-label {
-        color: #888;
+        color: $primary-grey-checkbox;
     }
 
     &__progress-bar {
         height: 5px;
-        background: #efb6b2;
+        background: $primary-progress-bar;
         margin: 20px 0;
     }
 

@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './ShrFooter.scss';
 import i18n from '../../../i18n';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import YouTubeIcon from '@material-ui/icons/YouTube';
+import { GlobalContext } from '../../../providers/Global/Global.provider';
+import { useHistory } from 'react-router-dom';
+import GlobalService from '../../../services/Global/Global.service';
 
 const ShrFooter: React.FC = () => {
+    const history = useHistory();
+    const { data: { filters }, updateFilteredOptions } = useContext( GlobalContext );
+
     return (
         <div className='shr-footer'>
             <div className='shr-footer__box'>
@@ -25,18 +31,22 @@ const ShrFooter: React.FC = () => {
                     <div className='shr-footer__category-title'>
                         {i18n.t( 'shr-footer.categories' )}
                     </div>
-                    <div className='shr-footer__category'>
-                        {i18n.t( 'global.categories.mens' )}
-                    </div>
-                    <div className='shr-footer__category'>
-                        {i18n.t( 'global.categories.women' )}
-                    </div>
-                    <div className='shr-footer__category'>
-                        {i18n.t( 'global.categories.summer' )}
-                    </div>
-                    <div className='shr-footer__category'>
-                        {i18n.t( 'global.categories.outlet' )}
-                    </div>
+                    {
+                        filters.length > 0 &&
+                        filters.map( ( option, key ) => {
+                            return (
+                                <div
+                                    key={key}
+                                    className='shr-footer__category'
+                                    onClick={( (): void => {
+                                        updateFilteredOptions( [ option.name ] );
+                                        history.push( GlobalService.states.products );
+                                    })}>
+                                    {option.name}
+                                </div>
+                            );
+                        })
+                    }
                 </div>
                 <div className='shr-footer__about-us'>
                     <div className='shr-footer__about-title'>

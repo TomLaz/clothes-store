@@ -1,3 +1,5 @@
+@import '../../styles/styles.scss';
+
 .products {
     display: flex;
     flex-direction: column;
@@ -14,7 +16,7 @@
         margin-top: 30px;
         width: 15%;
         gap: 10px;
-        border: 1px solid #000;
+        border: 1px solid $primary-dark;
         height: fit-content;
         padding: 15px 5px;
         flex-direction: column;
@@ -28,7 +30,7 @@
     }
 
     &__category {
-        color: #000;
+        color: $primary-dark;
     }
 
     &__gallery {
