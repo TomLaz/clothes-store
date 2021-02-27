@@ -13,54 +13,57 @@ import UserProfile from './components/UserProfile/UserProfile';
 import AddProduct from './components/AddProduct/AddProduct';
 import Basket from './components/Basket/Basket';
 import Products from './components/Products/Products';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 const App = (): JSX.Element => {
     return (
         <Router>
-            <Switch>
-                <GlobalProvider>
-                    <Route
-                        exact path={GlobalService.states.home}
-                        component={Home} />
+            <ScrollToTop>
+                <Switch>
+                    <GlobalProvider>
+                        <Route
+                            exact path={GlobalService.states.home}
+                            component={Home} />
 
-                    <Route
-                        exact path={GlobalService.states.signUp}
-                        component={SignUp} />
+                        <Route
+                            exact path={GlobalService.states.signUp}
+                            component={SignUp} />
 
-                    <Route
-                        exact path={GlobalService.states.signIn}
-                        render={ (): JSX.Element => (
-                            <SignIn shouldRedirect={true} />
-                        )} />
+                        <Route
+                            exact path={GlobalService.states.signIn}
+                            render={ (): JSX.Element => (
+                                <SignIn shouldRedirect={true} />
+                            )} />
 
-                    <Route
-                        exact path={GlobalService.states.forgotPassword}
-                        component={ForgotPassword} />
+                        <Route
+                            exact path={GlobalService.states.forgotPassword}
+                            component={ForgotPassword} />
 
-                    <Route
-                        exact path={GlobalService.states.products}
-                        component={Products} />
+                        <Route
+                            exact path={GlobalService.states.products}
+                            component={Products} />
 
-                    <PrivateRoute
-                        exact={true}
-                        path={GlobalService.states.uploadProduct}
-                        component={UploadProduct} />
+                        <PrivateRoute
+                            exact={true}
+                            path={GlobalService.states.uploadProduct}
+                            component={UploadProduct} />
 
-                    <PrivateRoute
-                        exact={true}
-                        path={GlobalService.states.userProfile}
-                        component={UserProfile} />
+                        <PrivateRoute
+                            exact={true}
+                            path={GlobalService.states.userProfile}
+                            component={UserProfile} />
 
-                    <Route
-                        exact path={GlobalService.states.addProduct + '/:id'}
-                        component={AddProduct} />
+                        <Route
+                            exact path={GlobalService.states.addProduct + '/:id'}
+                            component={AddProduct} />
 
-                    <PrivateRoute
-                        exact={true}
-                        path={GlobalService.states.basket}
-                        component={Basket} />
-                </GlobalProvider>
-            </Switch>
+                        <PrivateRoute
+                            exact={true}
+                            path={GlobalService.states.basket}
+                            component={Basket} />
+                    </GlobalProvider>
+                </Switch>
+            </ScrollToTop>
         </Router>
     );
 };

@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ShrProduct from '../shared/ShrProduct/ShrProduct';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Checkbox, CircularProgress, FormControlLabel } from '@material-ui/core';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
 import ShrFooter from '../shared/ShrFooter/ShrFooter';
 import './Products.scss';
-import { Product } from '../../providers/Global/Global.model';
 
 const Products: React.FC = () => {
-    const { data: { filters, products, filteredOptions }} = useContext( GlobalContext );
-    const [ checkedFilters, setCheckedFilters ] = useState<any>({});
-    const [ filteredProducts, setFilteredProducts ] = useState<Product[]>( [] );
+    const { data: { filters, products, filteredOptions, checkedFilters, filteredProducts },
+        updateCheckedFilters, updateFilteredProducts } = useContext( GlobalContext );
+    // const [ checkedFilters, setCheckedFilters ] = useState<any>({});
+    // const [ filteredProducts, setFilteredProducts ] = useState<Product[]>( [] );
 
     useEffect( (): void => {
         if ( filters.length > 0 && filters.length !== Object.keys( checkedFilters ).length ) {
@@ -24,7 +24,7 @@ const Products: React.FC = () => {
                 }
             });
 
-            setCheckedFilters( elementsChecked );
+            updateCheckedFilters( elementsChecked );
         }
 
         if ( filters.length > 0 &&
@@ -43,7 +43,7 @@ const Products: React.FC = () => {
                 }
             });
 
-            setFilteredProducts( tempFilteredProducts );
+            updateFilteredProducts( tempFilteredProducts );
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ filters, filteredOptions, products, checkedFilters ] );
@@ -51,7 +51,7 @@ const Products: React.FC = () => {
     const onCheckedChange = ( name: string ): void => {
         const copyCheckedFilters = JSON.parse( JSON.stringify( checkedFilters ) );
         copyCheckedFilters[ name.toLowerCase() ] = !checkedFilters[ name.toLowerCase() ];
-        setCheckedFilters( copyCheckedFilters );
+        updateCheckedFilters( copyCheckedFilters );
 
         let temp = 0;
         filters.forEach( ( item ) => {
@@ -61,13 +61,13 @@ const Products: React.FC = () => {
         });
 
         if ( temp > 0 ) {
-            setFilteredProducts( [] );
+            updateFilteredProducts( [] );
         }
     };
 
     return (
         <div className='products'>
-            <ShrHeader showCategories={false} />
+            <ShrHeader />
             <div className='products__box'>
                 {/* BARRA LATERAL IZQ, FILTROS */}
                 {

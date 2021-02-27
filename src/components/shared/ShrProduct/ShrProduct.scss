@@ -3,6 +3,8 @@
 .shr-product {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid $primary-dark-category-bar;
+    padding: 20px 0;
 
     &__img-wrapper {
         overflow: hidden;
@@ -77,11 +79,30 @@
     .shr-product {
         width: 50%;
         padding: 2%;
+        border-top: none;
     }
 }
 
-@media (min-width: 768px) {
+// @media (min-width: 768px) {
+//     .shr-product {
+//         width: 33%;
+//     }
+// }
+
+@media (min-width: 880px) {
     .shr-product {
         width: 33%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .shr-product {
+        width: 25%;
+    }
+}
+
+@media (min-width: 1600px) {
+    .shr-product {
+        width: 20%;
     }
 }

@@ -5,6 +5,7 @@
     text-align: center;
     padding: 12em 0;
     background: $primary-dark-bg-home;
+    margin-top: -5px;
 
     @supports (background-blend-mode: multiply) {
         background: url(../../assets/images/bg_main_top.jpg), radial-gradient($primary-dark-bg-gradient-left, $primary-dark-bg-gradient-right);

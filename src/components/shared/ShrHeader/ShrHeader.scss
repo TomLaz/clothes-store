@@ -9,11 +9,12 @@
     &__mobile {
         align-items: center;
         background: $primary-dark-light;
-        display: none;
         overflow: hidden;
         position: fixed;
         z-index: 5;
         width: 100%;
+        display: flex;
+        flex-direction: column;
 
         &-bar {
             align-items: center;
@@ -62,7 +63,7 @@
 
         &-sign {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: center;
             text-align: center;
             margin: 15px auto 30px auto;
@@ -141,16 +142,19 @@
     }
 
     &__mobile-log-out,
-    &__mobile-user-profile {
-        width: 50%;
+    &__mobile-user-profile,
+    &__mobile-sign-in,
+    &__mobile-sign-up {
+        width: 80%;
+        margin: 0 auto;
     }
 
-    @media (max-width: 980px) {
-        &__mobile {
-            display: flex;
-            flex-direction: column;
-        }
-    }
+    // @media (max-width: 980px) {
+    //     &__mobile {
+    //         display: flex;
+    //         flex-direction: column;
+    //     }
+    // }
 
     /*** DESKTOP BAR  ***/
     &__desktop {
@@ -326,5 +330,26 @@
         color: $primary;
         border: 1px solid $primary;
         font-size: 12px;
+    }
+}
+
+@media (min-width: 290px) {
+    .shr-header {
+        &__mobile-sign {
+            flex-direction: row;
+        }
+
+        &__mobile-log-out,
+        &__mobile-user-profile {
+            width: 50%;
+        }
+    }
+}
+
+@media (min-width: 980px) {
+    .shr-header {
+        &__mobile {
+            display: none;
+        }
     }
 }

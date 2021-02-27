@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './ShrHeader.scss';
 import { useHistory } from 'react-router-dom';
 import i18n from '../../../i18n';
-import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import GlobalService from '../../../services/Global/Global.service';
 import { GlobalContext } from '../../../providers/Global/Global.provider';
@@ -24,8 +23,24 @@ type ShrHeaderProps = {
 const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCategories }) => {
     const history = useHistory();
     const [ showMenu, setShowMenu ] = useState( false );
-    const { data: { currentUser, filters }, logout, updateFilteredOptions } = useContext( GlobalContext );
+    // const [ activeMenu, setActiveMenu ] = useState<{[key:string]: boolean}>({ 'home': true });
+    const { data: { currentUser, filters, activeMenu },
+        logout, updateFilteredOptions, updateCheckedFilters,
+        updateFilteredProducts, updateActiveMenu, updateActiveMenuItem } = useContext( GlobalContext );
     const basketProducts = useFirestore( 'basket' );
+
+    useEffect( (): void => {
+        if ( filters.length > 0 && Object.keys( activeMenu ).length === 1 ) {
+            const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
+
+            filters.forEach( ( item ) => {
+                activeMenuTemp[ item.name.toLowerCase() ] = false;
+            });
+
+            updateActiveMenu( activeMenuTemp );
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ filters ] );
 
     return (
         <div className='shr-header'>
@@ -33,7 +48,10 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                 <div className='shr-header__mobile-bar'>
                     <div
                         className='shr-header__mobile-brand'
-                        onClick={(): void => history.push( GlobalService.states.home )}>
+                        onClick={(): void => {
+                            updateActiveMenuItem( 'home' );
+                            history.push( GlobalService.states.home );
+                        }}>
                         {i18n.t( 'global.brand' )}
                     </div>
                     <div className='shr-header__mobile-actions'>
@@ -67,14 +85,6 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         {
                             ( !currentUser && showSignUp ) &&
                             <div className='shr-header__mobile-sign-up'>
-                                {/* <Button
-                                    onClick={( (): void => history.push( GlobalService.states.signUp ) )}
-                                    fullWidth={true}
-                                    variant='outlined'
-                                    color='primary'
-                                    size='small'>
-                                    {i18n.t( 'sign-up' )}
-                                </Button> */}
                                 <ShrButton
                                     fullWidth={true}
                                     variant={ButtonVariant.outlined}
@@ -88,14 +98,6 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         {
                             ( !currentUser && showSignIn ) &&
                             <div className='shr-header__mobile-sign-in'>
-                                {/* <Button
-                                    onClick={( (): void => history.push( GlobalService.states.signIn ) )}
-                                    fullWidth={true}
-                                    variant='outlined'
-                                    color='primary'
-                                    size='small'>
-                                    {i18n.t( 'sign-in' )}
-                                </Button> */}
                                 <ShrButton
                                     fullWidth={true}
                                     variant={ButtonVariant.outlined}
@@ -106,19 +108,6 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                     action={( (): void => history.push( GlobalService.states.signIn ) )} />
                             </div>
                         }
-                        {/* {
-                            currentUser &&
-                            <div className='shr-header__mobile-log-out'>
-                                <Button
-                                    onClick={( async (): Promise<void> => await logout() )}
-                                    fullWidth={true}
-                                    variant='outlined'
-                                    color='primary'
-                                    size='small'>
-                                    {i18n.t( 'global.log-out' )}
-                                </Button>
-                            </div>
-                        } */}
                         {
                             currentUser &&
                             <div className='shr-header__mobile-log-out'>
@@ -135,14 +124,6 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         {
                             currentUser &&
                             <div className='shr-header__mobile-user-profile'>
-                                {/* <Button
-                                    onClick={( (): void => history.push( GlobalService.states.userProfile ) )}
-                                    fullWidth={true}
-                                    variant='outlined'
-                                    color='primary'
-                                    size='small'>
-                                    {i18n.t( 'global.user-profile' )}
-                                </Button> */}
                                 <ShrButton
                                     fullWidth={true}
                                     variant={ButtonVariant.outlined}
@@ -154,8 +135,21 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                             </div>
                         }
                     </div>
-                    <div className='shr-header__mobile-option shr-header__mobile-active'>
-                        Home
+                    <div
+                        className={activeMenu[ 'home' ] ?
+                            'shr-header__mobile-option shr-header__mobile-active' :
+                            'shr-header__mobile-option'}
+                        onClick={ (): void => {
+                            const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
+                            Object.keys( activeMenuTemp ).forEach( ( item ) => {
+                                activeMenuTemp[ item ] = false;
+                            });
+                            activeMenuTemp[ 'home' ] = true;
+                            updateActiveMenu( activeMenuTemp );
+
+                            history.push( GlobalService.states.home );
+                        }}>
+                        {i18n.t( 'global.home' )}
                     </div>
                     {
                         filters.length > 0 &&
@@ -164,10 +158,16 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                             return (
                                 <div
                                     key={key}
-                                    className='shr-header__mobile-option'
+                                    className={activeMenu[ option.name.toLowerCase() ] ?
+                                        'shr-header__mobile-option shr-header__mobile-active tomis' :
+                                        'shr-header__mobile-option'}
                                     onClick={( (): void => {
+                                        updateActiveMenuItem( option.name.toLowerCase() );
+                                        updateCheckedFilters({});
+                                        updateFilteredProducts( [] );
                                         updateFilteredOptions( [ option.name ] );
                                         history.push( GlobalService.states.products );
+                                        setShowMenu( !showMenu );
                                     })}>
                                     {option.name}
                                 </div>
@@ -180,7 +180,10 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                 <div className='shr-header__desktop-info'>
                     <span
                         className='shr-header__desktop-dev'
-                        onClick={(): void => history.push( GlobalService.states.home )}>
+                        onClick={(): void => {
+                            updateActiveMenuItem( 'home' );
+                            history.push( GlobalService.states.home );
+                        }}>
                         {i18n.t( 'global.brand' )}
                     </span>
                     <span className='shr-header__desktop-social'>
@@ -201,6 +204,9 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                         key={key}
                                         className='shr-header__desktop-option'
                                         onClick={( (): void => {
+                                            updateActiveMenuItem( option.name.toLowerCase() );
+                                            updateCheckedFilters({});
+                                            updateFilteredProducts( [] );
                                             updateFilteredOptions( [ option.name ] );
                                             history.push( GlobalService.states.products );
                                         })}>
@@ -214,13 +220,6 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         {
                             ( !currentUser && showSignUp ) &&
                             <div className='shr-header__desktop-sign-up'>
-                                {/* <Button
-                                    onClick={( (): void => history.push( GlobalService.states.signUp ) )}
-                                    variant='outlined'
-                                    color='primary'
-                                    size='small'>
-                                    {i18n.t( 'sign-up' )}
-                                </Button> */}
                                 <ShrButton
                                     fullWidth={true}
                                     variant={ButtonVariant.outlined}
@@ -234,13 +233,6 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         {
                             ( !currentUser && showSignIn ) &&
                             <div className='shr-header__desktop-sign-in'>
-                                {/* <Button
-                                    onClick={( (): void => history.push( GlobalService.states.signIn ) )}
-                                    variant='outlined'
-                                    color='primary'
-                                    size='small'>
-                                    {i18n.t( 'sign-in' )}
-                                </Button> */}
                                 <ShrButton
                                     fullWidth={true}
                                     variant={ButtonVariant.outlined}
@@ -254,14 +246,6 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         {
                             currentUser &&
                             <div className='shr-header__desktop-logged'>
-                                {/* <Button
-                                    onClick={( async (): Promise<void> => await logout() )}
-                                    variant='outlined'
-                                    color='primary'
-                                    aria-label={i18n.t( 'global.log-out' )}
-                                    size='small'>
-                                    {i18n.t( 'global.log-out' )}
-                                </Button> */}
                                 <ShrButton
                                     fullWidth={true}
                                     variant={ButtonVariant.outlined}

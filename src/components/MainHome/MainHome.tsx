@@ -3,7 +3,6 @@ import './MainHome.scss';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
 import { useHistory } from 'react-router-dom';
-import { Button } from '@material-ui/core';
 import ShrButton, { ButtonSize, ButtonVariant, ButtonType, ButtonColor } from '../shared/ShrButton/ShrButton';
 
 const MainHome: React.FC = () => {

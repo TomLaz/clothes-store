@@ -8,6 +8,7 @@ export default {
     'global.password-confirm': 'Confirmar Contraseña',
     'global.categories.mens': 'Hombres',
     'global.categories.women': 'Mujeres',
+    'global.home': 'Inicio',
     'home.title': 'Home',
     'home.shr-horizontal-image.title': 'Nuevos Modelos',
     'home.shr-horizontal-image.description': 'Las mejores marcas con los mejores descuentos',

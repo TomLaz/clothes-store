@@ -3,7 +3,7 @@ import './UserProfile.scss';
 import { useHistory } from 'react-router-dom';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import { Button, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
@@ -124,6 +124,7 @@ const UserProfile: React.FC = () => {
                         <div className='user-profile__option'>
                             <ShrButton
                                 fullWidth={true}
+                                disabled={loading}
                                 variant={ButtonVariant.contained}
                                 color={ButtonColor.default}
                                 type={ButtonType.submit}

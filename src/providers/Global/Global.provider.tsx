@@ -13,6 +13,9 @@ export interface GlobalProviderData {
     favourites: Favourite[];
     filters: Filter[];
     filteredOptions: [];
+    checkedFilters: any;
+    filteredProducts: Product[];
+    activeMenu: {[key:string]: boolean};
     loading: boolean;
 }
 
@@ -34,6 +37,10 @@ export interface GlobalContextProps {
     updatePassword: Function;
     updateFilters: Function;
     updateFilteredOptions: Function;
+    updateCheckedFilters: Function;
+    updateFilteredProducts: Function;
+    updateActiveMenu: Function;
+    updateActiveMenuItem: Function;
     updateLoading: Function;
 }
 
@@ -52,6 +59,9 @@ export const defaultGlobalProviderData: GlobalProviderData = {
     favourites: [],
     filters: [],
     filteredOptions: [],
+    checkedFilters: {},
+    filteredProducts: [],
+    activeMenu: { 'home': true },
     loading: false
 };
 
@@ -73,6 +83,10 @@ export const GlobalContext = createContext<GlobalContextProps>({
     updatePassword: Function,
     updateFilters: Function,
     updateFilteredOptions: Function,
+    updateCheckedFilters: Function,
+    updateFilteredProducts: Function,
+    updateActiveMenu: Function,
+    updateActiveMenuItem: Function,
     updateLoading: Function
 });
 
@@ -165,6 +179,45 @@ export const GlobalProvider: React.FC = ({ children }) => {
         });
 
         updateLoading( false );
+    };
+
+    const updateCheckedFilters = ( checkedFilters: any ): void => {
+        updateLoading( true );
+
+        setProviderValue( ( prevValues ) => {
+            return { ...prevValues, checkedFilters };
+        });
+
+        updateLoading( false );
+    };
+
+    const updateFilteredProducts = ( filteredProducts: Product[] ): void => {
+        updateLoading( true );
+
+        setProviderValue( ( prevValues ) => {
+            return { ...prevValues, filteredProducts };
+        });
+
+        updateLoading( false );
+    };
+
+    const updateActiveMenu = ( activeMenu: {[key:string]: boolean}): void => {
+        updateLoading( true );
+
+        setProviderValue( ( prevValues ) => {
+            return { ...prevValues, activeMenu };
+        });
+
+        updateLoading( false );
+    };
+
+    const updateActiveMenuItem = ( menuItem: string ): void => {
+        const activeMenuTemp = JSON.parse( JSON.stringify( providerValue.activeMenu ) );
+        Object.keys( activeMenuTemp ).forEach( ( item ) => {
+            activeMenuTemp[ item ] = false;
+        });
+        activeMenuTemp[ menuItem ] = true;
+        updateActiveMenu( activeMenuTemp );
     };
 
     const updateFavouritesCollection = ( uid: any, prods: any ): void => {
@@ -274,6 +327,10 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updatePassword,
         updateFilters,
         updateFilteredOptions,
+        updateCheckedFilters,
+        updateFilteredProducts,
+        updateActiveMenu,
+        updateActiveMenuItem,
         updateLoading
     };
 

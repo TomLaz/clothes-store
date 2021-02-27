@@ -11,7 +11,8 @@ import GlobalService from '../../../services/Global/Global.service';
 
 const ShrFooter: React.FC = () => {
     const history = useHistory();
-    const { data: { filters }, updateFilteredOptions } = useContext( GlobalContext );
+    const { data: { filters }, updateFilteredOptions,
+        updateCheckedFilters, updateFilteredProducts, updateActiveMenuItem } = useContext( GlobalContext );
 
     return (
         <div className='shr-footer'>
@@ -31,6 +32,14 @@ const ShrFooter: React.FC = () => {
                     <div className='shr-footer__category-title'>
                         {i18n.t( 'shr-footer.categories' )}
                     </div>
+                    <div
+                        className='shr-footer__category'
+                        onClick={( (): void => {
+                            updateActiveMenuItem( 'home' );
+                            history.push( GlobalService.states.home );
+                        })}>
+                        {i18n.t( 'global.home' )}
+                    </div>
                     {
                         filters.length > 0 &&
                         filters.map( ( option, key ) => {
@@ -39,6 +48,9 @@ const ShrFooter: React.FC = () => {
                                     key={key}
                                     className='shr-footer__category'
                                     onClick={( (): void => {
+                                        updateActiveMenuItem( option.name.toLowerCase() );
+                                        updateCheckedFilters({});
+                                        updateFilteredProducts( [] );
                                         updateFilteredOptions( [ option.name ] );
                                         history.push( GlobalService.states.products );
                                     })}>

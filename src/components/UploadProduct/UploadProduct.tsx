@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './UploadProduct.scss';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { projectStorage, projectFirestore, timestamp } from '../../firebase/firebase';
 import { motion } from 'framer-motion';
 import useFirestore from '../../firebase/useFirestore';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import ProductItem from '../ProductItem/ProductItem';
 import sizes from './ProductsSizes';
 import i18n from '../../i18n';
 import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
