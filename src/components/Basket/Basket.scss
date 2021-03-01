@@ -1,10 +1,6 @@
 @import '../../styles/styles.scss';
 
 .basket {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-
     &__products {
         display: flex;
         flex-direction: column;

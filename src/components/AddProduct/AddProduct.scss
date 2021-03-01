@@ -1,10 +1,6 @@
 @import '../../styles/styles.scss';
 
 .add-product {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-
     &__category-bar {
         border-top: 1px solid $primary-dark-category-bar;
         border-bottom: 1px solid $primary-dark-category-bar;
@@ -15,7 +11,6 @@
     &__main {
         max-width: 1300px;
         margin: 40px auto;
-        width: 80%;
     }
 
     &__detail {
@@ -42,15 +37,9 @@
         width: 100%;
     }
 
-    &__wrapper {
-        padding: 0 10px;
-    }
-
     &__info {
         text-transform: uppercase;
-        border: 2px solid $primary-dark;
         color: $primary-dark;
-        width: 90%;
         margin: 0 auto;
         text-align: center;
     }
@@ -78,7 +67,7 @@
 
     &__code {
         padding: 3px 0;
-        font-size: 8px;
+        font-size: 9px;
         letter-spacing: 2px;
     }
 
@@ -235,6 +224,7 @@
         gap: 10px;
         justify-content: center;
         margin-top: 10px;
+        flex-wrap: wrap;
     }
 
     &__btn {
@@ -356,8 +346,13 @@
 
 @media (min-width: 768px) {
     .add-product {
+        &__main {
+            width: 80%;
+        }
+
         &__info {
             text-align: left;
+            border: 2px solid $primary-dark;
         }
 
         &__detail {
@@ -378,6 +373,10 @@
 
         &__not-found {
             width: 50%;
+        }
+
+        &__wrapper {
+            padding: 0 10px;
         }
     }
 }

@@ -1,9 +1,8 @@
 import React, { useContext, useEffect } from 'react';
+import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import ShrProduct from '../shared/ShrProduct/ShrProduct';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
-import ShrHeader from '../shared/ShrHeader/ShrHeader';
-import ShrFooter from '../shared/ShrFooter/ShrFooter';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import './Products.scss';
 
@@ -65,67 +64,67 @@ const Products: React.FC = () => {
     };
 
     return (
-        <div className='products'>
-            <ShrHeader />
-            <div className='products__box'>
-                {
-                    ( filters.length > 0 &&
-                    products.length ) > 0 ?
-                        <>
-                            {/* BARRA LATERAL IZQ, FILTROS */}
-                            {
-                                Object.keys( checkedFilters ).length > 0 &&
-                                    <div className='products__categories'>
-                                        {filters.map( ( item, index ) => {
-                                            return (
-                                                <FormControlLabel
-                                                    key={index}
-                                                    control={
-                                                        <Checkbox
-                                                            checked={checkedFilters[item.name.toLowerCase()]}
-                                                            onChange={(): void => onCheckedChange( item.name )}
-                                                            color='default'
-                                                            value={item.name} />
-                                                    }
-                                                    label={item.name}
-                                                />
-                                            );
-                                        })}
-                                    </div>
-                            }
-                            {/* LADO DERECHO, CUERPO DE IMAGENES */}
-                            {
-                                filteredProducts.length === 0 ?
-                                    <div className='products__gallery'>
-                                        {
-                                            products.map( ( product ) => {
+        <ShrLayout>
+            <div className='products'>
+                <div className='products__box'>
+                    {
+                        ( filters.length > 0 &&
+                        products.length ) > 0 ?
+                            <>
+                                {/* BARRA LATERAL IZQ, FILTROS */}
+                                {
+                                    Object.keys( checkedFilters ).length > 0 &&
+                                        <div className='products__categories'>
+                                            {filters.map( ( item, index ) => {
                                                 return (
-                                                    <ShrProduct
-                                                        product={product}
-                                                        key={product.id} />
+                                                    <FormControlLabel
+                                                        key={index}
+                                                        control={
+                                                            <Checkbox
+                                                                checked={checkedFilters[item.name.toLowerCase()]}
+                                                                onChange={(): void => onCheckedChange( item.name )}
+                                                                color='default'
+                                                                value={item.name} />
+                                                        }
+                                                        label={item.name}
+                                                    />
                                                 );
-                                            })
-                                        }
-                                    </div> :
-                                    filteredProducts.length > 0 &&
+                                            })}
+                                        </div>
+                                }
+                                {/* LADO DERECHO, CUERPO DE IMAGENES */}
+                                {
+                                    filteredProducts.length === 0 ?
                                         <div className='products__gallery'>
                                             {
-                                                filteredProducts.map( ( product, index ) => {
+                                                products.map( ( product ) => {
                                                     return (
                                                         <ShrProduct
                                                             product={product}
-                                                            key={index} />
+                                                            key={product.id} />
                                                     );
                                                 })
                                             }
-                                        </div>
-                            }
-                        </> :
-                        <ShrSpinner />
-                }
+                                        </div> :
+                                        filteredProducts.length > 0 &&
+                                            <div className='products__gallery'>
+                                                {
+                                                    filteredProducts.map( ( product, index ) => {
+                                                        return (
+                                                            <ShrProduct
+                                                                product={product}
+                                                                key={index} />
+                                                        );
+                                                    })
+                                                }
+                                            </div>
+                                }
+                            </> :
+                            <ShrSpinner />
+                    }
+                </div>
             </div>
-            <ShrFooter />
-        </div>
+        </ShrLayout>
     );
 };
 

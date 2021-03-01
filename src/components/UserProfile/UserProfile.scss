@@ -1,14 +1,9 @@
 @import '../../styles/styles.scss';
 
 .user-profile {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-
     &__body {
         display: flex;
         flex-direction: column;
-        height: 100%;
         max-width: 600px;
         width: 100%;
         border-bottom: 12px solid $primary-dark;

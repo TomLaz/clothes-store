@@ -1,14 +1,9 @@
 @import '../../styles/styles.scss';
 
 .sign-in {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-
     &__body {
         display: flex;
         flex-direction: column;
-        height: 100%;
         max-width: 600px;
         width: 100%;
     }

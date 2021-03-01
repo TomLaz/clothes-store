@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import ShrHeader from '../shared/ShrHeader/ShrHeader';
+import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import ShrSelect from '../shared/ShrSelect/ShrSelect';
 import ShrCircularOption from '../shared/ShrCircularOption/ShrCircularOption';
 import ModalImage from '../ModalImage/ModalImage';
@@ -8,7 +8,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button } from '@material-ui/core';
 import GlobalService from '../../services/Global/Global.service';
-import ShrFooter from '../shared/ShrFooter/ShrFooter';
 import useFirestore from '../../firebase/useFirestore';
 import i18n from '../../i18n';
 import { Category, SubCategory } from '../../providers/Global/Global.model';
@@ -85,124 +84,124 @@ const AddProduct: React.FC = () => {
     };
 
     return (
-        <div className='add-product'>
-            <ShrHeader />
-            {
-                !!product &&
-                <div className='add-product__category-bar'>
-                    <div className='add-product__category-box'>
-                        <span>{!!category && category.name}</span>
-                        <span>{!!subcategory && '/'}</span>
-                        <span>{!!subcategory && subcategory.name}</span>
-                        <span>{!!product && '/'}</span>
-                        <span>{!!product && product.title}</span>
+        <ShrLayout>
+            <div className='add-product'>
+                {
+                    !!product &&
+                    <div className='add-product__category-bar'>
+                        <div className='add-product__category-box'>
+                            <span>{!!category && category.name}</span>
+                            <span>{!!subcategory && '/'}</span>
+                            <span>{!!subcategory && subcategory.name}</span>
+                            <span>{!!product && '/'}</span>
+                            <span>{!!product && product.title}</span>
+                        </div>
                     </div>
-                </div>
-            }
+                }
 
-            {
-                !!product &&
-                <div className='add-product__main'>
-                    <div className='add-product__detail'>
-                        <div className='add-product__main-left'>
-                            <div className='add-product__main-left-container'>
-                                <img
-                                    src={product.imgUrl}
-                                    alt='title'
-                                    className='add-product__image'
-                                    onClick={(): void => imageSelectedHandler( product?.imgUrl || '' )} />
-                                {!!selectedImg &&
-                                    <ModalImage
-                                        selectedImg={selectedImg}
-                                        setSelectedImg={setSelectedImg}
-                                        title={product.title} />
-                                }
-                            </div>
-                        </div>
-                        <div className='add-product__wrapper'>
-                            <div className='add-product__info'>
-                                <div className='add-product__info-description'>
-                                    <span className='add-product__name'>{!!product && product.title}</span>
-                                    <p className='add-product__price'>{!!product && `$${product.price.toFixed( 2 )}`}</p>
-                                    <p className='add-product__code'>{!!product && i18n.t( 'add-product.code', { code: product.id })}</p>
-                                    <div className='add-product__color-box'>
-                                        <p>
-                                            <span className='add-product__color-title'>
-                                                {!!product && 'Color:'}
-                                            </span> {!!product && product.color}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className='add-product__sizes-box'>
-                                    <div className='add-product__shr-circular-options'>
-                                        <p className='add-product__shr-circular-options-title'>{i18n.t( 'add-product.size.title' )}</p>
-                                        <div className='add-product__shr-circular-options-box'>
-                                            {
-                                                product.sizes.map( item => (
-                                                    <ShrCircularOption
-                                                        key={item.size}
-                                                        size={item.size}
-                                                        sizeSelected={sizeSelected}
-                                                        onOptionSelected={(): any =>
-                                                            onOptionSelected( item.size, item.stock )}/>
-                                                ) )
-                                            }
-                                        </div>
-                                    </div>
-                                    <div className='add-product__quantity'>
-                                        <ShrSelect
-                                            options={qtyOptions}
-                                            title='Cantidad en stock:'
-                                            onOptionChange={onOptionChange}
-                                            selected={qtySelected ?? qtySelected}/>
-                                    </div>
+                {
+                    !!product &&
+                    <div className='add-product__main'>
+                        <div className='add-product__detail'>
+                            <div className='add-product__main-left'>
+                                <div className='add-product__main-left-container'>
+                                    <img
+                                        src={product.imgUrl}
+                                        alt='title'
+                                        className='add-product__image'
+                                        onClick={(): void => imageSelectedHandler( product?.imgUrl || '' )} />
+                                    {!!selectedImg &&
+                                        <ModalImage
+                                            selectedImg={selectedImg}
+                                            setSelectedImg={setSelectedImg}
+                                            title={product.title} />
+                                    }
                                 </div>
                             </div>
-                            <div className='add-product__actions'>
-                                {productAdded ?
-                                    <div className='add-product__btn add-product__added'>
-                                        <div className='add-product__btn add-product__added-box'>
-                                            {i18n.t( 'add-product.added' )}
+                            <div className='add-product__wrapper'>
+                                <div className='add-product__info'>
+                                    <div className='add-product__info-description'>
+                                        <span className='add-product__name'>{!!product && product.title}</span>
+                                        <p className='add-product__price'>{!!product && `$${product.price.toFixed( 2 )}`}</p>
+                                        <p className='add-product__code'>{!!product && i18n.t( 'add-product.code', { code: product.id })}</p>
+                                        <div className='add-product__color-box'>
+                                            <p>
+                                                <span className='add-product__color-title'>
+                                                    {!!product && 'Color:'}
+                                                </span> {!!product && product.color}
+                                            </p>
                                         </div>
-                                    </div> :
-                                    <div className='add-product__btn add-product__add'>
-                                        <Button
-                                            onClick={addProductHandler}
-                                            variant='outlined'
-                                            color='primary'
-                                            size='large'>
-                                            {i18n.t( 'add-product.add' )}
-                                        </Button>
                                     </div>
-                                }
+                                    <div className='add-product__sizes-box'>
+                                        <div className='add-product__shr-circular-options'>
+                                            <p className='add-product__shr-circular-options-title'>{i18n.t( 'add-product.size.title' )}</p>
+                                            <div className='add-product__shr-circular-options-box'>
+                                                {
+                                                    product.sizes.map( item => (
+                                                        <ShrCircularOption
+                                                            key={item.size}
+                                                            size={item.size}
+                                                            sizeSelected={sizeSelected}
+                                                            onOptionSelected={(): any =>
+                                                                onOptionSelected( item.size, item.stock )}/>
+                                                    ) )
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className='add-product__quantity'>
+                                            <ShrSelect
+                                                options={qtyOptions}
+                                                title='Cantidad en stock:'
+                                                onOptionChange={onOptionChange}
+                                                selected={qtySelected ?? qtySelected}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='add-product__actions'>
+                                    {productAdded ?
+                                        <div className='add-product__btn add-product__added'>
+                                            <div className='add-product__btn add-product__added-box'>
+                                                {i18n.t( 'add-product.added' )}
+                                            </div>
+                                        </div> :
+                                        <div className='add-product__btn add-product__add'>
+                                            <Button
+                                                onClick={addProductHandler}
+                                                variant='outlined'
+                                                color='primary'
+                                                size='large'>
+                                                {i18n.t( 'add-product.add' )}
+                                            </Button>
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                !!!product && !loading && products.length > 0 &&
-                    <div className='add-product__not-found-box'>
-                        <div className='add-product__not-found'>
-                            <h2>
-                                {i18n.t( 'add-product.not-found' )}
-                            </h2>
-                            <Button
-                                onClick={(): void => {history.push( GlobalService.states.home );}}
-                                type='submit'
-                                fullWidth={true}
-                                variant='contained'>
-                                {i18n.t( 'add-product.home' )}
-                            </Button>
+                }
+                {
+                    !!!product && !loading && products.length > 0 &&
+                        <div className='add-product__not-found-box'>
+                            <div className='add-product__not-found'>
+                                <h2>
+                                    {i18n.t( 'add-product.not-found' )}
+                                </h2>
+                                <Button
+                                    onClick={(): void => {history.push( GlobalService.states.home );}}
+                                    type='submit'
+                                    fullWidth={true}
+                                    variant='contained'>
+                                    {i18n.t( 'add-product.home' )}
+                                </Button>
+                            </div>
                         </div>
-                    </div>
-            }
-            {
-                !!!product && products.length === 0 &&
-                <ShrSpinner />
-            }
-            <ShrFooter />
-        </div>
+                }
+                {
+                    !!!product && products.length === 0 &&
+                    <ShrSpinner />
+                }
+            </div>
+        </ShrLayout>
     );
 };
 

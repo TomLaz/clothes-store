@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './UserProfile.scss';
 import { useHistory } from 'react-router-dom';
-import ShrHeader from '../shared/ShrHeader/ShrHeader';
+import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -9,7 +9,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
-import ShrFooter from '../shared/ShrFooter/ShrFooter';
 import ShrButton, { ButtonSize, ButtonVariant, ButtonType, ButtonColor } from '../shared/ShrButton/ShrButton';
 
 const UserProfile: React.FC = () => {
@@ -49,119 +48,119 @@ const UserProfile: React.FC = () => {
     }, [ currentUser ] );
 
     return (
-        <div className='user-profile'>
-            <ShrHeader showSignUp={false} />
-            <div className='user-profile__body'>
-                <div className='user-profile__top'>
-                    <h2 className='user-profile__title'>
-                        {i18n.t( 'user-profile.update' )}
-                    </h2>
-                </div>
-                <div className='user-profile__bottom'>
-                    <form
-                        onSubmit={onFormSubmit}
-                        className='user-profile__form'>
-                        <div className='user-profile__option'>
-                            <TextField
-                                fullWidth={true}
-                                id='email'
-                                value={email}
-                                onChange={( item ): void => setEmail( item.target.value )}
-                                label={i18n.t( 'global.email' )}
-                                name='email'
-                                placeholder='email'
-                                required={true}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <AccountCircle />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                type='input'/>
-                        </div>
-                        <div className='user-profile__option'>
-                            <TextField
-                                helperText={i18n.t( 'user-profile.password-blank' )}
-                                fullWidth={true}
-                                id='password'
-                                inputRef={passwordRef}
-                                label={i18n.t( 'global.password' )}
-                                name='password'
-                                required={true}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <LockIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                type='password'/>
-                        </div>
-                        <div className='user-profile__option'>
-                            <TextField
-                                fullWidth={true}
-                                id='password-confirm'
-                                inputRef={passwordConfirmRef}
-                                label={i18n.t( 'global.password-confirm' )}
-                                name='password-confirm'
-                                required={true}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <LockIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                type='password'/>
-                        </div>
-                        {
-                            error &&
-                            <div className='user-profile__option user-profile__error'>
-                                {error}
+        <ShrLayout showSignUp={false}>
+            <div className='user-profile'>
+                <div className='user-profile__body'>
+                    <div className='user-profile__top'>
+                        <h2 className='user-profile__title'>
+                            {i18n.t( 'user-profile.update' )}
+                        </h2>
+                    </div>
+                    <div className='user-profile__bottom'>
+                        <form
+                            onSubmit={onFormSubmit}
+                            className='user-profile__form'>
+                            <div className='user-profile__option'>
+                                <TextField
+                                    fullWidth={true}
+                                    id='email'
+                                    value={email}
+                                    onChange={( item ): void => setEmail( item.target.value )}
+                                    label={i18n.t( 'global.email' )}
+                                    name='email'
+                                    placeholder='email'
+                                    required={true}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <AccountCircle />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    type='input'/>
                             </div>
-                        }
-                        <div className='user-profile__option'>
-                            <ShrButton
-                                fullWidth={true}
-                                disabled={loading}
-                                variant={ButtonVariant.contained}
-                                color={ButtonColor.default}
-                                type={ButtonType.submit}
-                                title={i18n.t( 'user-profile.update' )}
-                                size={ButtonSize.large} />
-                        </div>
-                    </form>
+                            <div className='user-profile__option'>
+                                <TextField
+                                    helperText={i18n.t( 'user-profile.password-blank' )}
+                                    fullWidth={true}
+                                    id='password'
+                                    inputRef={passwordRef}
+                                    label={i18n.t( 'global.password' )}
+                                    name='password'
+                                    required={true}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <LockIcon />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    type='password'/>
+                            </div>
+                            <div className='user-profile__option'>
+                                <TextField
+                                    fullWidth={true}
+                                    id='password-confirm'
+                                    inputRef={passwordConfirmRef}
+                                    label={i18n.t( 'global.password-confirm' )}
+                                    name='password-confirm'
+                                    required={true}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <LockIcon />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    type='password'/>
+                            </div>
+                            {
+                                error &&
+                                <div className='user-profile__option user-profile__error'>
+                                    {error}
+                                </div>
+                            }
+                            <div className='user-profile__option'>
+                                <ShrButton
+                                    fullWidth={true}
+                                    disabled={loading}
+                                    variant={ButtonVariant.contained}
+                                    color={ButtonColor.default}
+                                    type={ButtonType.submit}
+                                    title={i18n.t( 'user-profile.update' )}
+                                    size={ButtonSize.large} />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div className='user-profile__body'>
+                    <div className='user-profile__top'>
+                        <h2 className='user-profile__title'>
+                            {i18n.t( 'user-profile.upload-products' )}
+                        </h2>
+                    </div>
+                    <div className='user-profile__bottom'>
+                        <br />
+                        <p>{i18n.t( 'user-profile.upload-product.description-1' )}</p>
+                        <br />
+                        <p>{i18n.t( 'user-profile.upload-product.description-2' )}</p>
+                        <br />
+                        <p>{i18n.t( 'user-profile.upload-product.description-3' )}</p>
+                        <br />
+                        <p>{i18n.t( 'user-profile.upload-product.description-4' )}</p>
+                        <br />
+                        <ShrButton
+                            fullWidth={true}
+                            variant={ButtonVariant.contained}
+                            color={ButtonColor.default}
+                            type={ButtonType.button}
+                            title={i18n.t( 'user-profile.upload-product' )}
+                            size={ButtonSize.large}
+                            action={(): void => {history.push( GlobalService.states.uploadProduct );}} />
+                    </div>
                 </div>
             </div>
-            <div className='user-profile__body'>
-                <div className='user-profile__top'>
-                    <h2 className='user-profile__title'>
-                        {i18n.t( 'user-profile.upload-products' )}
-                    </h2>
-                </div>
-                <div className='user-profile__bottom'>
-                    <br />
-                    <p>{i18n.t( 'user-profile.upload-product.description-1' )}</p>
-                    <br />
-                    <p>{i18n.t( 'user-profile.upload-product.description-2' )}</p>
-                    <br />
-                    <p>{i18n.t( 'user-profile.upload-product.description-3' )}</p>
-                    <br />
-                    <p>{i18n.t( 'user-profile.upload-product.description-4' )}</p>
-                    <br />
-                    <ShrButton
-                        fullWidth={true}
-                        variant={ButtonVariant.contained}
-                        color={ButtonColor.default}
-                        type={ButtonType.button}
-                        title={i18n.t( 'user-profile.upload-product' )}
-                        size={ButtonSize.large}
-                        action={(): void => {history.push( GlobalService.states.uploadProduct );}} />
-                </div>
-            </div>
-            <ShrFooter />
-        </div>
+        </ShrLayout>
     );
 };
 

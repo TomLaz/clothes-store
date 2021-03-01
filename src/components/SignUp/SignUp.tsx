@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 import './SignUp.scss';
 import { Link, useHistory } from 'react-router-dom';
-import ShrHeader from '../shared/ShrHeader/ShrHeader';
+import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button, TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -9,7 +9,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
-import ShrFooter from '../shared/ShrFooter/ShrFooter';
 
 const SignUp: React.FC = () => {
     const emailRef = useRef<any>();
@@ -44,98 +43,98 @@ const SignUp: React.FC = () => {
     };
 
     return (
-        <div className='sign-up'>
-            <ShrHeader showSignUp={false} />
-            <div className='sign-up__body'>
-                <div className='sign-up__top'>
-                    <h2 className='sign-up__title'>
-                        {i18n.t( 'sign-up.title' )}
-                    </h2>
-                </div>
-                <div className='sign-up__bottom'>
-                    <form
-                        onSubmit={onSubmitHandler}
-                        className='sign-up__form'>
-                        <div className='sign-up__option'>
-                            <TextField
-                                fullWidth={true}
-                                id='email'
-                                inputRef={emailRef}
-                                label={i18n.t( 'global.email' )}
-                                name='email'
-                                placeholder='email'
-                                required={true}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <AccountCircle />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                type='input'/>
-                        </div>
-                        <div className='sign-up__option'>
-                            <TextField
-                                fullWidth={true}
-                                id='password'
-                                inputRef={passwordRef}
-                                label={i18n.t( 'global.password' )}
-                                name='password'
-                                required={true}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <LockIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                type='password'/>
-                        </div>
-                        <div className='sign-up__option'>
-                            <TextField
-                                fullWidth={true}
-                                id='password-confirm'
-                                inputRef={passwordConfirmRef}
-                                label={i18n.t( 'global.password-confirm' )}
-                                name='password-confirm'
-                                required={true}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <LockIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                type='password'/>
-                        </div>
-                        {
-                            error &&
-                            <div className='sign-up__option sign-up__error'>
-                                {error}
+        <ShrLayout showSignUp={false}>
+            <div className='sign-up'>
+                <div className='sign-up__body'>
+                    <div className='sign-up__top'>
+                        <h2 className='sign-up__title'>
+                            {i18n.t( 'sign-up.title' )}
+                        </h2>
+                    </div>
+                    <div className='sign-up__bottom'>
+                        <form
+                            onSubmit={onSubmitHandler}
+                            className='sign-up__form'>
+                            <div className='sign-up__option'>
+                                <TextField
+                                    fullWidth={true}
+                                    id='email'
+                                    inputRef={emailRef}
+                                    label={i18n.t( 'global.email' )}
+                                    name='email'
+                                    placeholder='email'
+                                    required={true}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <AccountCircle />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    type='input'/>
                             </div>
-                        }
-                        <div className='sign-up__option'>
-                            <Button
-                                type='submit'
-                                fullWidth={true}
-                                variant='contained'
-                                disabled={loading}>
-                                {i18n.t( 'sign-up' )}
-                            </Button>
+                            <div className='sign-up__option'>
+                                <TextField
+                                    fullWidth={true}
+                                    id='password'
+                                    inputRef={passwordRef}
+                                    label={i18n.t( 'global.password' )}
+                                    name='password'
+                                    required={true}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <LockIcon />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    type='password'/>
+                            </div>
+                            <div className='sign-up__option'>
+                                <TextField
+                                    fullWidth={true}
+                                    id='password-confirm'
+                                    inputRef={passwordConfirmRef}
+                                    label={i18n.t( 'global.password-confirm' )}
+                                    name='password-confirm'
+                                    required={true}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <LockIcon />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    type='password'/>
+                            </div>
+                            {
+                                error &&
+                                <div className='sign-up__option sign-up__error'>
+                                    {error}
+                                </div>
+                            }
+                            <div className='sign-up__option'>
+                                <Button
+                                    type='submit'
+                                    fullWidth={true}
+                                    variant='contained'
+                                    disabled={loading}>
+                                    {i18n.t( 'sign-up' )}
+                                </Button>
+                            </div>
+                        </form>
+                        <div className='sign-up__signup'>
+                            {i18n.t( 'sign-up.already-account' )}
+                            <Link
+                                className='sign-up__register'
+                                to={GlobalService.states.signIn}>
+                                {i18n.t( 'sign-in.confirm' )}
+                            </Link>
                         </div>
-                    </form>
-                    <div className='sign-up__signup'>
-                        {i18n.t( 'sign-up.already-account' )}
-                        <Link
-                            className='sign-up__register'
-                            to={GlobalService.states.signIn}>
-                            {i18n.t( 'sign-in.confirm' )}
-                        </Link>
                     </div>
                 </div>
             </div>
-            <ShrFooter />
-        </div>
+        </ShrLayout>
     );
 };
 
