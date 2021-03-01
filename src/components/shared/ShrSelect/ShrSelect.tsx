@@ -3,9 +3,9 @@ import './ShrSelect.scss';
 
 type ShrSelectProps = {
     title: string;
-    selected: any;
+    selected: string;
     onOptionChange: ( event: React.ChangeEvent<HTMLSelectElement> ) => void;
-    options: any[];
+    options: string[];
 }
 
 const ShrSelect: React.FC<ShrSelectProps> = ({ title, selected, onOptionChange, options }) => {

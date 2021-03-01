@@ -20,7 +20,7 @@ const SignUp: React.FC = () => {
     const history = useHistory();
     const { signup } = useContext( GlobalContext );
 
-    const handleSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
+    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
         e.preventDefault();
 
         if ( passwordRef.current.value !== passwordConfirmRef.current.value ) {
@@ -54,7 +54,7 @@ const SignUp: React.FC = () => {
                 </div>
                 <div className='sign-up__bottom'>
                     <form
-                        onSubmit={handleSubmit}
+                        onSubmit={onSubmitHandler}
                         className='sign-up__form'>
                         <div className='sign-up__option'>
                             <TextField

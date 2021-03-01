@@ -142,13 +142,13 @@ const UserProfile: React.FC = () => {
                 </div>
                 <div className='user-profile__bottom'>
                     <br />
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, enim?</p>
+                    <p>{i18n.t( 'user-profile.upload-product.description-1' )}</p>
                     <br />
-                    <p>Tum minus aperiam laboriosam possimus quam ipsa esse?</p>
+                    <p>{i18n.t( 'user-profile.upload-product.description-2' )}</p>
                     <br />
-                    <p>Adipisicing elit. Laborum facilis architecto laudantium. Molestiae est impedit, laborum magnam.</p>
+                    <p>{i18n.t( 'user-profile.upload-product.description-3' )}</p>
                     <br />
-                    <p>Quaerat perspiciatis repudiandae quo pariatur doloribus, ad dolorum architecto.</p>
+                    <p>{i18n.t( 'user-profile.upload-product.description-4' )}</p>
                     <br />
                     <ShrButton
                         fullWidth={true}

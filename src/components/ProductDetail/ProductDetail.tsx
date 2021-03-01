@@ -1,6 +1,6 @@
 import React from 'react';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import './ProductDetail.scss';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import i18n from '../../i18n';
 
 type ProductDetailProps = {

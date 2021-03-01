@@ -10,16 +10,16 @@ import ProductDetail from '../ProductDetail/ProductDetail';
 import i18n from '../../i18n';
 
 const Basket: React.FC = () => {
-    const globalContext = useContext( GlobalContext );
+    const { data: { currentUser, products }} = useContext( GlobalContext );
     const basketProducts = useFirestore( 'basket' );
     const [ removeId, setRemoveId ] = useState( '' );
 
-    const productsToBuy = basketProducts.docs.filter( item => item.id === globalContext.data.currentUser.uid );
+    const productsToBuy = basketProducts.docs.filter( item => item.id === currentUser.uid );
 
     let total = 0;
     !!productsToBuy[0] && productsToBuy[0].products.forEach( ( prod: any ) => {
-        const price = !!globalContext.data.products.find( data => data.id === prod.productId )?.price ?
-            Number( globalContext.data.products.find( data => data.id === prod.productId )?.price ) :
+        const price = !!products.find( data => data.id === prod.productId )?.price ?
+            Number( products.find( data => data.id === prod.productId )?.price ) :
             0;
         const totalPrice = price * Number( prod.quantity );
         total += totalPrice;
@@ -31,10 +31,10 @@ const Basket: React.FC = () => {
 
     const onConfirmRemoveHandler = (): void => {
         const prods = basketProducts.docs
-            .filter( item => item.id === globalContext.data.currentUser.uid )[0].products
+            .filter( item => item.id === currentUser.uid )[0].products
             .filter( ( prod: any ) => prod.id.toString() !== removeId.toString() );
 
-        basketProducts.updateCollection( globalContext.data.currentUser.uid, prods );
+        basketProducts.updateCollection( currentUser.uid, prods );
         setRemoveId( '' );
     };
 
@@ -43,28 +43,28 @@ const Basket: React.FC = () => {
             <ShrHeader />
             {
                 ( basketProducts.docs.length > 0 &&
-                globalContext.data.currentUser.uid !== undefined ) ?
+                currentUser.uid !== undefined ) ?
                     <div className='basket__products'>
                         {!!productsToBuy[0] &&
                         productsToBuy[0].products.map( ( product: any, index: number ) => (
                             <ProductDetail
                                 key={index}
-                                imgUrl={globalContext.data.products.find( data => data.id === product.productId )?.imgUrl || ''}
-                                imgAlt={globalContext.data.products.find( data => data.id === product.productId )?.title || ''}
-                                title={globalContext.data.products.find( data => data.id === product.productId )?.title || ''}
+                                imgUrl={products.find( data => data.id === product.productId )?.imgUrl || ''}
+                                imgAlt={products.find( data => data.id === product.productId )?.title || ''}
+                                title={products.find( data => data.id === product.productId )?.title || ''}
                                 productSize={product.size}
                                 productQty={product.quantity}
-                                productUnitPrice={globalContext.data.products
+                                productUnitPrice={products
                                     .find( data => data.id === product.productId )?.price.toFixed( 2 ).toString() || '0'}
-                                productPrice={!!globalContext.data.products.find( data => data.id === product.productId )?.price ?
-                                    ( Number( globalContext.data.products.find( data => data.id === product.productId )?.price ) *
+                                productPrice={!!products.find( data => data.id === product.productId )?.price ?
+                                    ( Number( products.find( data => data.id === product.productId )?.price ) *
                                     Number( product.quantity ) ).toFixed( 2 ).toString() : '0'
                                 }
                                 onRemoveProductHandler={(): void => removeProductHandler( product.id )}/>
                         ) )}
                         {!!!total &&
                         basketProducts.docs.length > 0 &&
-                        globalContext.data.currentUser.uid !== undefined &&
+                        currentUser.uid !== undefined &&
                             <div className='basket__empty'>
                                 <div className='basket__empty-title'>
                                     {i18n.t( 'basket.empty' )}

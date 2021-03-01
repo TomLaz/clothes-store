@@ -13,29 +13,30 @@ type PrivateRouteProps = {
     exact: boolean;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ( props: any ) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, path, exact }) => {
     const { data: { currentUser }} = useContext( GlobalContext );
-    const { component: Component, path, exact } = props;
 
     return (
         <Route
             exact={exact}
             path={path}
             render={ (): JSX.Element => {
-                return currentUser === undefined ?
-                    <div className='private-route__loading'>
-                        <ShrHeader
-                            showSignIn={false}
-                            showSignUp={false}
-                            showCategories={true} />
-                        <div className='private-route__spinner'>
-                            <CircularProgress />
-                        </div>
-                        <ShrFooter />
-                    </div> :
-                    currentUser === null ?
-                        <SignIn /> :
-                        <Component />;
+                return (
+                    currentUser === undefined ?
+                        <div className='private-route__loading'>
+                            <ShrHeader
+                                showSignIn={false}
+                                showSignUp={false}
+                                showCategories={true} />
+                            <div className='private-route__spinner'>
+                                <CircularProgress />
+                            </div>
+                            <ShrFooter />
+                        </div> :
+                        currentUser === null ?
+                            <SignIn /> :
+                            <Component />
+                );
             }}
         />
     );

@@ -9,8 +9,6 @@ import './Products.scss';
 const Products: React.FC = () => {
     const { data: { filters, products, filteredOptions, checkedFilters, filteredProducts },
         updateCheckedFilters, updateFilteredProducts } = useContext( GlobalContext );
-    // const [ checkedFilters, setCheckedFilters ] = useState<any>({});
-    // const [ filteredProducts, setFilteredProducts ] = useState<Product[]>( [] );
 
     useEffect( (): void => {
         if ( filters.length > 0 && filters.length !== Object.keys( checkedFilters ).length ) {
@@ -69,59 +67,62 @@ const Products: React.FC = () => {
         <div className='products'>
             <ShrHeader />
             <div className='products__box'>
-                {/* BARRA LATERAL IZQ, FILTROS */}
                 {
-                    filters.length > 0 &&
-                    Object.keys( checkedFilters ).length > 0 ?
-                        <div className='products__categories'>
-                            {filters.map( ( item, index ) => {
-                                return (
-                                    <FormControlLabel
-                                        key={index}
-                                        control={
-                                            <Checkbox
-                                                checked={checkedFilters[item.name.toLowerCase()]}
-                                                onChange={(): void => onCheckedChange( item.name )}
-                                                color='default'
-                                                value={item.name} />
-                                        }
-                                        label={item.name}
-                                    />
-                                );
-                            })}
-                        </div> :
-                        <></>
-                }
-                {/* LADO DERECHO, CUERPO DE IMAGENES */}
-                {
-                    products.length > 0 &&
-                    filteredProducts.length === 0 ?
-                        <div className='products__gallery'>
+                    ( filters.length > 0 &&
+                    products.length ) > 0 ?
+                        <>
+                            {/* BARRA LATERAL IZQ, FILTROS */}
                             {
-                                products.map( ( product ) => {
-                                    return (
-                                        <ShrProduct
-                                            product={product}
-                                            key={product.id} />
-                                    );
-                                })
+                                Object.keys( checkedFilters ).length > 0 &&
+                                    <div className='products__categories'>
+                                        {filters.map( ( item, index ) => {
+                                            return (
+                                                <FormControlLabel
+                                                    key={index}
+                                                    control={
+                                                        <Checkbox
+                                                            checked={checkedFilters[item.name.toLowerCase()]}
+                                                            onChange={(): void => onCheckedChange( item.name )}
+                                                            color='default'
+                                                            value={item.name} />
+                                                    }
+                                                    label={item.name}
+                                                />
+                                            );
+                                        })}
+                                    </div>
                             }
-                        </div> :
-                        filteredProducts.length > 0 ?
-                            <div className='products__gallery'>
-                                {
-                                    filteredProducts.map( ( product, index ) => {
-                                        return (
-                                            <ShrProduct
-                                                product={product}
-                                                key={index} />
-                                        );
-                                    })
-                                }
-                            </div> :
-                            <div className='products__progress'>
-                                <CircularProgress />
-                            </div>
+                            {/* LADO DERECHO, CUERPO DE IMAGENES */}
+                            {
+                                filteredProducts.length === 0 ?
+                                    <div className='products__gallery'>
+                                        {
+                                            products.map( ( product ) => {
+                                                return (
+                                                    <ShrProduct
+                                                        product={product}
+                                                        key={product.id} />
+                                                );
+                                            })
+                                        }
+                                    </div> :
+                                    filteredProducts.length > 0 &&
+                                        <div className='products__gallery'>
+                                            {
+                                                filteredProducts.map( ( product, index ) => {
+                                                    return (
+                                                        <ShrProduct
+                                                            product={product}
+                                                            key={index} />
+                                                    );
+                                                })
+                                            }
+                                        </div>
+                            }
+                        </> :
+                        <div className='products__progress'>
+                            <CircularProgress />
+                        </div>
                 }
             </div>
             <ShrFooter />

@@ -14,15 +14,15 @@ import i18n from '../../i18n';
 
 const AddProduct: React.FC = () => {
     const { id } = useParams();
-    const globalContext = useContext( GlobalContext );
+    const { data: { products, categories, subCategories, currentUser, loading }} = useContext( GlobalContext );
     const history = useHistory();
     const basketProducts = useFirestore( 'basket' );
 
-    const product = ( !!globalContext.data.products.length && !!id ) ?
-        globalContext.data.products.find( ( prod ) => prod.id.toString() === id.toString() ) : '';
-    const category = !!product ? globalContext.data.categories.find( ( cat: any ) => cat.id.toString() === product?.categoryId.toString() ) : '';
+    const product = ( !!products.length && !!id ) ?
+        products.find( ( prod ) => prod.id.toString() === id.toString() ) : '';
+    const category = !!product ? categories.find( ( cat: any ) => cat.id.toString() === product?.categoryId.toString() ) : '';
     const subcategory = !!product ?
-        globalContext.data.subCategories.find( ( subcat: any ) => subcat.id.toString() === product?.subcategoryId.toString() ) : '';
+        subCategories.find( ( subcat: any ) => subcat.id.toString() === product?.subcategoryId.toString() ) : '';
 
     const [ sizeSelected, setSizeSelected ] = useState<string>( '' );
     const [ qtyOptions, setQtyOptions ] = useState<string[]>( [] );
@@ -59,8 +59,8 @@ const AddProduct: React.FC = () => {
     const addProductHandler = (): void => {
         try {
             const prods = !!basketProducts.docs
-                .filter( ( item: any ) => item.id === globalContext.data.currentUser.uid ).length ?
-                basketProducts.docs.filter( item => item.id === globalContext.data.currentUser.uid )[0].products : [];
+                .filter( ( item: any ) => item.id === currentUser.uid ).length ?
+                basketProducts.docs.filter( item => item.id === currentUser.uid )[0].products : [];
 
             prods.push({
                 'id': new Date().getTime().toString(),
@@ -69,7 +69,7 @@ const AddProduct: React.FC = () => {
                 'size': sizeSelected
             });
 
-            basketProducts.updateCollection( globalContext.data.currentUser.uid, prods );
+            basketProducts.updateCollection( currentUser.uid, prods );
 
             setProductAdded( true );
             if ( !!product && !!product.sizes ) {
@@ -179,7 +179,7 @@ const AddProduct: React.FC = () => {
                 </div>
             }
             {
-                !!!product && !globalContext.data.loading && globalContext.data.products.length > 0 &&
+                !!!product && !loading && products.length > 0 &&
                     <div className='add-product__not-found-box'>
                         <div className='add-product__not-found'>
                             <h2>
@@ -196,7 +196,7 @@ const AddProduct: React.FC = () => {
                     </div>
             }
             {
-                !!!product && globalContext.data.products.length === 0 &&
+                !!!product && products.length === 0 &&
                 <div className='add-product__spinner'>
                     <CircularProgress />
                 </div>

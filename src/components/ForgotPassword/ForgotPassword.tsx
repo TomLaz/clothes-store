@@ -14,15 +14,15 @@ const ForgotPassword: React.FC = () => {
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
     const [ message, setMessage ] = useState( '' );
-    const globalContext = useContext( GlobalContext );
+    const { resetPassword } = useContext( GlobalContext );
 
-    const handleSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
+    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
         e.preventDefault();
 
         try {
             setError( '' );
             setLoading( true );
-            await globalContext.resetPassword( emailRef.current.value );
+            await resetPassword( emailRef.current.value );
             setMessage( i18n.t( 'forgot-password.success' ) );
         } catch {
             setError( i18n.t( 'forgot-password.error' ) );
@@ -42,7 +42,7 @@ const ForgotPassword: React.FC = () => {
                 </div>
                 <div className='forgot-password__bottom'>
                     <form
-                        onSubmit={handleSubmit}
+                        onSubmit={onSubmitHandler}
                         className='forgot-password__form'>
                         <div className='forgot-password__option'>
                             <TextField
@@ -51,7 +51,7 @@ const ForgotPassword: React.FC = () => {
                                 inputRef={emailRef}
                                 label={i18n.t( 'global.email' )}
                                 name='email'
-                                placeholder='email'
+                                placeholder={i18n.t( 'global.email' )}
                                 required={true}
                                 InputProps={{
                                     endAdornment: (

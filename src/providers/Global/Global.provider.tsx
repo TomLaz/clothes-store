@@ -2,11 +2,11 @@ import React, { createContext, useState, useEffect } from 'react';
 import { MenuItems, Product, Category, SubCategory, Favourite, Filter } from './Global.model';
 import { auth } from '../../firebase/firebase';
 import useFirestore from '../../firebase/useFirestore';
+import firebase from 'firebase/app';
 
 export interface GlobalProviderData {
     menuItems: MenuItems[];
     currentUser: any;
-    clientes: any;
     products: Product[];
     categories: Category[];
     subCategories: SubCategory[];
@@ -23,7 +23,6 @@ export interface GlobalContextProps {
     data: GlobalProviderData;
     updateMenuItems: Function;
     updateCurrentUser: Function;
-    updateClientes: Function;
     updateProducts: Function;
     updateCategories: Function;
     updateSubCategories: Function;
@@ -52,7 +51,6 @@ export const defaultMenuItems: MenuItems[] = [ {
 export const defaultGlobalProviderData: GlobalProviderData = {
     menuItems: [],
     currentUser: undefined,
-    clientes: [],
     products: [],
     categories: [],
     subCategories: [],
@@ -69,7 +67,6 @@ export const GlobalContext = createContext<GlobalContextProps>({
     data: defaultGlobalProviderData,
     updateMenuItems: Function,
     updateCurrentUser: Function,
-    updateClientes: Function,
     updateProducts: Function,
     updateCategories: Function,
     updateSubCategories: Function,
@@ -109,15 +106,9 @@ export const GlobalProvider: React.FC = ({ children }) => {
         });
     };
 
-    const updateCurrentUser = ( currentUser: any ): void => {
+    const updateCurrentUser = ( currentUser: firebase.User | null ): void => {
         setProviderValue( ( prevValues ) => {
             return { ...prevValues, currentUser };
-        });
-    };
-
-    const updateClientes = ( clientes: any ): void => {
-        setProviderValue( ( prevValues ) => {
-            return { ...prevValues, clientes };
         });
     };
 
@@ -225,11 +216,11 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateFavourites( favouritesFirestore.docs );
     };
 
-    const signup = ( email: string, password: string ): Promise<any> => {
+    const signup = ( email: string, password: string ): Promise<firebase.auth.UserCredential> => {
         return auth.createUserWithEmailAndPassword( email, password );
     };
 
-    const login = ( email: string, password: string ): Promise<any> => {
+    const login = ( email: string, password: string ): Promise<firebase.auth.UserCredential> => {
         return auth.signInWithEmailAndPassword( email, password );
     };
 
@@ -313,7 +304,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
         data: providerValue,
         updateMenuItems,
         updateCurrentUser,
-        updateClientes,
         updateProducts,
         updateCategories,
         updateSubCategories,

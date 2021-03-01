@@ -18,13 +18,6 @@ const MainHome: React.FC = () => {
                     {i18n.t( 'main-home.description' )}
                 </p>
                 <div className='main-home__btn'>
-                    {/* <Button
-                        onClick={ (): void => history.push( GlobalService.states.products ) }
-                        variant='outlined'
-                        color='primary'
-                        size='large'>
-                        {i18n.t( 'main-home.new-collection' )}
-                    </Button> */}
                     <ShrButton
                         fullWidth={false}
                         variant={ButtonVariant.outlined}

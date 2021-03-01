@@ -106,8 +106,9 @@ const UploadProduct: React.FC = () => {
         }
     };
 
-    const onImageChange = ( e: any ): void => {
-        const selected = e.target.files[0];
+    const onImageChange = ( e: React.ChangeEvent<HTMLInputElement> ): void => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const selected = e.target.files![0];
 
         if ( selected && types.includes( selected.type ) ) {
             setFile( selected );
