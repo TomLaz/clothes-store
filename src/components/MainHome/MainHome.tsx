@@ -23,7 +23,7 @@ const MainHome: React.FC = () => {
                         variant={ButtonVariant.outlined}
                         color={ButtonColor.default}
                         type={ButtonType.button}
-                        title={i18n.t( 'user-profile.upload-product' )}
+                        title={i18n.t( 'main-home.new-collection' )}
                         size={ButtonSize.large}
                         action={ (): void => history.push( GlobalService.states.products ) } />
                 </div>

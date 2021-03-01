@@ -6,11 +6,13 @@ import ModalImage from '../ModalImage/ModalImage';
 import './AddProduct.scss';
 import { useHistory, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import { Button, CircularProgress } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import GlobalService from '../../services/Global/Global.service';
 import ShrFooter from '../shared/ShrFooter/ShrFooter';
 import useFirestore from '../../firebase/useFirestore';
 import i18n from '../../i18n';
+import { Category, SubCategory } from '../../providers/Global/Global.model';
+import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 
 const AddProduct: React.FC = () => {
     const { id } = useParams();
@@ -20,9 +22,9 @@ const AddProduct: React.FC = () => {
 
     const product = ( !!products.length && !!id ) ?
         products.find( ( prod ) => prod.id.toString() === id.toString() ) : '';
-    const category = !!product ? categories.find( ( cat: any ) => cat.id.toString() === product?.categoryId.toString() ) : '';
+    const category = !!product ? categories.find( ( cat: Category ) => cat.id.toString() === product?.categoryId.toString() ) : '';
     const subcategory = !!product ?
-        subCategories.find( ( subcat: any ) => subcat.id.toString() === product?.subcategoryId.toString() ) : '';
+        subCategories.find( ( subcat: SubCategory ) => subcat.id.toString() === product?.subcategoryId.toString() ) : '';
 
     const [ sizeSelected, setSizeSelected ] = useState<string>( '' );
     const [ qtyOptions, setQtyOptions ] = useState<string[]>( [] );
@@ -48,7 +50,7 @@ const AddProduct: React.FC = () => {
         setQtySelected( '1' );
     };
 
-    const onOptionChange = ( event: any ): void => {
+    const onOptionChange = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
         setQtySelected( event.target.value );
     };
 
@@ -197,9 +199,7 @@ const AddProduct: React.FC = () => {
             }
             {
                 !!!product && products.length === 0 &&
-                <div className='add-product__spinner'>
-                    <CircularProgress />
-                </div>
+                <ShrSpinner />
             }
             <ShrFooter />
         </div>

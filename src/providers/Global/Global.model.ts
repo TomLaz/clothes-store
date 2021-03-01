@@ -34,6 +34,7 @@ export interface Category {
 }
 
 export interface SubCategory {
+    id: number;
     categoryId: number;
     name: string;
     createdAt: CreatedAtType;
@@ -44,13 +45,6 @@ export interface Favourite {
     id: string;
     products: any[];
 }
-
-// export interface TempCategory {
-//     createdAt: CreatedAtType;
-//     id: string;
-//     name: string;
-//     products: string[];
-// }
 
 export interface Filter {
     name: string;

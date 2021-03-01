@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import ShrProduct from '../shared/ShrProduct/ShrProduct';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import { Checkbox, CircularProgress, FormControlLabel } from '@material-ui/core';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
 import ShrFooter from '../shared/ShrFooter/ShrFooter';
+import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import './Products.scss';
 
 const Products: React.FC = () => {
@@ -120,9 +121,7 @@ const Products: React.FC = () => {
                                         </div>
                             }
                         </> :
-                        <div className='products__progress'>
-                            <CircularProgress />
-                        </div>
+                        <ShrSpinner />
                 }
             </div>
             <ShrFooter />

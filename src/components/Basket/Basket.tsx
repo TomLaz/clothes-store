@@ -5,9 +5,10 @@ import ShrFooter from '../shared/ShrFooter/ShrFooter';
 import useFirestore from '../../firebase/useFirestore';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import Dialog from '@material-ui/core/Dialog';
-import { Button, CircularProgress, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import ProductDetail from '../ProductDetail/ProductDetail';
 import i18n from '../../i18n';
+import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 
 const Basket: React.FC = () => {
     const { data: { currentUser, products }} = useContext( GlobalContext );
@@ -78,9 +79,7 @@ const Basket: React.FC = () => {
                             </div>
                         </div>
                     </div> :
-                    <div className='basket__spinner'>
-                        <CircularProgress />
-                    </div>
+                    <ShrSpinner />
             }
             <Dialog
                 open={!!removeId}

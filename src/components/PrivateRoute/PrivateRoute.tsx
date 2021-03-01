@@ -3,9 +3,9 @@ import './PrivateRoute.scss';
 import { Route } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import SignIn from '../SignIn/SignIn';
-import { CircularProgress } from '@material-ui/core';
 import ShrHeader from '../shared/ShrHeader/ShrHeader';
 import ShrFooter from '../shared/ShrFooter/ShrFooter';
+import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 
 type PrivateRouteProps = {
     path: string;
@@ -28,9 +28,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, path,
                                 showSignIn={false}
                                 showSignUp={false}
                                 showCategories={true} />
-                            <div className='private-route__spinner'>
-                                <CircularProgress />
-                            </div>
+                            <ShrSpinner />
                             <ShrFooter />
                         </div> :
                         currentUser === null ?
