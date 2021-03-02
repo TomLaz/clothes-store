@@ -1,9 +1,19 @@
 @import '../../styles/styles.scss';
 
 .products {
+    &__sort {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+        width: 85%;
+        margin: 0 auto;
+        padding-top: 20px;
+    }
+
     &__box {
         display: flex;
-        padding: 30px;
+        padding: 0 30px 30px;
         flex-direction: column;
         height: auto;
     }
@@ -50,6 +60,11 @@
 
 @media (min-width: 768px) {
     .products {
+        &__sort {
+            align-items: flex-end;
+            padding-top: 30px;
+        }
+
         &__gallery {
             width: 80%;
         }

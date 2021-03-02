@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import ShrProduct from '../shared/ShrProduct/ShrProduct';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from '@material-ui/core';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import './Products.scss';
 
 const Products: React.FC = () => {
     const { data: { filters, products, filteredOptions, checkedFilters, filteredProducts },
         updateCheckedFilters, updateFilteredProducts } = useContext( GlobalContext );
+    const [ sortSelected, setSortSelected ] = useState( 'menor' );
 
     useEffect( (): void => {
         if ( filters.length > 0 && filters.length !== Object.keys( checkedFilters ).length ) {
@@ -63,34 +64,70 @@ const Products: React.FC = () => {
         }
     };
 
+    const onSortChange = ( e: React.ChangeEvent<{
+        name?: string | undefined;
+        value: unknown;
+    }> ): void => {
+        setSortSelected( typeof e.target.value === 'string' ? e.target.value : '' );
+    };
+
     return (
         <ShrLayout>
             <div className='products'>
-                <div className='products__box'>
-                    {
-                        ( filters.length > 0 &&
-                        products.length ) > 0 ?
-                            <>
+                {
+                    ( filters.length > 0 &&
+                    products.length ) > 0 ?
+                        <>
+                            <div className='products__sort'>
+                                <FormControl className='products__dropdown'>
+                                    <InputLabel className='products__dropdown-label'>
+                                        Ordenar por:
+                                    </InputLabel>
+                                    <Select
+                                        fullWidth
+                                        displayEmpty
+                                        className='products__dropdown-select'
+                                        value={sortSelected}
+                                        onChange={onSortChange}>
+                                        <MenuItem
+                                            className='products__dropdown-option'
+                                            value='nombre'>
+                                            Nombre producto
+                                        </MenuItem>
+                                        <MenuItem
+                                            className='products__dropdown-option'
+                                            value='menor'>
+                                            Menor precio
+                                        </MenuItem>
+                                        <MenuItem
+                                            className='products__dropdown-option'
+                                            value='mayor'>
+                                            Mayor precio
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className='products__box'>
                                 {/* BARRA LATERAL IZQ, FILTROS */}
                                 {
                                     Object.keys( checkedFilters ).length > 0 &&
-                                        <div className='products__categories'>
-                                            {filters.map( ( item, index ) => {
-                                                return (
-                                                    <FormControlLabel
-                                                        key={index}
-                                                        control={
-                                                            <Checkbox
-                                                                checked={checkedFilters[item.name.toLowerCase()]}
-                                                                onChange={(): void => onCheckedChange( item.name )}
-                                                                color='default'
-                                                                value={item.name} />
-                                                        }
-                                                        label={item.name}
-                                                    />
-                                                );
-                                            })}
-                                        </div>
+                                    <div className='products__categories'>
+                                        {filters.map( ( item, index ) => {
+                                            return (
+                                                <FormControlLabel
+                                                    key={index}
+                                                    control={
+                                                        <Checkbox
+                                                            checked={checkedFilters[item.name.toLowerCase()]}
+                                                            onChange={(): void => onCheckedChange( item.name )}
+                                                            color='default'
+                                                            value={item.name} />
+                                                    }
+                                                    label={item.name}
+                                                />
+                                            );
+                                        })}
+                                    </div>
                                 }
                                 {/* LADO DERECHO, CUERPO DE IMAGENES */}
                                 {
@@ -119,10 +156,10 @@ const Products: React.FC = () => {
                                                 }
                                             </div>
                                 }
-                            </> :
-                            <ShrSpinner />
-                    }
-                </div>
+                            </div>
+                        </> :
+                        <ShrSpinner />
+                }
             </div>
         </ShrLayout>
     );
