@@ -9,15 +9,13 @@ import i18n from '../../i18n';
 const Home = (): JSX.Element => {
     return (
         <ShrLayout>
-            <div className='home'>
-                <MainHome />
-                <LatestNews />
-                <ShrHorizontalImage
-                    title={i18n.t( 'home.shr-horizontal-image.title' )}
-                    description={i18n.t( 'home.shr-horizontal-image.description' )}
-                    imgName={'medium_edit.png'}/>
-                <SendOptions />
-            </div>
+            <MainHome />
+            <LatestNews />
+            <ShrHorizontalImage
+                title={i18n.t( 'home.shr-horizontal-image.title' )}
+                description={i18n.t( 'home.shr-horizontal-image.description' )}
+                imgName={'medium_edit.png'}/>
+            <SendOptions />
         </ShrLayout>
     );
 };

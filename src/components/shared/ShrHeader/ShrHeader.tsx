@@ -28,6 +28,12 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
         updateFilteredProducts, updateActiveMenu, updateActiveMenuItem } = useContext( GlobalContext );
     const basketProducts = useFirestore( 'basket' );
 
+    const productsToBuy = basketProducts.docs.filter( item => item.id === currentUser.uid ) || [];
+
+    const basketQty = !!productsToBuy[0] ?
+        productsToBuy[0].products.map( ( prod: any ) => Number( prod.quantity ) )
+            .reduce( ( a: number, b: number ) => a + b, 0 ) : 0;
+
     useEffect( (): void => {
         if ( filters.length > 0 && Object.keys( activeMenu ).length === 1 ) {
             const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
@@ -42,8 +48,8 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
     }, [ filters ] );
 
     return (
-        <div className='shr-header'>
-            <header className='shr-header__mobile'>
+        <header className='shr-header'>
+            <div className='shr-header__mobile'>
                 <div className='shr-header__mobile-bar'>
                     <div
                         className='shr-header__mobile-brand'
@@ -63,9 +69,10 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                 onClick={( (): void => history.push( GlobalService.states.basket ) )}>
                                 <ShoppingBasket  />
                                 <span className='shr-header__mobile-basket-qty'>
-                                    {basketProducts.docs
-                                        .map( item =>
-                                            item.id === currentUser.uid && item.products.length )}
+                                    {
+                                        productsToBuy.length > 0 ?
+                                            basketQty : 0
+                                    }
                                 </span>
                             </div>
                         }
@@ -174,8 +181,8 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         })
                     }
                 </div>
-            </header>
-            <header className='shr-header__desktop'>
+            </div>
+            <div className='shr-header__desktop'>
                 <div className='shr-header__desktop-info'>
                     <span
                         className='shr-header__desktop-dev'
@@ -268,19 +275,19 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                     onClick={( (): void => history.push( GlobalService.states.basket ) )}>
                                     <ShoppingBasket aria-label={i18n.t( 'shr-header.basket' )} />
                                     <span className='shr-header__desktop-basket-qty'>
-                                        {basketProducts.docs
-                                            .map( item =>
-                                                item.id === currentUser.uid &&
-                                                item.products.length )}
+                                        {
+                                            productsToBuy.length > 0 ?
+                                                basketQty : 0
+                                        }
                                     </span>
                                 </div>
                             </div>
                         }
                     </div>
                 </div>
-            </header>
+            </div>
             <div className='shr-header__span' />
-        </div>
+        </header>
     );
 };
 

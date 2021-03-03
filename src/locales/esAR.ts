@@ -86,5 +86,10 @@ export default {
     'add-product.add': 'Agregar al canasto',
     'add-product.not-found': 'Producto No Encontrado',
     'add-product.home': 'Ir al Inicio',
-    'shr-product.info': '+Info'
+    'shr-product.info': '+Info',
+    'products.dropdown.all': 'Nombre',
+    'products.dropdown.lowest': 'Menor Precio',
+    'products.dropdown.highest': 'Mayor Precio',
+    'products.dropdown.date': 'Fecha',
+    'products.dropdown.sort': 'Ordenar por:'
 };

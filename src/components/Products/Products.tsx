@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
+import './Products.scss';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import ShrProduct from '../shared/ShrProduct/ShrProduct';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, MenuItem, Select } from '@material-ui/core';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
-import './Products.scss';
+import i18n from '../../i18n';
 
 const Products: React.FC = () => {
     const { data: { filters, products, filteredOptions, checkedFilters, filteredProducts },
         updateCheckedFilters, updateFilteredProducts } = useContext( GlobalContext );
-    const [ sortSelected, setSortSelected ] = useState( 'menor' );
+    const [ sortSelected, setSortSelected ] = useState( 'date' );
 
     useEffect( (): void => {
         if ( filters.length > 0 && filters.length !== Object.keys( checkedFilters ).length ) {
@@ -79,10 +80,8 @@ const Products: React.FC = () => {
                     products.length ) > 0 ?
                         <>
                             <div className='products__sort'>
+                                <p className='products__sort-title'>{i18n.t( 'products.dropdown.sort' )}</p>
                                 <FormControl className='products__dropdown'>
-                                    <InputLabel className='products__dropdown-label'>
-                                        Ordenar por:
-                                    </InputLabel>
                                     <Select
                                         fullWidth
                                         displayEmpty
@@ -91,18 +90,23 @@ const Products: React.FC = () => {
                                         onChange={onSortChange}>
                                         <MenuItem
                                             className='products__dropdown-option'
-                                            value='nombre'>
-                                            Nombre producto
+                                            value='name'>
+                                            {i18n.t( 'products.dropdown.all' )}
                                         </MenuItem>
                                         <MenuItem
                                             className='products__dropdown-option'
-                                            value='menor'>
-                                            Menor precio
+                                            value='lowest'>
+                                            {i18n.t( 'products.dropdown.lowest' )}
                                         </MenuItem>
                                         <MenuItem
                                             className='products__dropdown-option'
-                                            value='mayor'>
-                                            Mayor precio
+                                            value='highest'>
+                                            {i18n.t( 'products.dropdown.highest' )}
+                                        </MenuItem>
+                                        <MenuItem
+                                            className='products__dropdown-option'
+                                            value='date'>
+                                            {i18n.t( 'products.dropdown.date' )}
                                         </MenuItem>
                                     </Select>
                                 </FormControl>
@@ -134,18 +138,86 @@ const Products: React.FC = () => {
                                     filteredProducts.length === 0 ?
                                         <div className='products__gallery'>
                                             {
-                                                products.map( ( product ) => {
-                                                    return (
-                                                        <ShrProduct
-                                                            product={product}
-                                                            key={product.id} />
-                                                    );
-                                                })
+                                                sortSelected === 'name' &&
+                                                    products.sort( ( a, b ) => ( a.title > b.title ) ? 1 : -1 )
+                                                        .map( ( product ) => {
+                                                            return (
+                                                                <ShrProduct
+                                                                    product={product}
+                                                                    key={product.id} />
+                                                            );
+                                                        })
+                                            }
+                                            {
+                                                sortSelected === 'lowest' &&
+                                                    products.sort( ( a, b ) => ( a.price > b.price ) ? 1 : -1 )
+                                                        .map( ( product ) => {
+                                                            return (
+                                                                <ShrProduct
+                                                                    product={product}
+                                                                    key={product.id} />
+                                                            );
+                                                        })
+                                            }
+                                            {
+                                                sortSelected === 'highest' &&
+                                                    products.sort( ( a, b ) => ( a.price < b.price ) ? 1 : -1 )
+                                                        .map( ( product ) => {
+                                                            return (
+                                                                <ShrProduct
+                                                                    product={product}
+                                                                    key={product.id} />
+                                                            );
+                                                        })
+                                            }
+                                            {
+                                                sortSelected === 'date' &&
+                                                    products.map( ( product ) => {
+                                                        return (
+                                                            <ShrProduct
+                                                                product={product}
+                                                                key={product.id} />
+                                                        );
+                                                    })
                                             }
                                         </div> :
                                         filteredProducts.length > 0 &&
                                             <div className='products__gallery'>
                                                 {
+                                                    sortSelected === 'name' &&
+                                                    filteredProducts.sort( ( a, b ) => ( a.title > b.title ) ? 1 : -1 )
+                                                        .map( ( product, index ) => {
+                                                            return (
+                                                                <ShrProduct
+                                                                    product={product}
+                                                                    key={index} />
+                                                            );
+                                                        })
+                                                }
+                                                {
+                                                    sortSelected === 'lowest' &&
+                                                    filteredProducts.sort( ( a, b ) => ( a.price > b.price ) ? 1 : -1 )
+                                                        .map( ( product, index ) => {
+                                                            return (
+                                                                <ShrProduct
+                                                                    product={product}
+                                                                    key={index} />
+                                                            );
+                                                        })
+                                                }
+                                                {
+                                                    sortSelected === 'highest' &&
+                                                    filteredProducts.sort( ( a, b ) => ( a.price < b.price ) ? 1 : -1 )
+                                                        .map( ( product, index ) => {
+                                                            return (
+                                                                <ShrProduct
+                                                                    product={product}
+                                                                    key={index} />
+                                                            );
+                                                        })
+                                                }
+                                                {
+                                                    sortSelected === 'date' &&
                                                     filteredProducts.map( ( product, index ) => {
                                                         return (
                                                             <ShrProduct

@@ -42,7 +42,7 @@ const AddProduct: React.FC = () => {
         setSizeSelected( size );
 
         const options = [];
-        for ( let i=0; i< stock; i++ ) {
+        for ( let i=0; i<stock; i++ ) {
             options.push( ( i+1 ).toString() );
         }
         setQtyOptions( [ ...options ] );

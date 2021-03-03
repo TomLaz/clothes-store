@@ -15,7 +15,7 @@ const ShrFooter: React.FC = () => {
         updateCheckedFilters, updateFilteredProducts, updateActiveMenuItem } = useContext( GlobalContext );
 
     return (
-        <div className='shr-footer'>
+        <footer className='shr-footer'>
             <div className='shr-footer__box'>
                 <div className='shr-footer__address'>
                     <div className='shr-footer__brand'>
@@ -101,7 +101,7 @@ const ShrFooter: React.FC = () => {
             <div className='shr-footer__copyright'>
                 {i18n.t( 'shr-footer.copyright' )}
             </div>
-        </div>
+        </footer>
     );
 };
 

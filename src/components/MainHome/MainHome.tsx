@@ -9,7 +9,7 @@ const MainHome: React.FC = () => {
     const history = useHistory();
 
     return (
-        <div className='main-home'>
+        <main className='main-home'>
             <div className="main-home__container">
                 <h1 className="main-home__title">
                     {i18n.t( 'main-home.title' )}
@@ -28,7 +28,7 @@ const MainHome: React.FC = () => {
                         action={ (): void => history.push( GlobalService.states.products ) } />
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 

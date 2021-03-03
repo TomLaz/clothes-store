@@ -3,12 +3,24 @@
 .products {
     &__sort {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         height: auto;
         align-items: center;
-        width: 85%;
+        width: 70%;
         margin: 0 auto;
-        padding-top: 20px;
+        gap: 10px;
+        justify-content: center;
+        border-bottom: 1px solid #80808033;
+        padding: 18px 0;
+    }
+
+    &__sort-title {
+        font-size: 15px;
+        font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    }
+
+    &__dropdown .MuiSelect-select {
+        font-size: 15px;
     }
 
     &__box {
@@ -23,7 +35,7 @@
         justify-content: center;
         gap: 20px;
         height: fit-content;
-        margin: 0 0 20px 0;
+        margin: 10px 0;
     }
 
     &__check {
@@ -47,6 +59,12 @@
     }
 }
 
+.MuiPopover-root {
+    & .MuiListItem-button {
+        font-size: 14px;
+    }
+}
+
 @media (min-width: 500px) {
     .products {
         &__gallery {
@@ -62,7 +80,19 @@
     .products {
         &__sort {
             align-items: flex-end;
-            padding-top: 30px;
+            border-bottom: none;
+            justify-content: flex-end;
+            width: 85%;
+            padding: 25px 0 10px 0;
+        }
+
+        &__sort-title {
+            padding-bottom: 8px;
+            font-size: 17px;
+        }
+
+        &__dropdown .MuiSelect-select {
+            font-size: 17px;
         }
 
         &__gallery {
@@ -74,11 +104,11 @@
         }
 
         &__categories {
-            margin-top: 30px;
             width: 15%;
             border: 1px solid $primary-dark;
             padding: 15px 5px;
             flex-direction: column;
+            margin: 0 0 20px 0;
         }
     }
 }

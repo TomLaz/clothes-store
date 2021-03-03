@@ -58,7 +58,7 @@ export const defaultGlobalProviderData: GlobalProviderData = {
     filters: [],
     filteredOptions: [],
     checkedFilters: {},
-    filteredProducts: [],
+    filteredProducts: [] as Product[],
     activeMenu: { 'home': true },
     loading: false
 };
