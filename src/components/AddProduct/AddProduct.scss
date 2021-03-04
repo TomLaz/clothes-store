@@ -131,16 +131,13 @@
     &__btn {
         margin: 10px 0;
         width: 100%;
-
-        & button {
-            width: 100%;
-            border: 1px solid $primary-dark;
-            color: $primary-dark;
-            transition: all 0.25s;
-        }
     }
 
-    &__btn button:hover {
+    &__btn .MuiButtonBase-root {
+        border: 1px solid $primary-dark;
+    }
+
+    &__btn .MuiButtonBase-root:hover {
         background: $primary-dark;
         color: $primary;
     }

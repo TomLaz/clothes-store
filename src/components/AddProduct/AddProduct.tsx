@@ -13,6 +13,8 @@ import i18n from '../../i18n';
 import { Category, Product, SubCategory } from '../../providers/Global/Global.model';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import SendOptions from '../SendOptions/SendOptions';
+import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
+import NumberUtils from '../../utils/numberUtils';
 
 const AddProduct: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -118,8 +120,12 @@ const AddProduct: React.FC = () => {
                                         <div className='add-product__info'>
                                             <div className='add-product__info-description'>
                                                 <span className='add-product__name'>{!!product && product.title}</span>
-                                                <p className='add-product__price'>{!!product && `$${product.price.toFixed( 2 )}`}</p>
-                                                <p className='add-product__code'>{!!product && i18n.t( 'add-product.code', { code: product.id })}</p>
+                                                <p className='add-product__price'>
+                                                    {!!product && NumberUtils.getCurrency( Number( product.price.toFixed( 2 ) ) )}
+                                                </p>
+                                                <p className='add-product__code'>
+                                                    {!!product && i18n.t( 'add-product.code', { code: product.id })}
+                                                </p>
                                                 <div className='add-product__color-box'>
                                                     <p>
                                                         <span className='add-product__color-title'>
@@ -161,13 +167,14 @@ const AddProduct: React.FC = () => {
                                                     </div>
                                                 </div> :
                                                 <div className='add-product__btn add-product__add'>
-                                                    <Button
-                                                        onClick={addProductHandler}
-                                                        variant='outlined'
-                                                        color='primary'
-                                                        size='large'>
-                                                        {i18n.t( 'add-product.add' )}
-                                                    </Button>
+                                                    <ShrButton
+                                                        fullWidth
+                                                        variant={ButtonVariant.outlined}
+                                                        color={ButtonColor.default}
+                                                        type={ButtonType.button}
+                                                        title={i18n.t( 'add-product.add' )}
+                                                        size={ButtonSize.large}
+                                                        action={addProductHandler} />
                                                 </div>
                                             }
                                         </div>

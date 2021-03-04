@@ -2,6 +2,7 @@ import React from 'react';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import i18n from '../../i18n';
 import './ProductDetail.scss';
+import NumberUtils from '../../utils/numberUtils';
 
 type ProductDetailProps = {
     imgUrl: string;
@@ -57,7 +58,7 @@ const ProductDetail: React.FC<ProductDetailProps> = (
                 {
                     !!productUnitPrice &&
                     <div className='product-detail__unit-price'>
-                        {i18n.t( 'basket.product.unit-price', { unitPrice: '$' + productUnitPrice })}
+                        {i18n.t( 'basket.product.unit-price', { unitPrice: NumberUtils.getCurrency( Number( productUnitPrice ) ) })}
                     </div>
                 }
                 {
@@ -70,7 +71,7 @@ const ProductDetail: React.FC<ProductDetailProps> = (
                 }
             </div>
             <div className='product-detail__price'>
-                ${productPrice}
+                {NumberUtils.getCurrency( Number( productPrice ) )}
             </div>
         </div>
     );

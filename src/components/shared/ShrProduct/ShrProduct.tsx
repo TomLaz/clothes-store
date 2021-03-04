@@ -7,6 +7,7 @@ import { GlobalContext } from '../../../providers/Global/Global.provider';
 import GlobalService from '../../../services/Global/Global.service';
 import './ShrProduct.scss';
 import { Product } from '../../../providers/Global/Global.model';
+import NumberUtils from '../../../utils/numberUtils';
 
 type ShrProductProps = {
     product: Product;
@@ -72,7 +73,7 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
                     }
                 </div>
                 <div>
-                    ${product.price}
+                    {NumberUtils.getCurrency( Number( product.price ) ) }
                 </div>
             </div>
         </div>

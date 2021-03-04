@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Product } from '../../providers/Global/Global.model';
 import './ProductItem.scss';
+import NumberUtils from '../../utils/numberUtils';
 
 type ProductItemType = {
     product: Product;
@@ -28,7 +29,7 @@ const ProductItem: React.FC<ProductItemType> = ({ product: { imgUrl, title, desc
                     {description}
                 </p>
                 <span className='product-item__price'>
-                    ${price}
+                    {NumberUtils.getCurrency( Number( price ) ) }
                 </span>
             </div>
             <div className='product-item__bar' />

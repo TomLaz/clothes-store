@@ -9,6 +9,7 @@ import ProductDetail from '../ProductDetail/ProductDetail';
 import i18n from '../../i18n';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import { Product, ProductToBuy, ProductProperties } from '../../providers/Global/Global.model';
+import NumberUtils from '../../utils/numberUtils';
 
 const Basket: React.FC = () => {
     const { data: { currentUser, products }} = useContext( GlobalContext );
@@ -75,7 +76,7 @@ const Basket: React.FC = () => {
                             <div className='basket__total'>
                                 <div className='basket__total-title'>{i18n.t( 'basket.total' )}</div>
                                 <div className='basket__total-price'>
-                                    ${total.toFixed( 2 )}
+                                    {NumberUtils.getCurrency( Number( total.toFixed( 2 ) ) )}
                                 </div>
                             </div>
                         </div> :
