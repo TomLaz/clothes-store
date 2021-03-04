@@ -1,7 +1,7 @@
 import React from 'react';
-import './ProductItem.scss';
 import { motion } from 'framer-motion';
 import { Product } from '../../providers/Global/Global.model';
+import './ProductItem.scss';
 
 type ProductItemType = {
     product: Product;

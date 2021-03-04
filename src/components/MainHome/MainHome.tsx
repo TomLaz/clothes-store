@@ -1,9 +1,9 @@
 import React from 'react';
-import './MainHome.scss';
+import { useHistory } from 'react-router-dom';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
-import { useHistory } from 'react-router-dom';
-import ShrButton, { ButtonSize, ButtonVariant, ButtonType, ButtonColor } from '../shared/ShrButton/ShrButton';
+import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
+import './MainHome.scss';
 
 const MainHome: React.FC = () => {
     const history = useHistory();

@@ -1,6 +1,6 @@
 import React from 'react';
-import './ShrSpinner.scss';
 import { CircularProgress } from '@material-ui/core';
+import './ShrSpinner.scss';
 
 const ShrSpinner: React.FC = () => {
     return (

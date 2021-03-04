@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
+import './AddProduct.scss';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import ShrSelect from '../shared/ShrSelect/ShrSelect';
 import ShrCircularOption from '../shared/ShrCircularOption/ShrCircularOption';
 import ModalImage from '../ModalImage/ModalImage';
-import './AddProduct.scss';
 import { useHistory, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button } from '@material-ui/core';
@@ -12,9 +12,10 @@ import useFirestore from '../../firebase/useFirestore';
 import i18n from '../../i18n';
 import { Category, SubCategory } from '../../providers/Global/Global.model';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
+import SendOptions from '../SendOptions/SendOptions';
 
 const AddProduct: React.FC = () => {
-    const { id } = useParams();
+    const { id } = useParams<{ id: string }>();
     const { data: { products, categories, subCategories, currentUser, loading }} = useContext( GlobalContext );
     const history = useHistory();
     const basketProducts = useFirestore( 'basket' );
@@ -58,29 +59,27 @@ const AddProduct: React.FC = () => {
     };
 
     const addProductHandler = (): void => {
-        try {
-            const prods = !!basketProducts.docs
-                .filter( ( item: any ) => item.id === currentUser.uid ).length ?
-                basketProducts.docs.filter( item => item.id === currentUser.uid )[0].products : [];
+        const prods = !!basketProducts.docs
+            .filter( ( item: any ) => item.id === currentUser.uid ).length ?
+            basketProducts.docs.filter( item => item.id === currentUser.uid )[0].products : [];
 
-            prods.push({
-                'id': new Date().getTime().toString(),
-                'productId': id.toString(),
-                'quantity': qtySelected,
-                'size': sizeSelected
-            });
+        prods.push({
+            'id': new Date().getTime().toString(),
+            'productId': id.toString(),
+            'quantity': qtySelected,
+            'size': sizeSelected
+        });
 
-            basketProducts.updateCollection( currentUser.uid, prods );
+        basketProducts.updateCollection( currentUser.uid, prods );
 
-            setProductAdded( true );
-            if ( !!product && !!product.sizes ) {
-                onOptionSelected( product.sizes[0].size, product.sizes[0].stock );
-            }
+        setProductAdded( true );
+        if ( !!product && !!product.sizes ) {
+            onOptionSelected( product.sizes[0].size, product.sizes[0].stock );
+        }
 
-            setTimeout( () => {
-                setProductAdded( false );
-            }, 3000 );
-        } catch {}
+        setTimeout( () => {
+            setProductAdded( false );
+        }, 3000 );
     };
 
     return (
@@ -88,96 +87,95 @@ const AddProduct: React.FC = () => {
             <div className='add-product'>
                 {
                     !!product &&
-                    <div className='add-product__category-bar'>
-                        <div className='add-product__category-box'>
-                            <span>{!!category && category.name}</span>
-                            <span>{!!subcategory && '/'}</span>
-                            <span>{!!subcategory && subcategory.name}</span>
-                            <span>{!!product && '/'}</span>
-                            <span>{!!product && product.title}</span>
-                        </div>
-                    </div>
-                }
-
-                {
-                    !!product &&
-                    <div className='add-product__main'>
-                        <div className='add-product__detail'>
-                            <div className='add-product__main-left'>
-                                <div className='add-product__main-left-container'>
-                                    <img
-                                        src={product.imgUrl}
-                                        alt='title'
-                                        className='add-product__image'
-                                        onClick={(): void => imageSelectedHandler( product?.imgUrl || '' )} />
-                                    {!!selectedImg &&
-                                        <ModalImage
-                                            selectedImg={selectedImg}
-                                            setSelectedImg={setSelectedImg}
-                                            title={product.title} />
-                                    }
+                        <>
+                            <div className='add-product__category-bar'>
+                                <div className='add-product__category-box'>
+                                    <span>{!!category && category.name}</span>
+                                    <span>{!!subcategory && '/'}</span>
+                                    <span>{!!subcategory && subcategory.name}</span>
+                                    <span>{!!product && '/'}</span>
+                                    <span>{!!product && product.title}</span>
                                 </div>
                             </div>
-                            <div className='add-product__wrapper'>
-                                <div className='add-product__info'>
-                                    <div className='add-product__info-description'>
-                                        <span className='add-product__name'>{!!product && product.title}</span>
-                                        <p className='add-product__price'>{!!product && `$${product.price.toFixed( 2 )}`}</p>
-                                        <p className='add-product__code'>{!!product && i18n.t( 'add-product.code', { code: product.id })}</p>
-                                        <div className='add-product__color-box'>
-                                            <p>
-                                                <span className='add-product__color-title'>
-                                                    {!!product && 'Color:'}
-                                                </span> {!!product && product.color}
-                                            </p>
+                            <div className='add-product__main'>
+                                <div className='add-product__detail'>
+                                    <div className='add-product__main-left'>
+                                        <div className='add-product__main-left-container'>
+                                            <img
+                                                src={product.imgUrl}
+                                                alt='title'
+                                                className='add-product__image'
+                                                onClick={(): void => imageSelectedHandler( product?.imgUrl || '' )} />
+                                            {!!selectedImg &&
+                                                <ModalImage
+                                                    selectedImg={selectedImg}
+                                                    setSelectedImg={setSelectedImg}
+                                                    title={product.title} />
+                                            }
                                         </div>
                                     </div>
-                                    <div className='add-product__sizes-box'>
-                                        <div className='add-product__shr-circular-options'>
-                                            <p className='add-product__shr-circular-options-title'>{i18n.t( 'add-product.size.title' )}</p>
-                                            <div className='add-product__shr-circular-options-box'>
-                                                {
-                                                    product.sizes.map( item => (
-                                                        <ShrCircularOption
-                                                            key={item.size}
-                                                            size={item.size}
-                                                            sizeSelected={sizeSelected}
-                                                            onOptionSelected={(): any =>
-                                                                onOptionSelected( item.size, item.stock )}/>
-                                                    ) )
-                                                }
+                                    <div className='add-product__wrapper'>
+                                        <div className='add-product__info'>
+                                            <div className='add-product__info-description'>
+                                                <span className='add-product__name'>{!!product && product.title}</span>
+                                                <p className='add-product__price'>{!!product && `$${product.price.toFixed( 2 )}`}</p>
+                                                <p className='add-product__code'>{!!product && i18n.t( 'add-product.code', { code: product.id })}</p>
+                                                <div className='add-product__color-box'>
+                                                    <p>
+                                                        <span className='add-product__color-title'>
+                                                            {!!product && 'Color:'}
+                                                        </span> {!!product && product.color}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className='add-product__sizes-box'>
+                                                <div className='add-product__shr-circular-options'>
+                                                    <p className='add-product__shr-circular-options-title'>{i18n.t( 'add-product.size.title' )}</p>
+                                                    <div className='add-product__shr-circular-options-box'>
+                                                        {
+                                                            product.sizes.map( item => (
+                                                                <ShrCircularOption
+                                                                    key={item.size}
+                                                                    size={item.size}
+                                                                    sizeSelected={sizeSelected}
+                                                                    onOptionSelected={(): any =>
+                                                                        onOptionSelected( item.size, item.stock )}/>
+                                                            ) )
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div className='add-product__quantity'>
+                                                    <ShrSelect
+                                                        options={qtyOptions}
+                                                        title='Cantidad en stock:'
+                                                        onOptionChange={onOptionChange}
+                                                        selected={qtySelected ?? qtySelected}/>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className='add-product__quantity'>
-                                            <ShrSelect
-                                                options={qtyOptions}
-                                                title='Cantidad en stock:'
-                                                onOptionChange={onOptionChange}
-                                                selected={qtySelected ?? qtySelected}/>
+                                        <div className='add-product__actions'>
+                                            {productAdded ?
+                                                <div className='add-product__btn add-product__added'>
+                                                    <div className='add-product__btn add-product__added-box'>
+                                                        {i18n.t( 'add-product.added' )}
+                                                    </div>
+                                                </div> :
+                                                <div className='add-product__btn add-product__add'>
+                                                    <Button
+                                                        onClick={addProductHandler}
+                                                        variant='outlined'
+                                                        color='primary'
+                                                        size='large'>
+                                                        {i18n.t( 'add-product.add' )}
+                                                    </Button>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
-                                </div>
-                                <div className='add-product__actions'>
-                                    {productAdded ?
-                                        <div className='add-product__btn add-product__added'>
-                                            <div className='add-product__btn add-product__added-box'>
-                                                {i18n.t( 'add-product.added' )}
-                                            </div>
-                                        </div> :
-                                        <div className='add-product__btn add-product__add'>
-                                            <Button
-                                                onClick={addProductHandler}
-                                                variant='outlined'
-                                                color='primary'
-                                                size='large'>
-                                                {i18n.t( 'add-product.add' )}
-                                            </Button>
-                                        </div>
-                                    }
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                            <SendOptions />
+                        </>
                 }
                 {
                     !!!product && !loading && products.length > 0 &&

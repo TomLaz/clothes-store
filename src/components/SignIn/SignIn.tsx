@@ -1,22 +1,22 @@
 import React, { useContext, useRef, useState } from 'react';
-import './SignIn.scss';
-import { Link, useHistory } from 'react-router-dom';
-import ShrLayout from '../shared/ShrLayout/ShrLayout';
-import { GlobalContext } from '../../providers/Global/Global.provider';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, TextFieldProps } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
+import { Link, useHistory } from 'react-router-dom';
 import i18n from '../../i18n';
+import { GlobalContext } from '../../providers/Global/Global.provider';
 import GlobalService from '../../services/Global/Global.service';
+import ShrLayout from '../shared/ShrLayout/ShrLayout';
+import './SignIn.scss';
 
 type SignInType = {
     shouldRedirect?: boolean;
 }
 
 const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
-    const emailRef = useRef<any>();
-    const passwordRef = useRef<any>();
+    const emailRef = useRef<TextFieldProps>();
+    const passwordRef = useRef<TextFieldProps>();
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
     const history = useHistory();
@@ -28,7 +28,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
         try {
             setError( '' );
             setLoading( true );
-            await login( emailRef.current.value, passwordRef.current.value );
+            await login( emailRef.current?.value, passwordRef.current?.value );
             if ( shouldRedirect ) {
                 history.push( GlobalService.states.home );
             }
@@ -59,8 +59,8 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                                     inputRef={emailRef}
                                     label={i18n.t( 'global.email' )}
                                     name='email'
-                                    placeholder='email'
-                                    required={true}
+                                    placeholder={i18n.t( 'global.email' )}
+                                    required
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -77,7 +77,8 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                                     inputRef={passwordRef}
                                     label={i18n.t( 'global.password' )}
                                     name='password'
-                                    required={true}
+                                    placeholder={i18n.t( 'global.password' )}
+                                    required
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -96,7 +97,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                             <div className='sign-in__option'>
                                 <Button
                                     className='sign-in__option'
-                                    fullWidth={true}
+                                    fullWidth
                                     type='submit'
                                     variant='contained'
                                     disabled={loading}>
@@ -107,14 +108,18 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                         <Link
                             className='sign-in__forgot'
                             to={GlobalService.states.forgotPassword}>
-                            {i18n.t( 'sign-in.forgot-password' )}
+                            <strong>
+                                {i18n.t( 'sign-in.forgot-password' )}
+                            </strong>
                         </Link>
                         <div className='sign-in__signup'>
                             {i18n.t( 'sign-in.need-account' )}
                             <Link
                                 className='sign-in__register'
                                 to={GlobalService.states.signUp}>
-                                {i18n.t( 'sign-up' )}
+                                <strong>
+                                    {i18n.t( 'sign-up' )}
+                                </strong>
                             </Link>
                         </div>
                     </div>

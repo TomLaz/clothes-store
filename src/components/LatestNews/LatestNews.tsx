@@ -16,7 +16,7 @@ const LatestNews: React.FC = () => {
                 !!products.length &&
                 <div className='latest-news__gallery'>
                     {
-                        products.slice( 0, 29 ).map( ( product ) => {
+                        products.slice( 0, 12 ).map( ( product ) => {
                             return (
                                 <ShrProduct
                                     product={product}

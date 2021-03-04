@@ -1,6 +1,6 @@
 import React from 'react';
-import './ShrButton.scss';
 import { Button } from '@material-ui/core';
+import './ShrButton.scss';
 
 export enum ButtonSize {
     small = 'small',

@@ -11,17 +11,7 @@
         margin-right: 1rem;
         border: 1px solid $primary-dark-product-option;
         border-radius: 50%;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        -ms-border-radius: 50%;
-        -o-border-radius: 50%;
-        -khtml-border-radius: 50%;
         transition: all 0.25s;
-        -webkit-transition: all 0.25s;
-        -moz-transition: all 0.25s;
-        -ms-transition: all 0.25s;
-        -o-transition: all 0.25s;
-        -khtml-transition: all 0.25s;
 
         & input {
             cursor: pointer;
@@ -44,17 +34,7 @@
             left: 0;
             font-size: 14px;
             transform: translateY(-50%);
-            -webkit-transform: translateY(-50%);
-            -moz-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
-            -o-transform: translateY(-50%);
-            -khtml-transform: translateY(-50%);
             transition: all 0.25s;
-            -webkit-transition: all 0.25s;
-            -moz-transition: all 0.25s;
-            -ms-transition: all 0.25s;
-            -o-transition: all 0.25s;
-            -khtml-transition: all 0.25s;
         }
     }
 

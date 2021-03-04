@@ -16,10 +16,10 @@
         width: 50px;
         border: 1px solid $primary-dark;
         background: $primary-dark-lighter;
+    }
 
-        .shr-select__option {
-            background: $primary-dark-lighter;
-        }
+    &__option {
+        background: $primary-dark-lighter;
     }
 }
 

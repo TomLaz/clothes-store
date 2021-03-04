@@ -1,14 +1,14 @@
 import React, { useContext, useRef, useState } from 'react';
-import './SignUp.scss';
-import { Link, useHistory } from 'react-router-dom';
-import ShrLayout from '../shared/ShrLayout/ShrLayout';
-import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button, TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
+import { Link, useHistory } from 'react-router-dom';
 import i18n from '../../i18n';
+import { GlobalContext } from '../../providers/Global/Global.provider';
 import GlobalService from '../../services/Global/Global.service';
+import ShrLayout from '../shared/ShrLayout/ShrLayout';
+import './SignUp.scss';
 
 const SignUp: React.FC = () => {
     const emailRef = useRef<any>();
@@ -123,12 +123,14 @@ const SignUp: React.FC = () => {
                                 </Button>
                             </div>
                         </form>
-                        <div className='sign-up__signup'>
+                        <div className='sign-up__actions'>
                             {i18n.t( 'sign-up.already-account' )}
                             <Link
-                                className='sign-up__register'
+                                className='sign-up__sign-in'
                                 to={GlobalService.states.signIn}>
-                                {i18n.t( 'sign-in.confirm' )}
+                                <strong>
+                                    {i18n.t( 'sign-in.confirm' )}
+                                </strong>
                             </Link>
                         </div>
                     </div>

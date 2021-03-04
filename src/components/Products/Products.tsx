@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './Products.scss';
+import { Checkbox, FormControl, FormControlLabel, MenuItem, Select } from '@material-ui/core';
+import i18n from '../../i18n';
+import { GlobalContext } from '../../providers/Global/Global.provider';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import ShrProduct from '../shared/ShrProduct/ShrProduct';
-import { GlobalContext } from '../../providers/Global/Global.provider';
-import { Checkbox, FormControl, FormControlLabel, MenuItem, Select } from '@material-ui/core';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
-import i18n from '../../i18n';
+import './Products.scss';
 
 const Products: React.FC = () => {
     const { data: { filters, products, filteredOptions, checkedFilters, filteredProducts },
@@ -80,7 +80,9 @@ const Products: React.FC = () => {
                     products.length ) > 0 ?
                         <>
                             <div className='products__sort'>
-                                <p className='products__sort-title'>{i18n.t( 'products.dropdown.sort' )}</p>
+                                <p className='products__sort-title'>
+                                    {i18n.t( 'products.dropdown.sort' )}
+                                </p>
                                 <FormControl className='products__dropdown'>
                                     <Select
                                         fullWidth

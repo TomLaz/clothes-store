@@ -1,7 +1,7 @@
 import React from 'react';
-import './ProductDetail.scss';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import i18n from '../../i18n';
+import './ProductDetail.scss';
 
 type ProductDetailProps = {
     imgUrl: string;
@@ -17,7 +17,8 @@ type ProductDetailProps = {
 }
 
 const ProductDetail: React.FC<ProductDetailProps> = (
-    { imgUrl, imgAlt, title, color, productDescription, productSize, productQty, productUnitPrice, productPrice, onRemoveProductHandler }
+    { imgUrl, imgAlt, title, color, productDescription, productSize,
+        productQty, productUnitPrice, productPrice, onRemoveProductHandler }
 ) => {
     return (
         <div className='product-detail'>
@@ -56,12 +57,14 @@ const ProductDetail: React.FC<ProductDetailProps> = (
                 {
                     !!productUnitPrice &&
                     <div className='product-detail__unit-price'>
-                        {i18n.t( 'basket.product.unit-price', { unitPrice: productUnitPrice })}
+                        {i18n.t( 'basket.product.unit-price', { unitPrice: '$' + productUnitPrice })}
                     </div>
                 }
                 {
                     !!onRemoveProductHandler &&
-                    <div onClick={onRemoveProductHandler}>
+                    <div
+                        onClick={onRemoveProductHandler}
+                        className='product-detail__svg'>
                         <DeleteForeverIcon />
                     </div>
                 }

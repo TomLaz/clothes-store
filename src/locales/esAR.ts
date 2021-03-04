@@ -40,6 +40,7 @@ export default {
     'upload-product.complete-fields': 'Complete todos los campos.',
     'upload-product.create-failed': 'Error al crear el producto.',
     'upload-product.image-format': 'Seleccione un archivo de imagen (png o jpeg)',
+    'upload-product.size-format': 'La imagen debe tener 438px de ancho y 350px de alto',
     'upload-product.upload-title': 'Subir Producto',
     'upload-product.my-products': 'Mis Productos',
     'upload-product.image-selection': 'Seleccionar Imagen',

@@ -39,8 +39,8 @@ const Basket: React.FC = () => {
     };
 
     return (
-        <div className='basket'>
-            <ShrLayout>
+        <ShrLayout>
+            <div className='basket'>
                 {
                     ( basketProducts.docs.length > 0 &&
                     currentUser.uid !== undefined ) ?
@@ -105,8 +105,8 @@ const Basket: React.FC = () => {
                         </Button>
                     </DialogActions>
                 </Dialog>
-            </ShrLayout>
-        </div>
+            </div>
+        </ShrLayout>
     );
 };
 

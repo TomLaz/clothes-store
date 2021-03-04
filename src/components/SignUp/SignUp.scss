@@ -8,13 +8,6 @@
         width: 100%;
     }
 
-    @media (min-width: 600px) {
-        &__body {
-            border: 2px solid $primary-dark;
-            margin: 50px auto;
-        }
-    }
-
     &__top {
         padding: 50px;
     }
@@ -43,12 +36,12 @@
     }
 
     &__forgot,
-    &__register {
+    &__sign-in {
         color: $primary-dark;
         font-weight: 500;
     }
 
-    &__signup {
+    &__actions {
         margin-top: 15px;
     }
 }
@@ -56,5 +49,10 @@
 @media (min-width: 600px) {
     .sign-up {
         height: auto;
+
+        &__body {
+            border: 2px solid $primary-dark;
+            margin: 50px auto;
+        }
     }
 }

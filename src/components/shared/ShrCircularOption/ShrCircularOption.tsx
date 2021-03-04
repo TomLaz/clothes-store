@@ -18,7 +18,9 @@ const ShrCircularOption: React.FC<ShrCircularOptionProps> = ({ size, sizeSelecte
                 type='radio'
                 name='size'
                 value={size}/>
-            <span>{size}</span>
+            <span>
+                {size}
+            </span>
         </div>
     );
 };

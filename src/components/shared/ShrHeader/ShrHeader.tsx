@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './ShrHeader.scss';
-import { useHistory } from 'react-router-dom';
-import i18n from '../../../i18n';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import GlobalService from '../../../services/Global/Global.service';
-import { GlobalContext } from '../../../providers/Global/Global.provider';
 import { IconButton } from '@material-ui/core';
-import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
-import useFirestore from '../../../firebase/useFirestore';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
+import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import YouTubeIcon from '@material-ui/icons/YouTube';
-import ShrButton, { ButtonSize, ButtonType, ButtonVariant, ButtonColor } from '../ShrButton/ShrButton';
+import { useHistory } from 'react-router-dom';
+import useFirestore from '../../../firebase/useFirestore';
+import i18n from '../../../i18n';
+import { GlobalContext } from '../../../providers/Global/Global.provider';
+import GlobalService from '../../../services/Global/Global.service';
+import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../ShrButton/ShrButton';
+import './ShrHeader.scss';
 
 type ShrHeaderProps = {
     showSignIn?: boolean;
@@ -28,7 +28,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
         updateFilteredProducts, updateActiveMenu, updateActiveMenuItem } = useContext( GlobalContext );
     const basketProducts = useFirestore( 'basket' );
 
-    const productsToBuy = basketProducts.docs.filter( item => item.id === currentUser.uid ) || [];
+    const productsToBuy = !!currentUser ? basketProducts.docs.filter( item => item.id === currentUser.uid ) || [] : [];
 
     const basketQty = !!productsToBuy[0] ?
         productsToBuy[0].products.map( ( prod: any ) => Number( prod.quantity ) )
@@ -79,14 +79,16 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         <p
                             className='shr-header__mobile-burger'
                             onClick={ (): void => setShowMenu( !showMenu ) }>
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                            <span className='shr-header__mobile-burger-span'></span>
+                            <span className='shr-header__mobile-burger-span'></span>
+                            <span className='shr-header__mobile-burger-span'></span>
                         </p>
                     </div>
                 </div>
                 <div className={
-                    showMenu ? 'shr-header__mobile-menu shr-header__mobile-show' : 'shr-header__mobile-menu'}>
+                    showMenu ?
+                        'shr-header__mobile-menu shr-header__mobile-show' :
+                        'shr-header__mobile-menu'}>
                     <div className='shr-header__mobile-sign'>
                         {
                             ( !currentUser && showSignUp ) &&

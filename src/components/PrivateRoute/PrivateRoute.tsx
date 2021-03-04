@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import SignIn from '../SignIn/SignIn';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
+import SignIn from '../SignIn/SignIn';
 
 type PrivateRouteProps = {
     path: string;

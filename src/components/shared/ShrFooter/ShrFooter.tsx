@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import './ShrFooter.scss';
-import i18n from '../../../i18n';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import YouTubeIcon from '@material-ui/icons/YouTube';
-import { GlobalContext } from '../../../providers/Global/Global.provider';
 import { useHistory } from 'react-router-dom';
+import i18n from '../../../i18n';
+import { GlobalContext } from '../../../providers/Global/Global.provider';
 import GlobalService from '../../../services/Global/Global.service';
+import './ShrFooter.scss';
 
 const ShrFooter: React.FC = () => {
     const history = useHistory();

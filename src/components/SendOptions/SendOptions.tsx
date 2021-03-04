@@ -1,10 +1,10 @@
 import React from 'react';
-import './SendOptions.scss';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import i18n from '../../i18n';
+import './SendOptions.scss';
 
 const SendOptions: React.FC = () => {
     return (

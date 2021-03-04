@@ -1,6 +1,6 @@
 import React from 'react';
-import './ModalImage.scss';
 import { motion } from 'framer-motion';
+import './ModalImage.scss';
 
 type ModalImageProps = {
     selectedImg: string;
@@ -9,8 +9,9 @@ type ModalImageProps = {
 }
 
 const ModalImage: React.FC<ModalImageProps> = ({ selectedImg, setSelectedImg, title }) => {
-    const onClickHandler = ( e: any ): void => {
-        if ( e.target.classList.contains( 'backdrop' ) ) {
+    const onClickHandler = ( e: React.MouseEvent<HTMLDivElement, MouseEvent> ): void => {
+        const element = e.target as Element;
+        if ( element.classList.contains( 'backdrop' ) ) {
             setSelectedImg( null );
         }
     };

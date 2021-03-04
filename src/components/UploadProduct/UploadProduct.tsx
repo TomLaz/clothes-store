@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import './UploadProduct.scss';
-import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import { projectStorage, projectFirestore, timestamp } from '../../firebase/firebase';
 import { motion } from 'framer-motion';
+import { projectFirestore, projectStorage, timestamp } from '../../firebase/firebase';
 import useFirestore from '../../firebase/useFirestore';
-import { GlobalContext } from '../../providers/Global/Global.provider';
-import sizes from './ProductsSizes';
 import i18n from '../../i18n';
-import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
+import { GlobalContext } from '../../providers/Global/Global.provider';
 import ProductDetail from '../ProductDetail/ProductDetail';
+import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
+import ShrLayout from '../shared/ShrLayout/ShrLayout';
+import sizes from './ProductsSizes';
+import './UploadProduct.scss';
+import { SubCategory } from '../../providers/Global/Global.model';
 
 const UploadProduct: React.FC = () => {
     const { data: { currentUser, products }} = useContext( GlobalContext );
@@ -21,12 +22,12 @@ const UploadProduct: React.FC = () => {
     const [ error, setError ] = useState( '' );
     const [ isButtonDisabled, setIsButtonDisabled ] = useState( true );
     const [ loading, setLoading ] = useState( false );
-    const [ file, setFile ] = useState<any>( null );
+    const [ file, setFile ] = useState<File | null>( null );
     const [ progress, setProgress ] = useState( 0 );
     const [ url, setUrl ] = useState( null );
     const [ categorySelected, setCategorySelected ] = useState( '' );
     const [ subcategorySelected, setSubcategorySelected ] = useState( '' );
-    const [ subcategoriesFiltered, setSubcategoriesFiltered ] = useState<any>();
+    const [ subcategoriesFiltered, setSubcategoriesFiltered ] = useState<SubCategory[]>();
 
     const types = [ 'image/png', 'image/jpeg' ];
     const categories = useFirestore( 'categories' );
@@ -48,11 +49,11 @@ const UploadProduct: React.FC = () => {
     }, [ url, setFile ] );
 
     useEffect( () => {
-        const filtered = subcategories.docs.filter( sub => sub.categoryId.toString() === categorySelected );
+        const filtered: SubCategory[] = subcategories.docs.filter( sub => sub.categoryId.toString() === categorySelected );
         setSubcategoriesFiltered( filtered );
     }, [ categorySelected, subcategories.docs ] );
 
-    const onSubmitHandler = async ( e: any ): Promise<void> => {
+    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<void> => {
         e.preventDefault();
 
         if ( titleRef.current.value === '' ||
@@ -110,8 +111,17 @@ const UploadProduct: React.FC = () => {
         const selected = e.target.files![0];
 
         if ( selected && types.includes( selected.type ) ) {
-            setFile( selected );
-            setError( '' );
+            const img = new Image();
+            img.onload = (): void => {
+                if ( img.height !== 438 || img.width !== 350 ) {
+                    setFile( null );
+                    setError( i18n.t( 'upload-product.size-format' ) );
+                } else {
+                    setFile( selected );
+                    setError( '' );
+                }
+            };
+            img.src = URL.createObjectURL( selected );
         } else {
             setFile( null );
             setError( i18n.t( 'upload-product.image-format' ) );
@@ -136,13 +146,19 @@ const UploadProduct: React.FC = () => {
         }
     };
 
-    const onCategoryChange = ( e: any ): void => {
+    const onCategoryChange = ( e: React.ChangeEvent<{
+        name?: string | undefined;
+        value: unknown;
+    }> ): void => {
         setSubcategorySelected( '' );
-        setCategorySelected( e.target.value );
+        setCategorySelected( typeof e.target.value === 'string' ? e.target.value : '' );
     };
 
-    const onSubcategoryChange = ( e: any ): void => {
-        setSubcategorySelected( e.target.value );
+    const onSubcategoryChange = ( e: React.ChangeEvent<{
+        name?: string | undefined;
+        value: unknown;
+    }> ): void => {
+        setSubcategorySelected( typeof e.target.value === 'string' ? e.target.value : '' );
     };
 
     return (
@@ -168,7 +184,7 @@ const UploadProduct: React.FC = () => {
                             />
                             <label htmlFor='file-upload'>
                                 <ShrButton
-                                    fullWidth={true}
+                                    fullWidth
                                     variant={ButtonVariant.contained}
                                     disabled={loading}
                                     color={ButtonColor.default}
@@ -176,42 +192,47 @@ const UploadProduct: React.FC = () => {
                                     title={i18n.t( 'upload-product.image-selection' )}
                                     size={ButtonSize.large} />
                             </label>
-                            {file && <p>{file.name}</p>}
+                            {
+                                file &&
+                                <p>
+                                    {file.name}
+                                </p>
+                            }
                         </div>
                         <div className='upload-product__option'>
                             <TextField
-                                fullWidth={true}
+                                fullWidth
                                 id='title'
                                 inputRef={titleRef}
                                 label={i18n.t( 'upload-product.field-title' )}
                                 name='title'
                                 placeholder={i18n.t( 'upload-product.field-title' )}
                                 onChange={onChangeHandler}
-                                required={true}
+                                required
                                 type='input'/>
                         </div>
                         <div className='upload-product__option'>
                             <TextField
-                                fullWidth={true}
+                                fullWidth
                                 id='description'
                                 inputRef={descriptionRef}
                                 label={i18n.t( 'upload-product.field-description' )}
                                 name='description'
                                 placeholder={i18n.t( 'upload-product.field-description' )}
                                 onChange={onChangeHandler}
-                                required={true}
+                                required
                                 type='input'/>
                         </div>
                         <div className='upload-product__option'>
                             <TextField
-                                fullWidth={true}
+                                fullWidth
                                 id='color'
                                 inputRef={colorRef}
                                 label={i18n.t( 'upload-product.field-color' )}
                                 name='color'
                                 placeholder={i18n.t( 'upload-product.field-color' )}
                                 onChange={onChangeHandler}
-                                required={true}
+                                required
                                 type='input'/>
                         </div>
                         {
@@ -255,7 +276,7 @@ const UploadProduct: React.FC = () => {
                                         value={subcategorySelected}
                                         onChange={onSubcategoryChange} >
                                         {
-                                            subcategoriesFiltered.map( ( val: any ) => (
+                                            subcategoriesFiltered.map( ( val: SubCategory ) => (
                                                 <MenuItem
                                                     className='sid-cla-dropdown-option'
                                                     key={ val.id }
@@ -270,14 +291,14 @@ const UploadProduct: React.FC = () => {
                         }
                         <div className='upload-product__option'>
                             <TextField
-                                fullWidth={true}
+                                fullWidth
                                 id='price'
                                 inputRef={priceRef}
                                 label='Precio'
                                 name='price'
                                 placeholder='Price'
                                 onChange={onChangeHandler}
-                                required={true}
+                                required
                                 inputProps={{ step: 0.01 }}
                                 type='number'/>
                         </div>
@@ -289,7 +310,7 @@ const UploadProduct: React.FC = () => {
                         }
                         <div className='upload-product__option upload-product__submit-btn'>
                             <ShrButton
-                                fullWidth={true}
+                                fullWidth
                                 variant={ButtonVariant.contained}
                                 color={ButtonColor.default}
                                 disabled={ loading || isButtonDisabled}
@@ -313,7 +334,6 @@ const UploadProduct: React.FC = () => {
                             </h2>
                             {
                                 products.map( ( product, index ) => (
-                                    // <ProductItem product={product} key={product.id} />
                                     <ProductDetail
                                         key={index}
                                         imgUrl={product.imgUrl}

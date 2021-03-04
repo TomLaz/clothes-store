@@ -46,7 +46,7 @@
             cursor: pointer;
         }
 
-        &-burger span {
+        &-burger-span {
             background: $primary;
             display: block;
             height: 3px;
@@ -148,13 +148,6 @@
         width: 80%;
         margin: 0 auto;
     }
-
-    // @media (max-width: 980px) {
-    //     &__mobile {
-    //         display: flex;
-    //         flex-direction: column;
-    //     }
-    // }
 
     /*** DESKTOP BAR  ***/
     &__desktop {
@@ -308,12 +301,6 @@
         padding-top: 40px;
     }
 
-    @media (min-width: 980px) {
-        &__desktop {
-            display: flex;
-        }
-    }
-
     /* Mobile hover */
     &__mobile-sign-in .MuiButtonBase-root:hover,
     &__mobile-sign-up .MuiButtonBase-root:hover,
@@ -350,6 +337,10 @@
     .shr-header {
         &__mobile {
             display: none;
+        }
+
+        &__desktop {
+            display: flex;
         }
     }
 }
