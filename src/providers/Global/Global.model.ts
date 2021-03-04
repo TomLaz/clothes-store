@@ -43,10 +43,23 @@ export interface SubCategory {
 export interface Favourite {
     createdAt: CreatedAtType;
     id: string;
-    products: any[];
+    products: string[];
 }
 
 export interface Filter {
     name: string;
     products: string[];
+}
+
+export interface ProductToBuy {
+    createdAt: CreatedAtType;
+    id: string;
+    products: ProductProperties[]
+}
+
+export interface ProductProperties {
+    id: string;
+    productId: string;
+    quantity: string;
+    size: string;
 }

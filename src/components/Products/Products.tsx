@@ -14,7 +14,9 @@ const Products: React.FC = () => {
 
     useEffect( (): void => {
         if ( filters.length > 0 && filters.length !== Object.keys( checkedFilters ).length ) {
-            const elementsChecked: any = {};
+            const elementsChecked: {
+                [key: string]: boolean
+            } = {};
 
             filters.forEach( ( item ) => {
                 if ( filteredOptions.some( ( res: string ) => res.toLowerCase() === item.name.toLowerCase() ) ) {

@@ -13,6 +13,7 @@ import { GlobalContext } from '../../../providers/Global/Global.provider';
 import GlobalService from '../../../services/Global/Global.service';
 import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../ShrButton/ShrButton';
 import './ShrHeader.scss';
+import { ProductProperties } from '../../../providers/Global/Global.model';
 
 type ShrHeaderProps = {
     showSignIn?: boolean;
@@ -31,7 +32,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
     const productsToBuy = !!currentUser ? basketProducts.docs.filter( item => item.id === currentUser.uid ) || [] : [];
 
     const basketQty = !!productsToBuy[0] ?
-        productsToBuy[0].products.map( ( prod: any ) => Number( prod.quantity ) )
+        productsToBuy[0].products.map( ( prod: ProductProperties ) => Number( prod.quantity ) )
             .reduce( ( a: number, b: number ) => a + b, 0 ) : 0;
 
     useEffect( (): void => {

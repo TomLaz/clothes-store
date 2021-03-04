@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, TextFieldProps } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
@@ -11,18 +11,18 @@ import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import './SignUp.scss';
 
 const SignUp: React.FC = () => {
-    const emailRef = useRef<any>();
-    const passwordRef = useRef<any>();
-    const passwordConfirmRef = useRef<any>();
+    const emailRef = useRef<TextFieldProps>();
+    const passwordRef = useRef<TextFieldProps>();
+    const passwordConfirmRef = useRef<TextFieldProps>();
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
     const history = useHistory();
     const { signup } = useContext( GlobalContext );
 
-    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
+    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<void> => {
         e.preventDefault();
 
-        if ( passwordRef.current.value !== passwordConfirmRef.current.value ) {
+        if ( passwordRef.current?.value !== passwordConfirmRef.current?.value ) {
             return setError( i18n.t( 'sign-up.error-not-match' ) );
         }
 
@@ -31,8 +31,8 @@ const SignUp: React.FC = () => {
             setLoading( true );
 
             await signup(
-                emailRef.current.value,
-                passwordRef.current.value );
+                emailRef.current?.value,
+                passwordRef.current?.value );
 
             history.push( GlobalService.states.signIn );
         } catch {

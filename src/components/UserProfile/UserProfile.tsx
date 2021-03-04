@@ -3,7 +3,7 @@ import './UserProfile.scss';
 import { useHistory } from 'react-router-dom';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import { TextField } from '@material-ui/core';
+import { TextField, TextFieldProps } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
@@ -12,18 +12,18 @@ import GlobalService from '../../services/Global/Global.service';
 import ShrButton, { ButtonSize, ButtonVariant, ButtonType, ButtonColor } from '../shared/ShrButton/ShrButton';
 
 const UserProfile: React.FC = () => {
-    const passwordRef = useRef<any>();
-    const passwordConfirmRef = useRef<any>();
+    const passwordRef = useRef<TextFieldProps>();
+    const passwordConfirmRef = useRef<TextFieldProps>();
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
     const [ email, setEmail ] = useState( '' );
     const history = useHistory();
     const { data: { currentUser }, signup } = useContext( GlobalContext );
 
-    const onFormSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
+    const onFormSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<void> => {
         e.preventDefault();
 
-        if ( passwordRef.current.value !== passwordConfirmRef.current.value ) {
+        if ( passwordRef.current?.value !== passwordConfirmRef.current?.value ) {
             return setError( i18n.t( 'sign-up.error-not-match' ) );
         }
 
@@ -31,7 +31,7 @@ const UserProfile: React.FC = () => {
             setError( '' );
             setLoading( true );
 
-            await signup( email, passwordRef.current.value );
+            await signup( email, passwordRef.current?.value );
 
             history.push( GlobalService.states.signIn );
         } catch {

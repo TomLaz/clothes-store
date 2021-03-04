@@ -10,7 +10,7 @@ import { Button } from '@material-ui/core';
 import GlobalService from '../../services/Global/Global.service';
 import useFirestore from '../../firebase/useFirestore';
 import i18n from '../../i18n';
-import { Category, SubCategory } from '../../providers/Global/Global.model';
+import { Category, Product, SubCategory } from '../../providers/Global/Global.model';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import SendOptions from '../SendOptions/SendOptions';
 
@@ -29,7 +29,7 @@ const AddProduct: React.FC = () => {
     const [ sizeSelected, setSizeSelected ] = useState<string>( '' );
     const [ qtyOptions, setQtyOptions ] = useState<string[]>( [] );
     const [ qtySelected, setQtySelected ] = useState( '0' );
-    const [ selectedImg, setSelectedImg ] = useState( '' );
+    const [ selectedImg, setSelectedImg ] = useState<string | null>( '' );
     const [ productAdded, setProductAdded ] = useState( false );
 
     useEffect( (): void => {
@@ -54,13 +54,13 @@ const AddProduct: React.FC = () => {
         setQtySelected( event.target.value );
     };
 
-    const imageSelectedHandler = ( imgSelected: string ): void => {
+    const imageSelectedHandler = ( imgSelected: string | null ): void => {
         setSelectedImg( imgSelected );
     };
 
     const addProductHandler = (): void => {
         const prods = !!basketProducts.docs
-            .filter( ( item: any ) => item.id === currentUser.uid ).length ?
+            .filter( ( item: Product ) => item.id === currentUser.uid ).length ?
             basketProducts.docs.filter( item => item.id === currentUser.uid )[0].products : [];
 
         prods.push({
@@ -138,7 +138,7 @@ const AddProduct: React.FC = () => {
                                                                     key={item.size}
                                                                     size={item.size}
                                                                     sizeSelected={sizeSelected}
-                                                                    onOptionSelected={(): any =>
+                                                                    onOptionSelected={(): void =>
                                                                         onOptionSelected( item.size, item.stock )}/>
                                                             ) )
                                                         }

@@ -6,9 +6,10 @@ import i18n from '../../../i18n';
 import { GlobalContext } from '../../../providers/Global/Global.provider';
 import GlobalService from '../../../services/Global/Global.service';
 import './ShrProduct.scss';
+import { Product } from '../../../providers/Global/Global.model';
 
 type ShrProductProps = {
-    product: any;
+    product: Product;
 }
 
 const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {

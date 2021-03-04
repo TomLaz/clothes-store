@@ -4,7 +4,7 @@ import './ModalImage.scss';
 
 type ModalImageProps = {
     selectedImg: string;
-    setSelectedImg: any;
+    setSelectedImg: ( imgSelected: string | null ) => void;
     title: string;
 }
 

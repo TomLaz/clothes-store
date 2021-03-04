@@ -22,7 +22,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
     const history = useHistory();
     const { login } = useContext( GlobalContext );
 
-    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
+    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<void> => {
         e.preventDefault();
 
         try {

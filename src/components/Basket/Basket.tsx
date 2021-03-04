@@ -8,16 +8,17 @@ import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import ProductDetail from '../ProductDetail/ProductDetail';
 import i18n from '../../i18n';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
+import { Product, ProductToBuy, ProductProperties } from '../../providers/Global/Global.model';
 
 const Basket: React.FC = () => {
     const { data: { currentUser, products }} = useContext( GlobalContext );
     const basketProducts = useFirestore( 'basket' );
     const [ removeId, setRemoveId ] = useState( '' );
 
-    const productsToBuy = basketProducts.docs.filter( item => item.id === currentUser.uid );
+    const productsToBuy: ProductToBuy[] = basketProducts.docs.filter( item => item.id === currentUser.uid );
 
     let total = 0;
-    !!productsToBuy[0] && productsToBuy[0].products.forEach( ( prod: any ) => {
+    !!productsToBuy[0] && productsToBuy[0].products.forEach( ( prod: ProductProperties ) => {
         const price = !!products.find( data => data.id === prod.productId )?.price ?
             Number( products.find( data => data.id === prod.productId )?.price ) :
             0;
@@ -32,7 +33,7 @@ const Basket: React.FC = () => {
     const onConfirmRemoveHandler = (): void => {
         const prods = basketProducts.docs
             .filter( item => item.id === currentUser.uid )[0].products
-            .filter( ( prod: any ) => prod.id.toString() !== removeId.toString() );
+            .filter( ( prod: Product ) => prod.id.toString() !== removeId.toString() );
 
         basketProducts.updateCollection( currentUser.uid, prods );
         setRemoveId( '' );
@@ -46,7 +47,7 @@ const Basket: React.FC = () => {
                     currentUser.uid !== undefined ) ?
                         <div className='basket__products'>
                             {!!productsToBuy[0] &&
-                            productsToBuy[0].products.map( ( product: any, index: number ) => (
+                            productsToBuy[0].products.map( ( product: ProductProperties, index: number ) => (
                                 <ProductDetail
                                     key={index}
                                     imgUrl={products.find( data => data.id === product.productId )?.imgUrl || ''}

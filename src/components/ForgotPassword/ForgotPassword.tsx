@@ -3,26 +3,26 @@ import './ForgotPassword.scss';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, TextFieldProps } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import i18n from '../../i18n';
 import GlobalService from '../../services/Global/Global.service';
 
 const ForgotPassword: React.FC = () => {
-    const emailRef = useRef<any>();
+    const emailRef = useRef<TextFieldProps>();
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
     const [ message, setMessage ] = useState( '' );
     const { resetPassword } = useContext( GlobalContext );
 
-    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<any> => {
+    const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<void> => {
         e.preventDefault();
 
         try {
             setError( '' );
             setLoading( true );
-            await resetPassword( emailRef.current.value );
+            await resetPassword( emailRef.current?.value );
             setMessage( i18n.t( 'forgot-password.success' ) );
         } catch {
             setError( i18n.t( 'forgot-password.error' ) );
