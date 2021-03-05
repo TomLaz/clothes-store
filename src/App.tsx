@@ -14,6 +14,7 @@ import AddProduct from './components/AddProduct/AddProduct';
 import Basket from './components/Basket/Basket';
 import Products from './components/Products/Products';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import Favourites from './components/Favourites/Favourites';
 
 const App = (): JSX.Element => {
     return (
@@ -61,6 +62,11 @@ const App = (): JSX.Element => {
                             exact={true}
                             path={GlobalService.states.basket}
                             component={Basket} />
+
+                        <PrivateRoute
+                            exact={true}
+                            path={GlobalService.states.favourites}
+                            component={Favourites} />
                     </GlobalProvider>
                 </Switch>
             </ScrollToTop>

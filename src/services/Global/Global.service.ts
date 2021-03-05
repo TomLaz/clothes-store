@@ -10,6 +10,7 @@ export interface UserProfileStates {
     addProduct: string;
     basket: string;
     products: string;
+    favourites: string;
 }
 
 class GlobalService {
@@ -28,7 +29,8 @@ class GlobalService {
             uploadProduct: '/subir-producto',
             addProduct: '/agregar-producto',
             basket: '/carro-compras',
-            products: '/productos'
+            products: '/productos',
+            favourites: '/favoritos'
         };
     }
 }

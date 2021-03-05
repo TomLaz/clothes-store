@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Product } from '../../providers/Global/Global.model';
-import './ProductItem.scss';
 import NumberUtils from '../../utils/numberUtils';
+import './ProductItem.scss';
 
 type ProductItemType = {
     product: Product;

@@ -92,5 +92,11 @@ export default {
     'products.dropdown.lowest': 'Menor Precio',
     'products.dropdown.highest': 'Mayor Precio',
     'products.dropdown.date': 'Fecha',
-    'products.dropdown.sort': 'Ordenar por:'
+    'products.dropdown.sort': 'Ordenar por:',
+    'favourites.title': 'Favoritos',
+    'favourites.delete-title': 'Eliminar Favorito',
+    'favourites.delete-check': '¿Desea quitar el producto de sus favoritos?',
+    'favourites.cancel': 'Cancelar',
+    'favourites.agree': 'Aceptar',
+    'favourites.empty': 'No tiene productos en esta lista'
 };

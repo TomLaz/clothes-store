@@ -1,0 +1,33 @@
+@import '../../styles/styles.scss';
+
+.favourites {
+    margin: 50px 0;
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    &__empty {
+        display: flex;
+        flex-direction: row;
+        width: 80%;
+        background: $primary-light-product;
+        padding: 20px;
+        margin: 100px auto;
+        margin-bottom: 30px;
+        border: 1px solid $primary-dark;
+        text-transform: uppercase;
+    }
+
+    &__empty-title {
+        display: flex;
+        justify-content: center;
+        padding: 0 15px;
+        font-weight: 600;
+        font-size: 20px;
+        width: 100%;
+        text-align: center;
+    }
+}
