@@ -2,7 +2,6 @@
 <p>This example site shows you the ideal project structure, recommended libraries, as well as design pattern on writing type-safe React + Context API + Material UI app with TypeScript.
   
  <h2>Stack</h2>
-<h3>Backend</h3>
 <ul>
 <li>React</li>
 <li>Typescript</li>
