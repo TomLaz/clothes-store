@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-export default {
+const esAR = {
     'global.brand': '[ Store ]',
     'global.log-out': 'Desconectar',
     'global.user-profile': 'Mi cuenta',
@@ -109,3 +109,5 @@ export default {
     'favourites.agree': 'Aceptar',
     'favourites.empty': 'No tiene productos en esta lista'
 };
+
+export default esAR;
