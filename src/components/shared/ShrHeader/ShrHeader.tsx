@@ -4,6 +4,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import { useHistory } from 'react-router-dom';
@@ -63,19 +64,38 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                     <div className='shr-header__mobile-actions'>
                         {
                             currentUser &&
-                            <div
-                                className='shr-header__mobile-basket'
-                                aria-label={i18n.t( 'shr-header.basket' )}
-                                title={i18n.t( 'shr-header.basket' )}
-                                onClick={( (): void => history.push( GlobalService.states.basket ) )}>
-                                <ShoppingBasket  />
-                                <span className='shr-header__mobile-basket-qty'>
-                                    {
-                                        productsToBuy.length > 0 ?
-                                            basketQty : 0
-                                    }
-                                </span>
-                            </div>
+                            <>
+                                <IconButton
+                                    onClick={( (): void => {
+                                        const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
+                                        Object.keys( activeMenuTemp ).forEach( ( item ) => {
+                                            activeMenuTemp[ item ] = false;
+                                        });
+                                        activeMenuTemp[ 'favourites' ] = true;
+                                        updateActiveMenu( activeMenuTemp );
+
+                                        history.push( GlobalService.states.favourites );
+                                    })}
+                                    color='primary'
+                                    aria-label={i18n.t( 'shr-header.favourites' )}
+                                    title={i18n.t( 'shr-header.favourites' )}
+                                    component='span'>
+                                    <FavoriteIcon />
+                                </IconButton>
+                                <div
+                                    className='shr-header__mobile-basket'
+                                    aria-label={i18n.t( 'shr-header.basket' )}
+                                    title={i18n.t( 'shr-header.basket' )}
+                                    onClick={( (): void => history.push( GlobalService.states.basket ) )}>
+                                    <ShoppingBasket  />
+                                    <span className='shr-header__mobile-basket-qty'>
+                                        {
+                                            productsToBuy.length > 0 ?
+                                                basketQty : 0
+                                        }
+                                    </span>
+                                </div>
+                            </>
                         }
                         <p
                             className='shr-header__mobile-burger'
@@ -160,29 +180,38 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                         }}>
                         {i18n.t( 'global.home' )}
                     </div>
-                    {
-                        filters.length > 0 &&
-                        showCategories &&
-                        filters.map( ( option, key ) => {
-                            return (
-                                <div
-                                    key={key}
-                                    className={activeMenu[ option.name.toLowerCase() ] ?
-                                        'shr-header__mobile-option shr-header__mobile-active tomis' :
-                                        'shr-header__mobile-option'}
-                                    onClick={( (): void => {
-                                        updateActiveMenuItem( option.name.toLowerCase() );
-                                        updateCheckedFilters({});
-                                        updateFilteredProducts( [] );
-                                        updateFilteredOptions( [ option.name ] );
-                                        history.push( GlobalService.states.products );
-                                        setShowMenu( !showMenu );
-                                    })}>
-                                    {option.name}
-                                </div>
-                            );
-                        })
-                    }
+                    <div
+                        className={activeMenu[ 'favourites' ] ?
+                            'shr-header__mobile-option shr-header__mobile-active' :
+                            'shr-header__mobile-option'}
+                        onClick={ (): void => {
+                            const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
+                            Object.keys( activeMenuTemp ).forEach( ( item ) => {
+                                activeMenuTemp[ item ] = false;
+                            });
+                            activeMenuTemp[ 'favourites' ] = true;
+                            updateActiveMenu( activeMenuTemp );
+
+                            history.push( GlobalService.states.favourites );
+                        }}>
+                        {i18n.t( 'shr-header.favourites' )}
+                    </div>
+                    <div
+                        className={activeMenu[ 'products' ] ?
+                            'shr-header__mobile-option shr-header__mobile-active' :
+                            'shr-header__mobile-option'}
+                        onClick={ (): void => {
+                            const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
+                            Object.keys( activeMenuTemp ).forEach( ( item ) => {
+                                activeMenuTemp[ item ] = false;
+                            });
+                            activeMenuTemp[ 'products' ] = true;
+                            updateActiveMenu( activeMenuTemp );
+
+                            history.push( GlobalService.states.products );
+                        }}>
+                        {i18n.t( 'products.title' )}
+                    </div>
                 </div>
             </div>
             <div className='shr-header__desktop'>
@@ -213,7 +242,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                         key={key}
                                         className='shr-header__desktop-option'
                                         onClick={( (): void => {
-                                            updateActiveMenuItem( option.name.toLowerCase() );
+                                            updateActiveMenuItem( 'products' );
                                             updateCheckedFilters({});
                                             updateFilteredProducts( [] );
                                             updateFilteredOptions( [ option.name ] );
@@ -270,6 +299,14 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                     title={i18n.t( 'shr-header.profile' )}
                                     component='span'>
                                     <AccountCircle />
+                                </IconButton>
+                                <IconButton
+                                    onClick={( (): void => history.push( GlobalService.states.favourites ) )}
+                                    color='primary'
+                                    aria-label={i18n.t( 'shr-header.favourites' )}
+                                    title={i18n.t( 'shr-header.favourites' )}
+                                    component='span'>
+                                    <FavoriteIcon />
                                 </IconButton>
                                 <div
                                     className='shr-header__desktop-basket'

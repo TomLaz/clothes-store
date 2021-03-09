@@ -46,40 +46,45 @@ const Basket: React.FC = () => {
                 {
                     ( basketProducts.docs.length > 0 &&
                     currentUser.uid !== undefined ) ?
-                        <div className='basket__products'>
-                            {!!productsToBuy[0] &&
-                            productsToBuy[0].products.map( ( product: ProductProperties, index: number ) => (
-                                <ProductDetail
-                                    key={index}
-                                    imgUrl={products.find( data => data.id === product.productId )?.imgUrl || ''}
-                                    imgAlt={products.find( data => data.id === product.productId )?.title || ''}
-                                    title={products.find( data => data.id === product.productId )?.title || ''}
-                                    productSize={product.size}
-                                    productQty={product.quantity}
-                                    productUnitPrice={products
-                                        .find( data => data.id === product.productId )?.price.toFixed( 2 ).toString() || '0'}
-                                    productPrice={!!products.find( data => data.id === product.productId )?.price ?
-                                        ( Number( products.find( data => data.id === product.productId )?.price ) *
-                                        Number( product.quantity ) ).toFixed( 2 ).toString() : '0'
-                                    }
-                                    onRemoveProductHandler={(): void => removeProductHandler( product.id )}/>
-                            ) )}
-                            {!!!total &&
-                            basketProducts.docs.length > 0 &&
-                            currentUser.uid !== undefined &&
-                                <div className='basket__empty'>
-                                    <div className='basket__empty-title'>
-                                        {i18n.t( 'basket.empty' )}
+                        <>
+                            <h1 className='basket__title'>
+                                {i18n.t( 'basket.title' )}
+                            </h1>
+                            <div className='basket__products'>
+                                {!!productsToBuy[0] &&
+                                productsToBuy[0].products.map( ( product: ProductProperties, index: number ) => (
+                                    <ProductDetail
+                                        key={index}
+                                        imgUrl={products.find( data => data.id === product.productId )?.imgUrl || ''}
+                                        imgAlt={products.find( data => data.id === product.productId )?.title || ''}
+                                        title={products.find( data => data.id === product.productId )?.title || ''}
+                                        productSize={product.size}
+                                        productQty={product.quantity}
+                                        productUnitPrice={products
+                                            .find( data => data.id === product.productId )?.price.toFixed( 2 ).toString() || '0'}
+                                        productPrice={!!products.find( data => data.id === product.productId )?.price ?
+                                            ( Number( products.find( data => data.id === product.productId )?.price ) *
+                                            Number( product.quantity ) ).toFixed( 2 ).toString() : '0'
+                                        }
+                                        onRemoveProductHandler={(): void => removeProductHandler( product.id )}/>
+                                ) )}
+                                {!!!total &&
+                                basketProducts.docs.length > 0 &&
+                                currentUser.uid !== undefined &&
+                                    <div className='basket__empty'>
+                                        <div className='basket__empty-title'>
+                                            {i18n.t( 'basket.empty' )}
+                                        </div>
+                                    </div>
+                                }
+                                <div className='basket__total'>
+                                    <div className='basket__total-title'>{i18n.t( 'basket.total' )}</div>
+                                    <div className='basket__total-price'>
+                                        {NumberUtils.getCurrency( Number( total.toFixed( 2 ) ) )}
                                     </div>
                                 </div>
-                            }
-                            <div className='basket__total'>
-                                <div className='basket__total-title'>{i18n.t( 'basket.total' )}</div>
-                                <div className='basket__total-price'>
-                                    {NumberUtils.getCurrency( Number( total.toFixed( 2 ) ) )}
-                                </div>
                             </div>
-                        </div> :
+                        </> :
                         <ShrSpinner />
                 }
                 <Dialog

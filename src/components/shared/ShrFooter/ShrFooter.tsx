@@ -11,8 +11,7 @@ import './ShrFooter.scss';
 
 const ShrFooter: React.FC = () => {
     const history = useHistory();
-    const { data: { filters }, updateFilteredOptions,
-        updateCheckedFilters, updateFilteredProducts, updateActiveMenuItem } = useContext( GlobalContext );
+    const { data: { checkedFilters }, updateActiveMenuItem, updateCheckedFilters } = useContext( GlobalContext );
 
     return (
         <footer className='shr-footer'>
@@ -40,25 +39,28 @@ const ShrFooter: React.FC = () => {
                         })}>
                         {i18n.t( 'global.home' )}
                     </div>
-                    {
-                        filters.length > 0 &&
-                        filters.map( ( option, key ) => {
-                            return (
-                                <div
-                                    key={key}
-                                    className='shr-footer__category'
-                                    onClick={( (): void => {
-                                        updateActiveMenuItem( option.name.toLowerCase() );
-                                        updateCheckedFilters({});
-                                        updateFilteredProducts( [] );
-                                        updateFilteredOptions( [ option.name ] );
-                                        history.push( GlobalService.states.products );
-                                    })}>
-                                    {option.name}
-                                </div>
-                            );
-                        })
-                    }
+                    <div
+                        className='shr-footer__category'
+                        onClick={( (): void => {
+                            updateActiveMenuItem( 'favourites' );
+                            history.push( GlobalService.states.favourites );
+                        })}>
+                        {i18n.t( 'shr-footer.favourites' )}
+                    </div>
+                    <div
+                        className='shr-footer__category'
+                        onClick={( (): void => {
+                            updateActiveMenuItem( 'products' );
+                            const copyCheckedFilters = JSON.parse( JSON.stringify( checkedFilters ) );
+                            Object.keys( copyCheckedFilters ).forEach( itemName => {
+                                copyCheckedFilters[ itemName ] = false;
+                            });
+                            updateCheckedFilters( copyCheckedFilters );
+
+                            history.push( GlobalService.states.products );
+                        })}>
+                        {i18n.t( 'products.title' )}
+                    </div>
                 </div>
                 <div className='shr-footer__about-us'>
                     <div className='shr-footer__about-title'>

@@ -31,6 +31,14 @@
             flex-direction: row;
         }
 
+        &-actions .MuiButtonBase-root {
+            color: $primary;
+        }
+
+        &-actions .MuiSvgIcon-root {
+            font-size: 21px;
+        }
+
         &-login {
             color: $primary;
             cursor: pointer;
@@ -116,15 +124,10 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            grid-gap: 5px;
-            gap: 5px;
+            gap: 2px;
             cursor: pointer;
             color: $primary;
             margin-right: 7px;
-        }
-
-        &-basket .MuiSvgIcon-root {
-            font-size: 21px;
         }
 
         &-basket-qty {
@@ -272,6 +275,7 @@
             justify-content: center;
             gap: 5px;
             cursor: pointer;
+            margin-left: 18px;
         }
 
         &-basket-qty {
@@ -289,7 +293,7 @@
 
     &__desktop-logged .MuiIconButton-root {
         padding: 0;
-        margin: 0 18px;
+        margin: 0 0 0 18px;
     }
 
     &__desktop-logged .MuiSvgIcon-root {

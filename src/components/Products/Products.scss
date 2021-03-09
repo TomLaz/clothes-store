@@ -1,6 +1,16 @@
 @import '../../styles/styles.scss';
 
 .products {
+    &__title {
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+        background: $primary-header-title;
+        font-weight: 100;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
     &__sort {
         display: flex;
         flex-direction: row;
@@ -56,6 +66,12 @@
 
 @media (min-width: 500px) {
     .products {
+        &__title {
+            padding: 25px;
+            font-size: 26px;
+            margin-top: 5px;
+        }
+
         &__gallery {
             flex-direction: row;
             flex-wrap: wrap;

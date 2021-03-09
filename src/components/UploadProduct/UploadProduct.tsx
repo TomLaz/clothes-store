@@ -4,13 +4,13 @@ import { motion } from 'framer-motion';
 import { projectFirestore, projectStorage, timestamp } from '../../firebase/firebase';
 import useFirestore from '../../firebase/useFirestore';
 import i18n from '../../i18n';
+import { Product, SubCategory } from '../../providers/Global/Global.model';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import ProductDetail from '../ProductDetail/ProductDetail';
 import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import sizes from './ProductsSizes';
 import './UploadProduct.scss';
-import { SubCategory } from '../../providers/Global/Global.model';
 
 const UploadProduct: React.FC = () => {
     const { data: { currentUser, products }} = useContext( GlobalContext );
@@ -28,6 +28,8 @@ const UploadProduct: React.FC = () => {
     const [ categorySelected, setCategorySelected ] = useState( '' );
     const [ subcategorySelected, setSubcategorySelected ] = useState( '' );
     const [ subcategoriesFiltered, setSubcategoriesFiltered ] = useState<SubCategory[]>();
+    const [ productUploaded, setProductUploaded ] = useState( false );
+    const [ productsFiltered, setProductsFiltered ] = useState<Product[]>( [] );
 
     const types = [ 'image/png', 'image/jpeg' ];
     const categories = useFirestore( 'categories' );
@@ -47,6 +49,13 @@ const UploadProduct: React.FC = () => {
             setSubcategorySelected( '' );
         }
     }, [ url, setFile ] );
+
+    useEffect( () => {
+        const prodFiltered = products.filter( item => item.userId === currentUser.uid ).length > 0 ?
+            products.filter( item => item.userId === currentUser.uid ) : [];
+        setProductsFiltered( prodFiltered );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ products ] );
 
     useEffect( () => {
         const filtered: SubCategory[] = subcategories.docs.filter( sub => sub.categoryId.toString() === categorySelected );
@@ -95,14 +104,19 @@ const UploadProduct: React.FC = () => {
                     sizes: sizes
                 }).then( () => {
                     setUrl( imgUrl );
+                    setProductUploaded( true );
+
+                    setTimeout( () => {
+                        setProductUploaded( false );
+                    }, 3000 );
                 }).catch( () => {
                     setError( i18n.t( 'upload-product.create-failed' ) );
+                }).finally( () => {
+                    setLoading( false );
                 });
             });
         } catch {
             setError( i18n.t( 'upload-product.create-failed' ) );
-        } finally {
-            setLoading( false );
         }
     };
 
@@ -309,14 +323,22 @@ const UploadProduct: React.FC = () => {
                             </div>
                         }
                         <div className='upload-product__option upload-product__submit-btn'>
-                            <ShrButton
-                                fullWidth
-                                variant={ButtonVariant.contained}
-                                color={ButtonColor.default}
-                                disabled={ loading || isButtonDisabled}
-                                type={ButtonType.submit}
-                                title={i18n.t( 'upload-product.upload-title' )}
-                                size={ButtonSize.large} />
+                            {
+                                productUploaded ?
+                                    <div className='upload-product__added'>
+                                        <div className='upload-product__added-box'>
+                                            {i18n.t( 'upload-product.uploaded' )}
+                                        </div>
+                                    </div> :
+                                    <ShrButton
+                                        fullWidth
+                                        variant={ButtonVariant.contained}
+                                        color={ButtonColor.default}
+                                        disabled={ loading || isButtonDisabled}
+                                        type={ButtonType.submit}
+                                        title={i18n.t( 'upload-product.upload-title' )}
+                                        size={ButtonSize.large} />
+                            }
                         </div>
                         <motion.div
                             initial={{ width: 0 }}
@@ -324,29 +346,26 @@ const UploadProduct: React.FC = () => {
                             className='upload-product__progress-bar' />
                     </form>
                 </div>
-                <div className='upload-product__products'>
-                    {
-                        !!( products.length > 0 &&
-                            products.filter( item => item.userId === currentUser.uid ).length ) &&
-                        <>
-                            <h2 className='upload-product__products-title'>
-                                {i18n.t( 'upload-product.my-products' )}
-                            </h2>
-                            {
-                                products.map( ( product, index ) => (
-                                    <ProductDetail
-                                        key={index}
-                                        imgUrl={product.imgUrl}
-                                        imgAlt={product.title}
-                                        title={product.title}
-                                        color={product.color}
-                                        productDescription={product.description}
-                                        productPrice={product.price.toString()} />
-                                ) )
-                            }
-                        </>
-                    }
-                </div>
+                {
+                    productsFiltered.length > 0 &&
+                    <div className='upload-product__products'>
+                        <h2 className='upload-product__products-title'>
+                            {i18n.t( 'upload-product.my-products' )}
+                        </h2>
+                        {
+                            productsFiltered.map( ( product: Product ) => (
+                                <ProductDetail
+                                    key={product.id}
+                                    imgUrl={product.imgUrl}
+                                    imgAlt={product.title}
+                                    title={product.title}
+                                    color={product.color}
+                                    productDescription={product.description}
+                                    productPrice={product.price.toString()} />
+                            ) )
+                        }
+                    </div>
+                }
             </div>
         </ShrLayout>
     );

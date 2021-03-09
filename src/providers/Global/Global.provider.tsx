@@ -252,28 +252,28 @@ export const GlobalProvider: React.FC = ({ children }) => {
     }, [] );
 
     useEffect( (): void => {
-        if ( !!productsFirestore.docs.length && providerValue.products.length === 0 ) {
+        if ( productsFirestore.docs.length !== providerValue.products.length ) {
             updateProducts( productsFirestore.docs );
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ productsFirestore ] );
 
     useEffect( (): void => {
-        if ( !!categories.docs.length && providerValue.categories.length === 0 ) {
+        if ( categories.docs.length > 0 && providerValue.categories.length === 0 ) {
             updateCategories( categories.docs );
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ categories ] );
 
     useEffect( (): void => {
-        if ( !!subCategoriesFirestore.docs.length && providerValue.subCategories.length === 0 ) {
+        if ( subCategoriesFirestore.docs.length > 0 && providerValue.subCategories.length === 0 ) {
             updateSubCategories( subCategoriesFirestore.docs );
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ subCategoriesFirestore ] );
 
     useEffect( (): void => {
-        if ( ( !!favouritesFirestore.docs.length && providerValue.favourites.length === 0 ) ||
+        if ( ( favouritesFirestore.docs.length > 0 && providerValue.favourites.length === 0 ) ||
         ( !!favouritesFirestore.docs.length && providerValue.favourites !== favouritesFirestore.docs ) ) {
             updateFavourites( favouritesFirestore.docs );
         }

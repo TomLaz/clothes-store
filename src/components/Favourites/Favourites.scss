@@ -1,12 +1,23 @@
 @import '../../styles/styles.scss';
 
 .favourites {
-    margin: 50px 0;
+    margin-bottom: 50px;
+
+    &__title {
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+        background: $primary-header-title;
+        font-weight: 100;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
     &__items {
         display: flex;
         flex-direction: column;
         gap: 30px;
+        margin-top: 30px;
     }
 
     &__empty {
@@ -29,5 +40,15 @@
         font-size: 20px;
         width: 100%;
         text-align: center;
+    }
+}
+
+@media (min-width: 500px) {
+    .favourites {
+        &__title {
+            padding: 25px;
+            font-size: 26px;
+            margin-top: 5px;
+        }
     }
 }

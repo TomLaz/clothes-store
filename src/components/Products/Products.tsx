@@ -9,8 +9,13 @@ import './Products.scss';
 
 const Products: React.FC = () => {
     const { data: { filters, products, filteredOptions, checkedFilters, filteredProducts },
-        updateCheckedFilters, updateFilteredProducts } = useContext( GlobalContext );
+        updateCheckedFilters, updateFilteredProducts, updateActiveMenuItem } = useContext( GlobalContext );
     const [ sortSelected, setSortSelected ] = useState( 'date' );
+
+    useEffect( (): void => {
+        updateActiveMenuItem( 'products' );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [] );
 
     useEffect( (): void => {
         if ( filters.length > 0 && filters.length !== Object.keys( checkedFilters ).length ) {
@@ -81,6 +86,9 @@ const Products: React.FC = () => {
                     ( filters.length > 0 &&
                     products.length ) > 0 ?
                         <>
+                            <h1 className='products__title'>
+                                {i18n.t( 'products.title' )}
+                            </h1>
                             <div className='products__sort'>
                                 <p className='products__sort-title'>
                                     {i18n.t( 'products.dropdown.sort' )}

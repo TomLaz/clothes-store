@@ -1,6 +1,16 @@
 @import '../../styles/styles.scss';
 
 .basket {
+    &__title {
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+        background: $primary-header-title;
+        font-weight: 100;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
     &__products {
         display: flex;
         flex-direction: column;
@@ -54,6 +64,16 @@
         font-size: 20px;
         width: 100%;
         text-align: center;
+    }
+}
+
+@media (min-width: 500px) {
+    .basket {
+        &__title {
+            padding: 25px;
+            font-size: 26px;
+            margin-top: 5px;
+        }
     }
 }
 

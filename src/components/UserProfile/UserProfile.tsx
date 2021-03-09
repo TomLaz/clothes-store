@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './UserProfile.scss';
 import { useHistory } from 'react-router-dom';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
 import { GlobalContext } from '../../providers/Global/Global.provider';
-import { TextField, TextFieldProps } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
@@ -12,28 +12,42 @@ import GlobalService from '../../services/Global/Global.service';
 import ShrButton, { ButtonSize, ButtonVariant, ButtonType, ButtonColor } from '../shared/ShrButton/ShrButton';
 
 const UserProfile: React.FC = () => {
-    const passwordRef = useRef<TextFieldProps>();
-    const passwordConfirmRef = useRef<TextFieldProps>();
+    const [ password, setPassword ] = useState( '' );
+    const [ passwordConfirm, setPasswordConfirm ] = useState( '' );
     const [ error, setError ] = useState( '' );
     const [ loading, setLoading ] = useState( false );
     const [ email, setEmail ] = useState( '' );
     const history = useHistory();
-    const { data: { currentUser }, signup } = useContext( GlobalContext );
+    const [ passwordUpdated, setPasswordUpdated ] = useState( false );
+    const { data: { currentUser }, updatePassword } = useContext( GlobalContext );
 
     const onFormSubmit = async ( e: React.FormEvent<HTMLFormElement> ): Promise<void> => {
         e.preventDefault();
 
-        if ( passwordRef.current?.value !== passwordConfirmRef.current?.value ) {
-            return setError( i18n.t( 'sign-up.error-not-match' ) );
+        if ( password !== passwordConfirm ) {
+            return setError( i18n.t( 'update-profile.password-not-match' ) );
         }
 
         try {
             setError( '' );
             setLoading( true );
 
-            await signup( email, passwordRef.current?.value );
-
-            history.push( GlobalService.states.signIn );
+            if ( password !== '' ) {
+                updatePassword( email, password )
+                    .then( () => {
+                        setPassword( '' );
+                        setPasswordConfirm( '' );
+                        setPasswordUpdated( true );
+                        setTimeout( () => {
+                            setPasswordUpdated( false );
+                        }, 3000 );
+                    })
+                    .catch( () => {
+                        setError( i18n.t( 'update-profile.password-error' ) );
+                    }).finally( () => {
+                        setLoading( false );
+                    });
+            }
         } catch {
             setError( i18n.t( 'sign-up.error' ) );
         } finally {
@@ -50,6 +64,9 @@ const UserProfile: React.FC = () => {
     return (
         <ShrLayout showSignUp={false}>
             <div className='user-profile'>
+                <h1 className='user-profile__primary-title'>
+                    {i18n.t( 'user-profile.title' )}
+                </h1>
                 <div className='user-profile__body'>
                     <div className='user-profile__top'>
                         <h2 className='user-profile__title'>
@@ -65,12 +82,12 @@ const UserProfile: React.FC = () => {
                                     fullWidth={true}
                                     id='email'
                                     value={email}
-                                    onChange={( item ): void => setEmail( item.target.value )}
                                     label={i18n.t( 'global.email' )}
                                     name='email'
                                     placeholder='email'
                                     required={true}
                                     InputProps={{
+                                        readOnly: true,
                                         endAdornment: (
                                             <InputAdornment position='end'>
                                                 <AccountCircle />
@@ -84,7 +101,8 @@ const UserProfile: React.FC = () => {
                                     helperText={i18n.t( 'user-profile.password-blank' )}
                                     fullWidth={true}
                                     id='password'
-                                    inputRef={passwordRef}
+                                    value={password}
+                                    onChange={( e ): void => setPassword( e.target.value ) }
                                     label={i18n.t( 'global.password' )}
                                     name='password'
                                     required={true}
@@ -101,7 +119,8 @@ const UserProfile: React.FC = () => {
                                 <TextField
                                     fullWidth={true}
                                     id='password-confirm'
-                                    inputRef={passwordConfirmRef}
+                                    value={passwordConfirm}
+                                    onChange={( e ): void => setPasswordConfirm( e.target.value ) }
                                     label={i18n.t( 'global.password-confirm' )}
                                     name='password-confirm'
                                     required={true}
@@ -121,14 +140,22 @@ const UserProfile: React.FC = () => {
                                 </div>
                             }
                             <div className='user-profile__option'>
-                                <ShrButton
-                                    fullWidth={true}
-                                    disabled={loading}
-                                    variant={ButtonVariant.contained}
-                                    color={ButtonColor.default}
-                                    type={ButtonType.submit}
-                                    title={i18n.t( 'user-profile.update' )}
-                                    size={ButtonSize.large} />
+                                {
+                                    passwordUpdated ?
+                                        <div className='user-profile__added'>
+                                            <div className='user-profile__added-box'>
+                                                {i18n.t( 'update-profile.password-updated' )}
+                                            </div>
+                                        </div> :
+                                        <ShrButton
+                                            fullWidth
+                                            disabled={loading}
+                                            variant={ButtonVariant.contained}
+                                            color={ButtonColor.default}
+                                            type={ButtonType.submit}
+                                            title={i18n.t( 'user-profile.update' )}
+                                            size={ButtonSize.large} />
+                                }
                             </div>
                         </form>
                     </div>
