@@ -187,6 +187,12 @@ const UploadProduct: React.FC = () => {
                     <form
                         onSubmit={onSubmitHandler}
                         className='upload-product__bottom'>
+                        {
+                            error &&
+                            <div className='upload-product__option upload-product__error'>
+                                {error}
+                            </div>
+                        }
                         <div className='upload-product__option upload-product__image'>
                             <input
                                 accept='image/*'
@@ -316,12 +322,6 @@ const UploadProduct: React.FC = () => {
                                 inputProps={{ step: 0.01 }}
                                 type='number'/>
                         </div>
-                        {
-                            error &&
-                            <div className='upload-product__option upload-product__error'>
-                                {error}
-                            </div>
-                        }
                         <div className='upload-product__option upload-product__submit-btn'>
                             {
                                 productUploaded ?

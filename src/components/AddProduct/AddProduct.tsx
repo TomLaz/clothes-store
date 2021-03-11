@@ -153,7 +153,7 @@ const AddProduct: React.FC = () => {
                                                 <div className='add-product__quantity'>
                                                     <ShrSelect
                                                         options={qtyOptions}
-                                                        title='Cantidad en stock:'
+                                                        title={i18n.t( 'add-product.stock' )}
                                                         onOptionChange={onOptionChange}
                                                         selected={qtySelected ?? qtySelected}/>
                                                 </div>

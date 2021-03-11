@@ -98,7 +98,6 @@ const UserProfile: React.FC = () => {
                             </div>
                             <div className='user-profile__option'>
                                 <TextField
-                                    helperText={i18n.t( 'user-profile.password-blank' )}
                                     fullWidth={true}
                                     id='password'
                                     value={password}
