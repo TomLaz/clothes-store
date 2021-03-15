@@ -1,5 +1,5 @@
 <h1>React Typescript Store</h1>
-<p>This example site shows you the ideal project structure, recommended libraries, as well as design pattern on writing type-safe React + Context API + Material UI app with TypeScript.
+<p>This example site shows you the ideal project structure, recommended libraries, as well as design pattern on writing type-safe React + Context API + Material UI app with TypeScript.</p>
   
  <h2>Stack</h2>
 <ul>
