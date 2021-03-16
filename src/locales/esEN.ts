@@ -90,7 +90,7 @@ const esEN = {
     'add-product.add': 'Add to basket',
     'add-product.not-found': 'Product Not Found',
     'add-product.home': 'Home',
-    'add-product.stock': 'Stock',
+    'add-product.stock': 'Quantity',
     'shr-product.info': '+Info',
     'products.title': 'Products',
     'products.dropdown.all': 'Name',

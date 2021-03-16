@@ -8,9 +8,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button } from '@material-ui/core';
 import GlobalService from '../../services/Global/Global.service';
-import useFirestore from '../../firebase/useFirestore';
 import i18n from '../../i18n';
-import { Category, Product, SubCategory } from '../../providers/Global/Global.model';
+import { BasketProducts, Category, SubCategory } from '../../providers/Global/Global.model';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import SendOptions from '../SendOptions/SendOptions';
 import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
@@ -18,9 +17,9 @@ import NumberUtils from '../../utils/numberUtils';
 
 const AddProduct: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { data: { products, categories, subCategories, currentUser, loading }} = useContext( GlobalContext );
+    const { data: { products, categories, subCategories, currentUser, loading, basketProducts },
+        updateBasketProductsCollection } = useContext( GlobalContext );
     const history = useHistory();
-    const basketProducts = useFirestore( 'basket' );
 
     const product = ( !!products.length && !!id ) ?
         products.find( ( prod ) => prod.id.toString() === id.toString() ) : '';
@@ -61,9 +60,8 @@ const AddProduct: React.FC = () => {
     };
 
     const addProductHandler = (): void => {
-        const prods = !!basketProducts.docs
-            .filter( ( item: Product ) => item.id === currentUser.uid ).length ?
-            basketProducts.docs.filter( item => item.id === currentUser.uid )[0].products : [];
+        const prods = !!basketProducts.filter( ( item: BasketProducts ) => item.id === currentUser.uid ).length ?
+            basketProducts.filter( item => item.id === currentUser.uid )[0].products : [];
 
         prods.push({
             'id': new Date().getTime().toString(),
@@ -72,7 +70,7 @@ const AddProduct: React.FC = () => {
             'size': sizeSelected
         });
 
-        basketProducts.updateCollection( currentUser.uid, prods );
+        updateBasketProductsCollection( currentUser.uid, prods );
 
         setProductAdded( true );
         if ( !!product && !!product.sizes ) {

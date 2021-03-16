@@ -63,3 +63,9 @@ export interface ProductProperties {
     quantity: string;
     size: string;
 }
+
+export interface BasketProducts {
+    createdAt: CreatedAtType;
+    id: string;
+    products: ProductProperties[]
+}

@@ -12,6 +12,7 @@ mockI18Next();
 
 beforeEach( () => {
 
+    jest.resetModules();
     // Skip our i18n system from init and mock the translate implementation to avoid
     // i18n processing on tests. That means, if a component uses i18n.t('some.key'),
     // our tests will receive [some.key] as final output. Which is easy to test.

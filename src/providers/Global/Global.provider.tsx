@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 import React, { createContext, useState, useEffect } from 'react';
-import { MenuItems, Product, Category, SubCategory, Favourite, Filter } from './Global.model';
+import { MenuItems, Product, Category, SubCategory, Favourite, Filter, ProductProperties, BasketProducts } from './Global.model';
 import { auth } from '../../firebase/firebase';
 import useFirestore from '../../firebase/useFirestore';
 import firebase from 'firebase/app';
@@ -15,6 +16,7 @@ export interface GlobalProviderData {
     filteredOptions: [];
     checkedFilters: any;
     filteredProducts: Product[];
+    basketProducts: BasketProducts[];
     activeMenu: {[key:string]: boolean};
     loading: boolean;
 }
@@ -28,6 +30,8 @@ export interface GlobalContextProps {
     updateSubCategories: Function;
     updateFavourites: Function;
     updateFavouritesCollection: Function;
+    updateBasketProducts: Function;
+    updateBasketProductsCollection: Function;
     signup: Function;
     login: Function;
     logout: Function;
@@ -59,6 +63,7 @@ export const defaultGlobalProviderData: GlobalProviderData = {
     filteredOptions: [],
     checkedFilters: {},
     filteredProducts: [] as Product[],
+    basketProducts: [] as BasketProducts[],
     activeMenu: { 'home': true },
     loading: false
 };
@@ -72,6 +77,8 @@ export const GlobalContext = createContext<GlobalContextProps>({
     updateSubCategories: Function,
     updateFavourites: Function,
     updateFavouritesCollection: Function,
+    updateBasketProducts: Function,
+    updateBasketProductsCollection: Function,
     signup: Function,
     login: Function,
     logout: Function,
@@ -93,6 +100,7 @@ export const GlobalProvider: React.FC = ({ children }) => {
     const categories = useFirestore( 'categories' );
     const subCategoriesFirestore = useFirestore( 'subcategories' );
     const favouritesFirestore = useFirestore( 'favourites' );
+    const basketProductsFirestore = useFirestore( 'basket' );
 
     const updateLoading = ( loading: boolean ): void => {
         setProviderValue( ( prevValues ) => {
@@ -147,6 +155,16 @@ export const GlobalProvider: React.FC = ({ children }) => {
 
         setProviderValue( ( prevValues ) => {
             return { ...prevValues, favourites };
+        });
+
+        updateLoading( false );
+    };
+
+    const updateBasketProducts = ( basketProducts: BasketProducts[] ): void => {
+        updateLoading( true );
+
+        setProviderValue( ( prevValues ) => {
+            return { ...prevValues, basketProducts };
         });
 
         updateLoading( false );
@@ -216,6 +234,11 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateFavourites( favouritesFirestore.docs );
     };
 
+    const updateBasketProductsCollection = ( uid: any, basketProducts: ProductProperties[] ): void => {
+        basketProductsFirestore.updateCollection( uid, basketProducts );
+        updateBasketProducts( basketProductsFirestore.docs );
+    };
+
     const signup = ( email: string, password: string ): Promise<firebase.auth.UserCredential> => {
         return auth.createUserWithEmailAndPassword( email, password );
     };
@@ -280,6 +303,15 @@ export const GlobalProvider: React.FC = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ favouritesFirestore ] );
 
+    useEffect( (): void => {
+        if ( ( basketProductsFirestore.docs.length > 0 && providerValue.basketProducts.length === 0 ) ||
+        ( !!basketProductsFirestore.docs.length && providerValue.basketProducts !== basketProductsFirestore.docs ) ) {
+            updateBasketProducts( basketProductsFirestore.docs );
+            console.log( 'basketProductsFirestore.docs: ', basketProductsFirestore.docs );
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ basketProductsFirestore ] );
+
     useEffect( ():void => {
         if ( providerValue.categories.length > 0 &&
             !providerValue.filters.some( r => providerValue.categories
@@ -309,6 +341,8 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateSubCategories,
         updateFavourites,
         updateFavouritesCollection,
+        updateBasketProducts,
+        updateBasketProductsCollection,
         signup,
         login,
         logout,

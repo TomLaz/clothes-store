@@ -20,17 +20,17 @@ class GlobalService {
     static get states(): UserProfileStates {
         return {
             home: '/',
-            mens: '/hombres',
-            womens: '/mujeres',
-            signUp: '/registrar',
-            signIn: '/ingresar',
-            forgotPassword: '/olvide-password',
-            userProfile: '/perfil-usuario',
-            uploadProduct: '/subir-producto',
-            addProduct: '/agregar-producto',
-            basket: '/carro-compras',
-            products: '/productos',
-            favourites: '/favoritos'
+            mens: '/mens',
+            womens: '/womens',
+            signUp: '/signup',
+            signIn: '/login',
+            forgotPassword: '/forget-password',
+            userProfile: '/my-profile',
+            uploadProduct: '/upload-product',
+            addProduct: '/add-product',
+            basket: '/basket',
+            products: '/products',
+            favourites: '/favorites'
         };
     }
 }

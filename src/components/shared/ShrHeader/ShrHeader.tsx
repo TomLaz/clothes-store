@@ -8,7 +8,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import { useHistory } from 'react-router-dom';
-import useFirestore from '../../../firebase/useFirestore';
 import i18n from '../../../i18n';
 import { GlobalContext } from '../../../providers/Global/Global.provider';
 import GlobalService from '../../../services/Global/Global.service';
@@ -25,12 +24,11 @@ type ShrHeaderProps = {
 const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCategories }) => {
     const history = useHistory();
     const [ showMenu, setShowMenu ] = useState( false );
-    const { data: { currentUser, filters, activeMenu },
+    const { data: { currentUser, filters, activeMenu, basketProducts },
         logout, updateFilteredOptions, updateCheckedFilters,
         updateFilteredProducts, updateActiveMenu, updateActiveMenuItem } = useContext( GlobalContext );
-    const basketProducts = useFirestore( 'basket' );
 
-    const productsToBuy = !!currentUser ? basketProducts.docs.filter( item => item.id === currentUser.uid ) || [] : [];
+    const productsToBuy = !!currentUser ? basketProducts.filter( item => item.id === currentUser.uid ) || [] : [];
 
     const basketQty = !!productsToBuy[0] ?
         productsToBuy[0].products.map( ( prod: ProductProperties ) => Number( prod.quantity ) )

@@ -1,22 +1,21 @@
 import React, { useContext, useState } from 'react';
 import './Basket.scss';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
-import useFirestore from '../../firebase/useFirestore';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import Dialog from '@material-ui/core/Dialog';
 import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import ProductDetail from '../ProductDetail/ProductDetail';
 import i18n from '../../i18n';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
-import { Product, ProductToBuy, ProductProperties } from '../../providers/Global/Global.model';
+import { ProductToBuy, ProductProperties } from '../../providers/Global/Global.model';
 import NumberUtils from '../../utils/numberUtils';
 
 const Basket: React.FC = () => {
-    const { data: { currentUser, products }} = useContext( GlobalContext );
-    const basketProducts = useFirestore( 'basket' );
+    const { data: { currentUser, products, basketProducts },
+        updateBasketProductsCollection } = useContext( GlobalContext );
     const [ removeId, setRemoveId ] = useState( '' );
 
-    const productsToBuy: ProductToBuy[] = basketProducts.docs.filter( item => item.id === currentUser.uid );
+    const productsToBuy: ProductToBuy[] = basketProducts.filter( item => item.id === currentUser.uid );
 
     let total = 0;
     !!productsToBuy[0] && productsToBuy[0].products.forEach( ( prod: ProductProperties ) => {
@@ -32,11 +31,10 @@ const Basket: React.FC = () => {
     };
 
     const onConfirmRemoveHandler = (): void => {
-        const prods = basketProducts.docs
-            .filter( item => item.id === currentUser.uid )[0].products
-            .filter( ( prod: Product ) => prod.id.toString() !== removeId.toString() );
+        const prods = basketProducts.filter( item => item.id === currentUser.uid )[0].products
+            .filter( ( prod: ProductProperties ) => prod.id.toString() !== removeId.toString() );
 
-        basketProducts.updateCollection( currentUser.uid, prods );
+        updateBasketProductsCollection( currentUser.uid, prods );
         setRemoveId( '' );
     };
 
@@ -44,7 +42,7 @@ const Basket: React.FC = () => {
         <ShrLayout>
             <div className='basket'>
                 {
-                    ( basketProducts.docs.length > 0 &&
+                    ( basketProducts.length > 0 &&
                     currentUser.uid !== undefined ) ?
                         <>
                             <h1 className='basket__title'>
@@ -69,7 +67,7 @@ const Basket: React.FC = () => {
                                         onRemoveProductHandler={(): void => removeProductHandler( product.id )}/>
                                 ) )}
                                 {!!!total &&
-                                basketProducts.docs.length > 0 &&
+                                basketProducts.length > 0 &&
                                 currentUser.uid !== undefined &&
                                     <div className='basket__empty'>
                                         <div className='basket__empty-title'>
