@@ -4,7 +4,7 @@ import { Product } from '../../providers/Global/Global.model';
 import NumberUtils from '../../utils/numberUtils';
 import './ProductItem.scss';
 
-type ProductItemType = {
+export type ProductItemType = {
     product: Product;
 }
 

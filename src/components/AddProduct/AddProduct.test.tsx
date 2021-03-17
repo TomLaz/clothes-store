@@ -3,15 +3,25 @@ import { cleanup, fireEvent, render, RenderResult, act } from '@testing-library/
 import '@testing-library/jest-dom/extend-expect';
 import AddProduct from './AddProduct';
 import { BrowserRouter as Router, MemoryRouter, Route } from 'react-router-dom';
-import { GlobalContext, GlobalContextProps, GlobalProviderData } from '../../providers/Global/Global.provider';
+import { GlobalContext, GlobalContextProps } from '../../providers/Global/Global.provider';
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
+import GlobalService from '../../services/Global/Global.service';
+
+const mockHistoryPush = jest.fn();
+
+jest.mock( 'react-router-dom', () => ({
+    ...jest.requireActual( 'react-router-dom' ),
+    useHistory: (): { push: jest.Mock<any, any>; } => ({
+        push: mockHistoryPush
+    })
+}) );
 
 describe( 'AddProduct', () => {
     let addProductProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
-    const getRender = ( defaultGlobalProviderDataProps: GlobalProviderData, id: string ): RenderResult => {
-        addProductProviderMock = getGlobalProviderMockData( defaultGlobalProviderDataProps );
+    const getRender = ( id: string ): RenderResult => {
+        addProductProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
 
         return render(
             <Router>
@@ -28,11 +38,12 @@ describe( 'AddProduct', () => {
     };
 
     beforeEach( () => {
-        wrapper = getRender( getDefaultGlobalProviderDataProps(), 'g1UBk' );
+        wrapper = getRender( 'g1UBk' );
     });
 
     afterEach( () => {
         cleanup();
+        mockHistoryPush.mockReset();
     });
 
     test( 'should render without error', () => {
@@ -68,6 +79,10 @@ describe( 'AddProduct', () => {
     test( 'should add product to basket case', () => {
         jest.useFakeTimers();
 
+        expect( addProductProviderMock.data.basketProducts[0].products.length ).not.toBe(
+            getDefaultGlobalProviderDataProps().basketProducts[0].products.length + 1
+        );
+
         const button = wrapper.baseElement.querySelector( '.add-product__add .shr-button .MuiButtonBase-root' );
         expect( button ).toBeInTheDocument();
         if ( button ) {
@@ -77,12 +92,29 @@ describe( 'AddProduct', () => {
         act( () => {
             jest.advanceTimersByTime( 3500 );
         });
+
+        expect( addProductProviderMock.data.basketProducts[0].products.length ).toBe(
+            getDefaultGlobalProviderDataProps().basketProducts[0].products.length + 1
+        );
     });
 
     test( 'should show No Product Found message', () => {
         cleanup();
-        wrapper = getRender( getDefaultGlobalProviderDataProps(), 'notFound' );
+        wrapper = getRender( 'notFound' );
         const notFound = wrapper.baseElement.querySelector( '.add-product__not-found-box' );
         expect( notFound ).toBeInTheDocument();
+    });
+
+    test( 'should history push to home page', () => {
+        cleanup();
+        wrapper = getRender( 'notFound' );
+
+        const button = wrapper.baseElement.querySelector( '.add-product__not-found .MuiButtonBase-root' );
+        expect( button ).toBeInTheDocument();
+        if ( button ) {
+            fireEvent.click( button );
+        }
+
+        expect( mockHistoryPush ).toHaveBeenCalledWith( GlobalService.states.home );
     });
 });

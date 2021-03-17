@@ -1,4 +1,4 @@
-import { BasketProducts, Category, Product, SubCategory } from './Global.model';
+import { BasketProducts, Category, Favourite, Filter, Product, SubCategory } from './Global.model';
 import { defaultGlobalProviderData, GlobalContextProps, GlobalProviderData } from './Global.provider';
 
 export function getGlobalProviderMockData( defaultGlobalProviderDataProps?: GlobalProviderData ): GlobalContextProps {
@@ -134,7 +134,7 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
             'products': [
                 {
                     'id': '1615858712400',
-                    'productId': 'ZI2abSxriGYlqh9E1L3I',
+                    'productId': 'g1UBk',
                     'quantity': '2',
                     'size': 'S'
                 },
@@ -148,16 +148,40 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
         }
     ];
 
+    const favourites: Favourite[] = [
+        {
+            'createdAt': {
+                'nanoseconds': 215000000,
+                'seconds': 1615003734
+            },
+            'id': 'p0Oacugr3lahoX57pDwN2PalHLW2',
+            'products': [ 'g1UBk', 'BKqnKh51SiP6shxE6ELB' ]
+        }
+    ];
+
+    const filters: Filter[] = [
+        {
+            'name': 'Mens',
+            'products': [ 'g1UBk' ]
+        },
+        {
+            'name': 'Womens',
+            'products': [ 'g1UBk' ]
+        }
+    ];
+
+    const checkedFilters = {};
+
     const defaultGlobalProviderDataProps: GlobalProviderData = {
         menuItems: [],
         currentUser: currentUser,
         products: products,
         categories: categories,
         subCategories: subCategories,
-        favourites: [],
-        filters: [],
+        favourites: favourites,
+        filters: filters,
         filteredOptions: [],
-        checkedFilters: {},
+        checkedFilters: checkedFilters,
         filteredProducts: [] as Product[],
         basketProducts: basketProducts,
         activeMenu: { 'home': true },

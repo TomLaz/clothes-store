@@ -86,7 +86,8 @@ const Basket: React.FC = () => {
                         <ShrSpinner />
                 }
                 <Dialog
-                    open={!!removeId}
+                    className='basket__dialog'
+                    open={removeId !== ''}
                     onClose={(): void => setRemoveId( '' )}
                     aria-labelledby={i18n.t( 'basket.delete-product' )}
                     aria-describedby={i18n.t( 'basket.delete-check' )}
@@ -101,11 +102,13 @@ const Basket: React.FC = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button
+                            className='basket__cancel-remove'
                             onClick={(): void => setRemoveId( '' )}
                             color='primary'>
                             {i18n.t( 'basket.cancel' )}
                         </Button>
                         <Button
+                            className='basket__confirm-remove'
                             onClick={onConfirmRemoveHandler}
                             color='primary'>
                             {i18n.t( 'basket.agree' )}

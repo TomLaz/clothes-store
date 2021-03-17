@@ -75,6 +75,7 @@ const Favourites: React.FC = () => {
 
                 }
                 <Dialog
+                    className='favourites__dialog'
                     open={!!removeId}
                     onClose={(): void => setRemoveId( '' )}
                     aria-labelledby={i18n.t( 'favourites.delete-title' )}
@@ -90,11 +91,13 @@ const Favourites: React.FC = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button
+                            className='favourites__cancel-remove'
                             onClick={(): void => setRemoveId( '' )}
                             color='primary'>
                             {i18n.t( 'favourites.cancel' )}
                         </Button>
                         <Button
+                            className='favourites__confirm-remove'
                             onClick={onConfirmRemoveHandler}
                             color='primary'>
                             {i18n.t( 'favourites.agree' )}

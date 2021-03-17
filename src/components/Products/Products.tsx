@@ -132,6 +132,7 @@ const Products: React.FC = () => {
                                             return (
                                                 <FormControlLabel
                                                     key={index}
+                                                    className='products__checkbox-wrapper'
                                                     control={
                                                         <Checkbox
                                                             checked={checkedFilters[item.name.toLowerCase()]}

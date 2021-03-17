@@ -16,12 +16,14 @@ const ShrSelect: React.FC<ShrSelectProps> = ({ title, selected, onOptionChange, 
             </p>
             <select
                 value={selected}
+                data-testid="my-select"
                 className='shr-select__select'
                 onChange={ onOptionChange }>
                 {
                     options.map( ( option, index ) => (
                         <option
                             className='shr-select__option'
+                            data-testid="select-option"
                             key={index}
                             value={option}>
                             {option}

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { createContext, useState, useEffect } from 'react';
 import { MenuItems, Product, Category, SubCategory, Favourite, Filter, ProductProperties, BasketProducts } from './Global.model';
 import { auth } from '../../firebase/firebase';
@@ -307,7 +306,6 @@ export const GlobalProvider: React.FC = ({ children }) => {
         if ( ( basketProductsFirestore.docs.length > 0 && providerValue.basketProducts.length === 0 ) ||
         ( !!basketProductsFirestore.docs.length && providerValue.basketProducts !== basketProductsFirestore.docs ) ) {
             updateBasketProducts( basketProductsFirestore.docs );
-            console.log( 'basketProductsFirestore.docs: ', basketProductsFirestore.docs );
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ basketProductsFirestore ] );

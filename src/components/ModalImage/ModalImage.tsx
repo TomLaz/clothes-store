@@ -23,6 +23,7 @@ const ModalImage: React.FC<ModalImageProps> = ({ selectedImg, setSelectedImg, ti
             className='backdrop'
             onClick={onClickHandler}>
             <motion.img
+                className='backdrop__image'
                 initial={{ y: '-100vh' }}
                 animate={{ y: '0' }}
                 src={selectedImg}
