@@ -88,7 +88,7 @@ const Basket: React.FC = () => {
                 <Dialog
                     className='basket__dialog'
                     open={removeId !== ''}
-                    onClose={(): void => setRemoveId( '' )}
+                    onClose={(): void => setRemoveId( '' ) }
                     aria-labelledby={i18n.t( 'basket.delete-product' )}
                     aria-describedby={i18n.t( 'basket.delete-check' )}
                 >

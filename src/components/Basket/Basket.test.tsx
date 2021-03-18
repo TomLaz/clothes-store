@@ -38,7 +38,7 @@ describe( 'Basket', () => {
         expect( component ).toBeInTheDocument();
     });
 
-    test( 'should call updateBasketProductsCollection function on confirm remove product', () => {
+    test( 'should call updateBasketProductsCollection function on confirm remove product clicked', () => {
         let confirmRemoveButton = document.body.querySelector( '.basket__dialog .basket__confirm-remove' );
         expect( confirmRemoveButton ).not.toBeInTheDocument();
 
@@ -58,7 +58,7 @@ describe( 'Basket', () => {
         expect( addProductProviderMock.updateBasketProductsCollection ).toHaveBeenCalled();
     });
 
-    test( 'should not call updateBasketProductsCollection function on cancel remove product', () => {
+    test( 'should not call updateBasketProductsCollection function on cancel remove product clicked', () => {
         let cancelRemoveButton = document.body.querySelector( '.basket__dialog .basket__cancel-remove' );
         expect( cancelRemoveButton ).not.toBeInTheDocument();
 

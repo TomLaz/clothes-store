@@ -12,7 +12,7 @@ export interface GlobalProviderData {
     subCategories: SubCategory[];
     favourites: Favourite[];
     filters: Filter[];
-    filteredOptions: [];
+    filteredOptions: string[];
     checkedFilters: any;
     filteredProducts: Product[];
     basketProducts: BasketProducts[];

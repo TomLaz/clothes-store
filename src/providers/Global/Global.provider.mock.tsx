@@ -1,7 +1,7 @@
 import { BasketProducts, Category, Favourite, Filter, Product, SubCategory } from './Global.model';
-import { defaultGlobalProviderData, GlobalContextProps, GlobalProviderData } from './Global.provider';
+import { GlobalContextProps, GlobalProviderData } from './Global.provider';
 
-export function getGlobalProviderMockData( defaultGlobalProviderDataProps?: GlobalProviderData ): GlobalContextProps {
+export function getGlobalProviderMockData( defaultGlobalProviderDataProps: GlobalProviderData ): GlobalContextProps {
     const updateMenuItems = jest.fn();
     const updateCurrentUser = jest.fn();
     const updateProducts = jest.fn();
@@ -25,7 +25,7 @@ export function getGlobalProviderMockData( defaultGlobalProviderDataProps?: Glob
     const updateActiveMenuItem = jest.fn();
     const updateLoading = jest.fn();
 
-    const defaultProviderData = defaultGlobalProviderDataProps || defaultGlobalProviderData;
+    const defaultProviderData = defaultGlobalProviderDataProps;
 
     const data = defaultProviderData;
     return {
@@ -66,8 +66,7 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
             },
             'description': 'description',
             'id': 'g1UBk',
-            // eslint-disable-next-line max-len
-            'imgUrl': 'https://firebasestorage.googleapis.com/v0/b/clothes-store-cc681.appspot.com/o/shiny-white-nght_1_thumbnail.jpg?alt=media&token=12ff1a18-1fa4-4155-b8b3-66a10a799d9c',
+            'imgUrl': 'https://dummyimage.com/640x360/fff/aaa',
             'price': 100,
             'sizes': [
                 {
@@ -83,7 +82,36 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
                     'stock': 6
                 }
             ],
-            'subcategoryId': 6,
+            'subcategoryId': 1,
+            'title': 'title',
+            'userId': 'Gkua5'
+        },
+        {
+            'categoryId': 2,
+            'color': 'color',
+            'createdAt': {
+                'nanoseconds': 215000000,
+                'seconds': 1615003734
+            },
+            'description': 'description',
+            'id': 'kBU1g',
+            'imgUrl': 'https://dummyimage.com/640x360/fff/aaa',
+            'price': 100,
+            'sizes': [
+                {
+                    'size': 'S',
+                    'stock': 10
+                },
+                {
+                    'size': 'M',
+                    'stock': 8
+                },
+                {
+                    'size': 'L',
+                    'stock': 6
+                }
+            ],
+            'subcategoryId': 2,
             'title': 'title',
             'userId': 'Gkua5'
         }
@@ -95,27 +123,36 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
                 'nanoseconds': 215000000,
                 'seconds': 1615003734
             },
-            'id': 2,
-            'name': 'Womens'
+            'id': 1,
+            'name': 'Mens'
         },
         {
             'createdAt': {
                 'nanoseconds': 215000000,
                 'seconds': 1615003734
             },
-            'id': 1,
-            'name': 'Mens'
+            'id': 2,
+            'name': 'Womens'
         }
     ];
 
     const subCategories: SubCategory[] = [
+        {
+            'categoryId': 1,
+            'createdAt': {
+                'nanoseconds': 215000000,
+                'seconds': 1615003734
+            },
+            'id': 1,
+            'name': 'Name'
+        },
         {
             'categoryId': 2,
             'createdAt': {
                 'nanoseconds': 215000000,
                 'seconds': 1615003734
             },
-            'id': 7,
+            'id': 2,
             'name': 'Name'
         }
     ];
@@ -140,7 +177,7 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
                 },
                 {
                     'id': '1615858721981',
-                    'productId': 'BKqnKh51SiP6shxE6ELB',
+                    'productId': 'kBU1g',
                     'quantity': '1',
                     'size': 'XL'
                 }
@@ -155,7 +192,7 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
                 'seconds': 1615003734
             },
             'id': 'p0Oacugr3lahoX57pDwN2PalHLW2',
-            'products': [ 'g1UBk', 'BKqnKh51SiP6shxE6ELB' ]
+            'products': [ 'g1UBk', 'kBU1g' ]
         }
     ];
 
@@ -166,7 +203,7 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
         },
         {
             'name': 'Womens',
-            'products': [ 'g1UBk' ]
+            'products': [ 'kBU1g' ]
         }
     ];
 
@@ -180,7 +217,7 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
         subCategories: subCategories,
         favourites: favourites,
         filters: filters,
-        filteredOptions: [],
+        filteredOptions: [] as string[],
         checkedFilters: checkedFilters,
         filteredProducts: [] as Product[],
         basketProducts: basketProducts,

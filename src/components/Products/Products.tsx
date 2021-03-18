@@ -124,7 +124,6 @@ const Products: React.FC = () => {
                                 </FormControl>
                             </div>
                             <div className='products__box'>
-                                {/* BARRA LATERAL IZQ, FILTROS */}
                                 {
                                     Object.keys( checkedFilters ).length > 0 &&
                                     <div className='products__categories'>
@@ -146,7 +145,6 @@ const Products: React.FC = () => {
                                         })}
                                     </div>
                                 }
-                                {/* LADO DERECHO, CUERPO DE IMAGENES */}
                                 {
                                     filteredProducts.length === 0 ?
                                         <div className='products__gallery'>
