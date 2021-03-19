@@ -258,7 +258,7 @@ export const GlobalProvider: React.FC = ({ children }) => {
         return providerValue.currentUser.updateEmail( email );
     };
 
-    const updatePassword = ( password: string ): void => {
+    const updatePassword = ( password: string ): Promise<void> => {
         return providerValue.currentUser.updatePassword( password );
     };
 

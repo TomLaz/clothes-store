@@ -33,7 +33,7 @@ const UserProfile: React.FC = () => {
             setLoading( true );
 
             if ( password !== '' ) {
-                updatePassword( email, password )
+                await updatePassword( email, password )
                     .then( () => {
                         setPassword( '' );
                         setPasswordConfirm( '' );
@@ -81,7 +81,7 @@ const UserProfile: React.FC = () => {
                                 <TextField
                                     fullWidth={true}
                                     id='email'
-                                    value={email}
+                                    value={email || ''}
                                     label={i18n.t( 'global.email' )}
                                     name='email'
                                     placeholder='email'
@@ -98,9 +98,10 @@ const UserProfile: React.FC = () => {
                             </div>
                             <div className='user-profile__option'>
                                 <TextField
+                                    className='user-profile__form-password'
                                     fullWidth={true}
                                     id='password'
-                                    value={password}
+                                    value={password || ''}
                                     onChange={( e ): void => setPassword( e.target.value ) }
                                     label={i18n.t( 'global.password' )}
                                     name='password'
@@ -116,9 +117,10 @@ const UserProfile: React.FC = () => {
                             </div>
                             <div className='user-profile__option'>
                                 <TextField
+                                    className='user-profile__form-password-confirm'
                                     fullWidth={true}
                                     id='password-confirm'
-                                    value={passwordConfirm}
+                                    value={passwordConfirm || ''}
                                     onChange={( e ): void => setPasswordConfirm( e.target.value ) }
                                     label={i18n.t( 'global.password-confirm' )}
                                     name='password-confirm'
@@ -165,7 +167,7 @@ const UserProfile: React.FC = () => {
                             {i18n.t( 'user-profile.upload-products' )}
                         </h2>
                     </div>
-                    <div className='user-profile__bottom'>
+                    <div className='user-profile__bottom user-profile__upload-container'>
                         <br />
                         <p>{i18n.t( 'user-profile.upload-product.description-1' )}</p>
                         <br />

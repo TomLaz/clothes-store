@@ -50,7 +50,7 @@ describe( 'SignIn', () => {
         expect( component ).toBeInTheDocument();
     });
 
-    test( 'should render without error', async () => {
+    test( 'should call login function & redirect to home page on submit button clicked', async () => {
         wrapper = getRender( getDefaultGlobalProviderDataProps() );
         const emailInput = wrapper.baseElement.querySelector( '.sign-in__form-email .MuiInputBase-input' );
         expect( emailInput ).toBeInTheDocument();

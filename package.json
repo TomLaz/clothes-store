@@ -72,9 +72,16 @@
       "i18n.ts",
       "browserMockControl.ts",
       "src/mocks",
+      "src/App.tsx",
       ".provider.tsx",
       ".container.tsx",
-      ".serive.ts"
+      ".serive.ts",
+      "src/components/PrivateRoute",
+      "src/components/ScrollToTop",
+      "src/components/ShrLayout",
+      "src/components/UploadProduct",
+      "src/firebase",
+      "src/providers"
     ],
     "coverageReporters": [
       "json-summary",

@@ -57,6 +57,7 @@ const SignUp: React.FC = () => {
                             className='sign-up__form'>
                             <div className='sign-up__option'>
                                 <TextField
+                                    className='sign-up__form-email'
                                     fullWidth={true}
                                     id='email'
                                     inputRef={emailRef}
@@ -75,6 +76,7 @@ const SignUp: React.FC = () => {
                             </div>
                             <div className='sign-up__option'>
                                 <TextField
+                                    className='sign-up__form-password'
                                     fullWidth={true}
                                     id='password'
                                     inputRef={passwordRef}
@@ -92,6 +94,7 @@ const SignUp: React.FC = () => {
                             </div>
                             <div className='sign-up__option'>
                                 <TextField
+                                    className='sign-up__form-password-confirm'
                                     fullWidth={true}
                                     id='password-confirm'
                                     inputRef={passwordConfirmRef}
@@ -115,6 +118,7 @@ const SignUp: React.FC = () => {
                             }
                             <div className='sign-up__option'>
                                 <Button
+                                    className='sign-up__submit-button'
                                     type='submit'
                                     fullWidth={true}
                                     variant='contained'
