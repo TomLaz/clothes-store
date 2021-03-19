@@ -54,6 +54,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                             className='sign-in__form'>
                             <div className='sign-in__option'>
                                 <TextField
+                                    className='sign-in__form-email'
                                     fullWidth={true}
                                     id='email'
                                     inputRef={emailRef}
@@ -72,6 +73,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                             </div>
                             <div className='sign-in__option'>
                                 <TextField
+                                    className='sign-in__form-password'
                                     fullWidth={true}
                                     id='password'
                                     inputRef={passwordRef}
@@ -96,7 +98,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                             }
                             <div className='sign-in__option'>
                                 <Button
-                                    className='sign-in__option'
+                                    className='sign-in__option sign-in__submit-button'
                                     fullWidth
                                     type='submit'
                                     variant='contained'
