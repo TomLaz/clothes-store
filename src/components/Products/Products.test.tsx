@@ -7,17 +7,17 @@ import { GlobalContext, GlobalContextProps, GlobalProviderData } from '../../pro
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
 
 describe( 'Products', () => {
-    let addProductProviderMock: GlobalContextProps,
+    let productsProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
     const getRender = ( globalProviderData: GlobalProviderData ): RenderResult => {
-        addProductProviderMock = getGlobalProviderMockData( globalProviderData );
+        productsProviderMock = getGlobalProviderMockData( globalProviderData );
 
         return render(
             <Router>
                 <Route>
                     <GlobalContext.Provider
-                        value={addProductProviderMock}>
+                        value={productsProviderMock}>
                         <Products />
                     </GlobalContext.Provider>
                 </Route>
@@ -51,7 +51,7 @@ describe( 'Products', () => {
                 fireEvent.click( checkboxElements[1] );
             }
 
-            expect( addProductProviderMock.updateCheckedFilters ).toHaveBeenCalled();
+            expect( productsProviderMock.updateCheckedFilters ).toHaveBeenCalled();
         });
     });
 

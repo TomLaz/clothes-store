@@ -1,37 +1,40 @@
 import React from 'react';
-import { render, RenderResult } from '@testing-library/react';
+import { cleanup, render, RenderResult } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ProductItem, { ProductItemType } from './ProductItem';
+import SendOptions from './SendOptions';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { GlobalContext, GlobalContextProps } from '../../providers/Global/Global.provider';
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
 
-describe( 'ProductItem', () => {
-    let productItemProviderMock: GlobalContextProps,
+describe( 'SendOptions', () => {
+    let sendOptionsProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
-    const productItemProp: ProductItemType = {
-        product: getDefaultGlobalProviderDataProps().products[0]
-    };
-
     const getRender = (): RenderResult => {
-        productItemProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
+        sendOptionsProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
 
         return render(
             <Router>
                 <Route>
                     <GlobalContext.Provider
-                        value={productItemProviderMock}>
-                        <ProductItem { ...productItemProp } />
+                        value={sendOptionsProviderMock}>
+                        <SendOptions />
                     </GlobalContext.Provider>
                 </Route>
             </Router>
         );
     };
 
-    test( 'should render without error', () => {
+    beforeEach( () => {
         wrapper = getRender();
-        const component = wrapper.baseElement.querySelector( '.product-item' );
+    });
+
+    afterEach( () => {
+        cleanup();
+    });
+
+    test( 'should render without error', () => {
+        const component = wrapper.baseElement.querySelector( '.send-options' );
         expect( component ).toBeInTheDocument();
     });
 });

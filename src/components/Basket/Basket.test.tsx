@@ -7,17 +7,17 @@ import { GlobalContext, GlobalContextProps } from '../../providers/Global/Global
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
 
 describe( 'Basket', () => {
-    let addProductProviderMock: GlobalContextProps,
+    let basketProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
     const getRender = (): RenderResult => {
-        addProductProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
+        basketProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
 
         return render(
             <Router>
                 <Route>
                     <GlobalContext.Provider
-                        value={addProductProviderMock}>
+                        value={basketProviderMock}>
                         <Basket />
                     </GlobalContext.Provider>
                 </Route>
@@ -55,7 +55,7 @@ describe( 'Basket', () => {
             fireEvent.click( confirmRemoveButton );
         }
 
-        expect( addProductProviderMock.updateBasketProductsCollection ).toHaveBeenCalled();
+        expect( basketProviderMock.updateBasketProductsCollection ).toHaveBeenCalled();
     });
 
     test( 'should not call updateBasketProductsCollection function on cancel remove product clicked', () => {
@@ -75,6 +75,6 @@ describe( 'Basket', () => {
             fireEvent.click( cancelRemoveButton );
         }
 
-        expect( addProductProviderMock.updateBasketProductsCollection ).not.toHaveBeenCalled();
+        expect( basketProviderMock.updateBasketProductsCollection ).not.toHaveBeenCalled();
     });
 });

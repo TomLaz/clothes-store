@@ -7,17 +7,17 @@ import { GlobalContext, GlobalContextProps } from '../../providers/Global/Global
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
 
 describe( 'ForgotPassword', () => {
-    let addProductProviderMock: GlobalContextProps,
+    let forgotPasswordProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
     const getRender = (): RenderResult => {
-        addProductProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
+        forgotPasswordProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
 
         return render(
             <Router>
                 <Route>
                     <GlobalContext.Provider
-                        value={addProductProviderMock}>
+                        value={forgotPasswordProviderMock}>
                         <ForgotPassword />
                     </GlobalContext.Provider>
                 </Route>
@@ -56,7 +56,7 @@ describe( 'ForgotPassword', () => {
         }
 
         await wait( () => {
-            expect( addProductProviderMock.resetPassword ).toHaveBeenCalled();
+            expect( forgotPasswordProviderMock.resetPassword ).toHaveBeenCalled();
         });
     });
 });

@@ -7,17 +7,17 @@ import { GlobalContext, GlobalContextProps } from '../../providers/Global/Global
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
 
 describe( 'Favourites', () => {
-    let addProductProviderMock: GlobalContextProps,
+    let favouritesProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
     const getRender = (): RenderResult => {
-        addProductProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
+        favouritesProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
 
         return render(
             <Router>
                 <Route>
                     <GlobalContext.Provider
-                        value={addProductProviderMock}>
+                        value={favouritesProviderMock}>
                         <Favourites />
                     </GlobalContext.Provider>
                 </Route>
@@ -55,7 +55,7 @@ describe( 'Favourites', () => {
             fireEvent.click( confirmRemoveButton );
         }
 
-        expect( addProductProviderMock.updateFavouritesCollection ).toHaveBeenCalled();
+        expect( favouritesProviderMock.updateFavouritesCollection ).toHaveBeenCalled();
     });
 
     test( 'should not call updateBasketProductsCollection function on cancel remove product', () => {
@@ -75,6 +75,6 @@ describe( 'Favourites', () => {
             fireEvent.click( cancelRemoveButton );
         }
 
-        expect( addProductProviderMock.updateFavouritesCollection ).not.toHaveBeenCalled();
+        expect( favouritesProviderMock.updateFavouritesCollection ).not.toHaveBeenCalled();
     });
 });

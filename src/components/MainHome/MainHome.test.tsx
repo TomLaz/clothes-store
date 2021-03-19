@@ -17,17 +17,17 @@ jest.mock( 'react-router-dom', () => ({
 }) );
 
 describe( 'MainHome', () => {
-    let addProductProviderMock: GlobalContextProps,
+    let mainHomeProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
     const getRender = (): RenderResult => {
-        addProductProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
+        mainHomeProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
 
         return render(
             <Router>
                 <Route>
                     <GlobalContext.Provider
-                        value={addProductProviderMock}>
+                        value={mainHomeProviderMock}>
                         <MainHome />
                     </GlobalContext.Provider>
                 </Route>

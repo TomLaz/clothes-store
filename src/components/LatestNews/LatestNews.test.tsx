@@ -7,17 +7,17 @@ import { GlobalContext, GlobalContextProps } from '../../providers/Global/Global
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
 
 describe( 'LatestNews', () => {
-    let addProductProviderMock: GlobalContextProps,
+    let latestNewsProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
     const getRender = (): RenderResult => {
-        addProductProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
+        latestNewsProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
 
         return render(
             <Router>
                 <Route>
                     <GlobalContext.Provider
-                        value={addProductProviderMock}>
+                        value={latestNewsProviderMock}>
                         <LatestNews />
                     </GlobalContext.Provider>
                 </Route>

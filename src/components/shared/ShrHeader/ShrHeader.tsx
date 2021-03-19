@@ -74,6 +74,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
 
                                         history.push( GlobalService.states.favourites );
                                     })}
+                                    className='shr-header__mobile-favourites'
                                     color='primary'
                                     aria-label={i18n.t( 'shr-header.favourites' )}
                                     title={i18n.t( 'shr-header.favourites' )}
@@ -164,8 +165,8 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                     </div>
                     <div
                         className={activeMenu[ 'home' ] ?
-                            'shr-header__mobile-option shr-header__mobile-active' :
-                            'shr-header__mobile-option'}
+                            'shr-header__mobile-option shr-header__mobile-menu-home shr-header__mobile-active' :
+                            'shr-header__mobile-option shr-header__mobile-menu-home'}
                         onClick={ (): void => {
                             const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
                             Object.keys( activeMenuTemp ).forEach( ( item ) => {
@@ -180,8 +181,8 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                     </div>
                     <div
                         className={activeMenu[ 'favourites' ] ?
-                            'shr-header__mobile-option shr-header__mobile-active' :
-                            'shr-header__mobile-option'}
+                            'shr-header__mobile-option shr-header__mobile-menu-favourites shr-header__mobile-active' :
+                            'shr-header__mobile-option shr-header__mobile-menu-favourites'}
                         onClick={ (): void => {
                             const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
                             Object.keys( activeMenuTemp ).forEach( ( item ) => {
@@ -196,8 +197,8 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                     </div>
                     <div
                         className={activeMenu[ 'products' ] ?
-                            'shr-header__mobile-option shr-header__mobile-active' :
-                            'shr-header__mobile-option'}
+                            'shr-header__mobile-option shr-header__mobile-menu-products shr-header__mobile-active' :
+                            'shr-header__mobile-option shr-header__mobile-menu-products'}
                         onClick={ (): void => {
                             const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
                             Object.keys( activeMenuTemp ).forEach( ( item ) => {
@@ -291,6 +292,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                     size={ButtonSize.small}
                                     action={( async (): Promise<void> => await logout() )} />
                                 <IconButton
+                                    className='shr-header__desktop-menu-profile'
                                     onClick={( (): void => history.push( GlobalService.states.userProfile ) )}
                                     color='primary'
                                     aria-label={i18n.t( 'shr-header.profile' )}
@@ -299,6 +301,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                     <AccountCircle />
                                 </IconButton>
                                 <IconButton
+                                    className='shr-header__desktop-menu-favourites'
                                     onClick={( (): void => history.push( GlobalService.states.favourites ) )}
                                     color='primary'
                                     aria-label={i18n.t( 'shr-header.favourites' )}
