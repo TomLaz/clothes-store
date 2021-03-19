@@ -60,12 +60,12 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
                                 .filter( item => item.id === currentUser.uid )
                                 .filter( data => data.products.includes( product.id ) ).length ?
                                 <div
-                                    className='shr-product__heart'
+                                    className='shr-product__heart shr-product__remove-favorite'
                                     onClick={(): void => removeFavouriteHandler( product.id )}>
                                     <FavoriteIcon />
                                 </div> :
                                 <div
-                                    className='shr-product__heart'
+                                    className='shr-product__heart shr-product__add-favorite'
                                     onClick={(): void => addFavouriteHandler( product.id )}>
                                     <FavoriteBorderIcon />
                                 </div> :
