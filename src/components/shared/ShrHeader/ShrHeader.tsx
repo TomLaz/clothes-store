@@ -13,7 +13,7 @@ import { GlobalContext } from '../../../providers/Global/Global.provider';
 import GlobalService from '../../../services/Global/Global.service';
 import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../ShrButton/ShrButton';
 import './ShrHeader.scss';
-import { ProductProperties } from '../../../providers/Global/Global.model';
+import { BasketProducts, ProductProperties } from '../../../providers/Global/Global.model';
 
 type ShrHeaderProps = {
     showSignIn?: boolean;
@@ -28,9 +28,9 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
         logout, updateFilteredOptions, updateCheckedFilters,
         updateFilteredProducts, updateActiveMenu, updateActiveMenuItem } = useContext( GlobalContext );
 
-    const productsToBuy = !!currentUser ? basketProducts.filter( item => item.id === currentUser.uid ) || [] : [];
+    const productsToBuy: BasketProducts[] = !!currentUser ? basketProducts.filter( item => item.id === currentUser.uid ) || [] : [];
 
-    const basketQty = !!productsToBuy[0] ?
+    const basketQty = productsToBuy.length > 0 ?
         productsToBuy[0].products.map( ( prod: ProductProperties ) => Number( prod.quantity ) )
             .reduce( ( a: number, b: number ) => a + b, 0 ) : 0;
 

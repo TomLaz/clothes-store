@@ -18,7 +18,7 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
     const { data: { favourites, currentUser }, updateFavouritesCollection } = useContext( GlobalContext );
 
     const addFavouriteHandler = ( id: string ): void => {
-        const prods = !!favourites.filter( item => item.id === currentUser.uid ).length ?
+        const prods = favourites.filter( item => item.id === currentUser.uid ).length > 0 ?
             favourites.filter( item => item.id === currentUser.uid )[0].products : [];
 
         prods.push( id );

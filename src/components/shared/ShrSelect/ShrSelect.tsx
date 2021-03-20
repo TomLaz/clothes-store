@@ -23,7 +23,7 @@ const ShrSelect: React.FC<ShrSelectProps> = ({ title, selected, onOptionChange, 
                     options.map( ( option, index ) => (
                         <option
                             className='shr-select__option'
-                            data-testid="select-option"
+                            data-testid='select-option'
                             key={index}
                             value={option}>
                             {option}

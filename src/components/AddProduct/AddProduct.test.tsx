@@ -89,6 +89,12 @@ describe( 'AddProduct', () => {
             fireEvent.click ( button );
         }
 
+        const quantitySelectButton = wrapper.baseElement.querySelector( '.add-product__quantity .shr-select__select' );
+        expect( quantitySelectButton ).toBeInTheDocument();
+        if ( quantitySelectButton ) {
+            fireEvent.change( quantitySelectButton, { target: { value: '1' }});
+        }
+
         act( () => {
             jest.advanceTimersByTime( 3500 );
         });

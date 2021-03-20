@@ -64,6 +64,14 @@ describe( 'ShrProduct', () => {
     test( 'should call updateFavouritesCollection on add favorite button clicked', () => {
         const providerDataProps = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
         providerDataProps.favourites.pop();
+        providerDataProps.favourites.push({
+            'createdAt': {
+                'nanoseconds': 215000000,
+                'seconds': 1615003734
+            },
+            'id': 'p0Oacugr3lahoX57pDwN2PalHLW2',
+            'products': [ 'kBU1g' ]
+        });
         wrapper = getRender( providerDataProps );
         const addFavoriteButton = wrapper.baseElement.querySelector( '.shr-product .shr-product__add-favorite' );
         expect( addFavoriteButton ).toBeInTheDocument();
@@ -75,7 +83,16 @@ describe( 'ShrProduct', () => {
     });
 
     test( 'should redirect to add product page on more info button clicked', () => {
-        wrapper = getRender( getDefaultGlobalProviderDataProps() );
+        const providerDataProps = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
+        providerDataProps.favourites.pop();
+        wrapper = getRender( providerDataProps );
+
+        const addFavoriteButton = wrapper.baseElement.querySelector( '.shr-product .shr-product__add-favorite' );
+        expect( addFavoriteButton ).toBeInTheDocument();
+        if ( addFavoriteButton ) {
+            fireEvent.click( addFavoriteButton );
+        }
+
         const moreInfoButton = wrapper.baseElement.querySelector( '.shr-product__img-wrapper' );
         expect( moreInfoButton ).toBeInTheDocument();
         if ( moreInfoButton ) {
@@ -84,5 +101,17 @@ describe( 'ShrProduct', () => {
 
         const productId = getDefaultGlobalProviderDataProps().products[0].id;
         expect( mockHistoryPush ).toHaveBeenCalledWith( `${GlobalService.states.addProduct}/${productId}` );
+    });
+
+    test( 'should not render icons on missing user', () => {
+        const providerDataProps = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
+        providerDataProps.currentUser = null;
+        wrapper = getRender( providerDataProps );
+
+        const addFavoriteButton = wrapper.baseElement.querySelector( '.shr-product .shr-product__add-favorite' );
+        expect( addFavoriteButton ).not.toBeInTheDocument();
+
+        const removeFavoriteButton = wrapper.baseElement.querySelector( '.shr-product .shr-product__remove-favorite' );
+        expect( removeFavoriteButton ).not.toBeInTheDocument();
     });
 });
