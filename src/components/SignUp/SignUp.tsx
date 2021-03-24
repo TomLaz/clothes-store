@@ -133,7 +133,7 @@ const SignUp: React.FC = () => {
                                 className='sign-up__sign-in'
                                 to={GlobalService.states.signIn}>
                                 <strong>
-                                    {i18n.t( 'sign-in.confirm' )}
+                                    {i18n.t( 'sign-in' )}
                                 </strong>
                             </Link>
                         </div>

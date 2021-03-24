@@ -79,7 +79,6 @@
       "src/components/PrivateRoute",
       "src/components/ScrollToTop",
       "src/components/ShrLayout",
-      "src/components/UploadProduct",
       "src/firebase",
       "src/providers"
     ],

@@ -103,15 +103,4 @@ describe( 'UserProfile', () => {
 
         expect( userProfileProviderMock.updatePassword ).not.toHaveBeenCalled();
     });
-
-    test( 'should redirect to upload product page on upload product button clicked', () => {
-        wrapper = getRender( getDefaultGlobalProviderDataProps() );
-        const uploadProductButton = wrapper.baseElement.querySelector( '.user-profile__upload-container .shr-button .MuiButtonBase-root' );
-        expect( uploadProductButton ).toBeInTheDocument();
-        if ( uploadProductButton ) {
-            fireEvent.click( uploadProductButton );
-        }
-
-        expect( mockHistoryPush ).toHaveBeenCalledWith( GlobalService.states.uploadProduct );
-    });
 });

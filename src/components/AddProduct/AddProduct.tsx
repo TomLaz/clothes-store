@@ -60,26 +60,30 @@ const AddProduct: React.FC = () => {
     };
 
     const addProductHandler = (): void => {
-        const prods = !!basketProducts.filter( ( item: BasketProducts ) => item.id === currentUser.uid ).length ?
-            basketProducts.filter( item => item.id === currentUser.uid )[0].products : [];
+        if ( currentUser === null ) {
+            history.push( GlobalService.states.signIn );
+        } else {
+            const prods = !!basketProducts.filter( ( item: BasketProducts ) => item.id === currentUser.uid ).length ?
+                basketProducts.filter( item => item.id === currentUser.uid )[0].products : [];
 
-        prods.push({
-            'id': new Date().getTime().toString(),
-            'productId': id.toString(),
-            'quantity': qtySelected,
-            'size': sizeSelected
-        });
+            prods.push({
+                'id': new Date().getTime().toString(),
+                'productId': id.toString(),
+                'quantity': qtySelected,
+                'size': sizeSelected
+            });
 
-        updateBasketProductsCollection( currentUser.uid, prods );
+            updateBasketProductsCollection( currentUser.uid, prods );
 
-        setProductAdded( true );
-        if ( !!product && !!product.sizes ) {
-            onOptionSelected( product.sizes[0].size, product.sizes[0].stock );
+            setProductAdded( true );
+            if ( !!product && !!product.sizes ) {
+                onOptionSelected( product.sizes[0].size, product.sizes[0].stock );
+            }
+
+            setTimeout( () => {
+                setProductAdded( false );
+            }, 3000 );
         }
-
-        setTimeout( () => {
-            setProductAdded( false );
-        }, 3000 );
     };
 
     return (

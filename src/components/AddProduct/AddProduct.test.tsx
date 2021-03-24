@@ -3,9 +3,10 @@ import { cleanup, fireEvent, render, RenderResult, act } from '@testing-library/
 import '@testing-library/jest-dom/extend-expect';
 import AddProduct from './AddProduct';
 import { BrowserRouter as Router, MemoryRouter, Route } from 'react-router-dom';
-import { GlobalContext, GlobalContextProps } from '../../providers/Global/Global.provider';
+import { GlobalContext, GlobalContextProps, GlobalProviderData } from '../../providers/Global/Global.provider';
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
 import GlobalService from '../../services/Global/Global.service';
+import { couldStartTrivia } from 'typescript';
 
 const mockHistoryPush = jest.fn();
 
@@ -20,8 +21,8 @@ describe( 'AddProduct', () => {
     let addProductProviderMock: GlobalContextProps,
         wrapper: RenderResult;
 
-    const getRender = ( id: string ): RenderResult => {
-        addProductProviderMock = getGlobalProviderMockData( getDefaultGlobalProviderDataProps() );
+    const getRender = ( id: string, providerDataProps: GlobalProviderData ): RenderResult => {
+        addProductProviderMock = getGlobalProviderMockData( providerDataProps );
 
         return render(
             <Router>
@@ -38,7 +39,7 @@ describe( 'AddProduct', () => {
     };
 
     beforeEach( () => {
-        wrapper = getRender( 'g1UBk' );
+        wrapper = getRender( 'g1UBk', getDefaultGlobalProviderDataProps() );
     });
 
     afterEach( () => {
@@ -106,14 +107,14 @@ describe( 'AddProduct', () => {
 
     test( 'should show No Product Found message', () => {
         cleanup();
-        wrapper = getRender( 'notFound' );
+        wrapper = getRender( 'notFound', getDefaultGlobalProviderDataProps() );
         const notFound = wrapper.baseElement.querySelector( '.add-product__not-found-box' );
         expect( notFound ).toBeInTheDocument();
     });
 
     test( 'should history push to home page', () => {
         cleanup();
-        wrapper = getRender( 'notFound' );
+        wrapper = getRender( 'notFound', getDefaultGlobalProviderDataProps() );
 
         const button = wrapper.baseElement.querySelector( '.add-product__not-found .MuiButtonBase-root' );
         expect( button ).toBeInTheDocument();
@@ -122,5 +123,21 @@ describe( 'AddProduct', () => {
         }
 
         expect( mockHistoryPush ).toHaveBeenCalledWith( GlobalService.states.home );
+    });
+
+    test( 'should redirect to login page on null current user and button clicked', () => {
+        cleanup();
+        mockHistoryPush.mockReset();
+        const providerDataProps = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
+        providerDataProps.currentUser = null;
+        wrapper = getRender( 'g1UBk', providerDataProps );
+
+        const button = wrapper.baseElement.querySelector( '.add-product__add .shr-button .MuiButtonBase-root' );
+        expect( button ).toBeInTheDocument();
+        if ( button ) {
+            fireEvent.click ( button );
+        }
+
+        expect( mockHistoryPush ).toHaveBeenCalledWith( GlobalService.states.signIn );
     });
 });

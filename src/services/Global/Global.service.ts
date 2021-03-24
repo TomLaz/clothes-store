@@ -6,7 +6,6 @@ export interface UserProfileStates {
     signIn: string;
     forgotPassword: string;
     userProfile: string;
-    uploadProduct: string;
     addProduct: string;
     basket: string;
     products: string;
@@ -26,7 +25,6 @@ class GlobalService {
             signIn: '/login',
             forgotPassword: '/forget-password',
             userProfile: '/my-profile',
-            uploadProduct: '/upload-product',
             addProduct: '/add-product',
             basket: '/basket',
             products: '/products',
