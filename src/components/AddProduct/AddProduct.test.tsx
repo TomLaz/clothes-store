@@ -6,7 +6,6 @@ import { BrowserRouter as Router, MemoryRouter, Route } from 'react-router-dom';
 import { GlobalContext, GlobalContextProps, GlobalProviderData } from '../../providers/Global/Global.provider';
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
 import GlobalService from '../../services/Global/Global.service';
-import { couldStartTrivia } from 'typescript';
 
 const mockHistoryPush = jest.fn();
 

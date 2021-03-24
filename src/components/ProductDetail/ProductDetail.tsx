@@ -34,13 +34,13 @@ const ProductDetail: React.FC<ProductDetailProps> = (
                 {
                     !!productDescription &&
                     <div className='product-detail__description'>
-                        {i18n.t( 'upload-product.description', { description: productDescription })}
+                        {i18n.t( 'product-detail.description', { description: productDescription })}
                     </div>
                 }
                 {
                     !!color &&
                     <div className='product-detail__color'>
-                        {i18n.t( 'upload-product.color', { color: color })}
+                        {i18n.t( 'product-detail.color', { color: color })}
                     </div>
                 }
                 {

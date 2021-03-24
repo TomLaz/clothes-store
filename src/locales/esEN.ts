@@ -82,7 +82,9 @@ const esEN = {
     'favourites.delete-check': 'Are you sure you want to remove this favourite?',
     'favourites.cancel': 'Cancel',
     'favourites.agree': 'Confirm',
-    'favourites.empty': 'There are no products in your favourites items'
+    'favourites.empty': 'There are no products in your favourites items',
+    'product-detail.description': 'Description: {{ description }}',
+    'product-detail.color': 'Color: {{ color }}'
 };
 
 export default esEN;

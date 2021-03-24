@@ -5,7 +5,6 @@ import UserProfile from './UserProfile';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { GlobalContext, GlobalContextProps, GlobalProviderData } from '../../providers/Global/Global.provider';
 import { getDefaultGlobalProviderDataProps, getGlobalProviderMockData } from '../../providers/Global/Global.provider.mock';
-import GlobalService from '../../services/Global/Global.service';
 
 const mockHistoryPush = jest.fn();
 
