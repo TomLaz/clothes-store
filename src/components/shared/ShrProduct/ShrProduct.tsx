@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +8,7 @@ import GlobalService from '../../../services/Global/Global.service';
 import './ShrProduct.scss';
 import { Product } from '../../../providers/Global/Global.model';
 import NumberUtils from '../../../utils/numberUtils';
+import imgLoading from '../../../assets/images/img-loading.jpg';
 
 type ShrProductProps = {
     product: Product;
@@ -16,6 +17,7 @@ type ShrProductProps = {
 const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
     const history = useHistory();
     const { data: { favourites, currentUser }, updateFavouritesCollection } = useContext( GlobalContext );
+    const [ loaded, setLoaded  ] = useState( false );
 
     const addFavouriteHandler = ( id: string ): void => {
         const prods = favourites.filter( item => item.id === currentUser.uid ).length > 0 ?
@@ -40,10 +42,19 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
                 className='shr-product__img-wrapper'
                 onClick={(): void => history.push( `${GlobalService.states.addProduct}/${product.id}` ) }>
                 <div className='shr-product__img-container'>
-                    <img
-                        className='shr-product__img'
-                        src={product.imgUrl}
-                        alt={product.title} />
+                    {
+                        <img
+                            onLoad={(): void => {setLoaded( true ); } }
+                            className={loaded ?  'shr-product__img' : 'shr-product__img shr-product__img-hidden'}
+                            src={product.imgUrl}
+                            alt={product.title} />
+                    }
+                    {
+                        <img
+                            className={!loaded ? 'shr-product__img' : 'shr-product__img shr-product__img-hidden'}
+                            src={imgLoading}
+                            alt='Loading' />
+                    }
                 </div>
                 <div className='shr-product__info'>
                     {i18n.t( 'shr-product.info' )}

@@ -10,6 +10,10 @@
     background: $primary-light-product;
     border: 1px solid $primary-dark;
 
+    &__img-hidden {
+        display: none;
+    }
+
     &__img {
         width: 100%;
     }

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import i18n from '../../i18n';
 import './ProductDetail.scss';
 import NumberUtils from '../../utils/numberUtils';
+import imgLoading from '../../assets/images/img-loading.jpg';
 
 type ProductDetailProps = {
     imgUrl: string;
@@ -21,12 +22,23 @@ const ProductDetail: React.FC<ProductDetailProps> = (
     { imgUrl, imgAlt, title, color, productDescription, productSize,
         productQty, productUnitPrice, productPrice, onRemoveProductHandler }
 ) => {
+    const [ loaded, setLoaded  ] = useState( false );
+
     return (
         <div className='product-detail'>
-            <img
-                className='product-detail__img'
-                src={imgUrl}
-                alt={imgAlt} />
+            {
+                <img
+                    onLoad={(): void => {setLoaded( true ); } }
+                    className={loaded ? 'product-detail__img' : 'product-detail__img product-detail__img-hidden'}
+                    src={imgUrl}
+                    alt={imgAlt} />
+            }
+            {
+                <img
+                    className={!loaded ? 'product-detail__img' : 'product-detail__img product-detail__img-hidden'}
+                    src={imgLoading}
+                    alt='Loading' />
+            }
             <div className='product-detail__container'>
                 <div className='product-detail__title'>
                     {title}

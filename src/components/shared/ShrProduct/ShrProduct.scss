@@ -19,6 +19,10 @@
         height: 100%;
     }
 
+    &__img-hidden {
+        display: none;
+    }
+
     &__img {
         width: 100%;
         transition: all 0.4s;

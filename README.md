@@ -1,6 +1,6 @@
 <h1>React Typescript Store</h1>
 <p>This example site shows you the ideal project structure, recommended libraries, as well as design pattern on writing type-safe React + Context API + Material UI app with TypeScript.</p>
-  
+
  <h2>Stack</h2>
 <ul>
 <li>React</li>
@@ -11,6 +11,7 @@
 <li>SASS + BEM</li>
 <li>React Testing Library</li>
 <li>Mobile First</li>
+<li>Internationalization (i18n)</li>
 </ul>
 
 <h3>Get Started</h3>

@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import ShrLayout from '../shared/ShrLayout/ShrLayout';
-import MainHome from '../MainHome/MainHome';
-import LatestNews from '../LatestNews/LatestNews';
-import ShrHorizontalImage from '../shared/ShrHorizontalImage/ShrHorizontalImage';
-import SendOptions from '../SendOptions/SendOptions';
 import i18n from '../../i18n';
+import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
+
+const MainHome = lazy( () => import( '../MainHome/MainHome' ) );
+const LatestNews = lazy( () => import( '../LatestNews/LatestNews' ) );
+const ShrHorizontalImage = lazy( () => import( '../shared/ShrHorizontalImage/ShrHorizontalImage' ) );
+const SendOptions = lazy( () => import( '../SendOptions/SendOptions' ) );
 
 const Home = (): JSX.Element => {
     return (
         <ShrLayout>
-            <MainHome />
-            <LatestNews />
-            <ShrHorizontalImage
-                title={i18n.t( 'home.shr-horizontal-image.title' )}
-                description={i18n.t( 'home.shr-horizontal-image.description' )}
-                imgName={'medium_edit.png'}/>
-            <SendOptions />
+            <Suspense fallback={<ShrSpinner />}>
+                <MainHome />
+                <LatestNews />
+                <ShrHorizontalImage
+                    title={i18n.t( 'home.shr-horizontal-image.title' )}
+                    description={i18n.t( 'home.shr-horizontal-image.description' )}
+                    imgName={'medium_edit.png'}/>
+                <SendOptions />
+            </Suspense>
         </ShrLayout>
     );
 };
