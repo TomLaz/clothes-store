@@ -21,7 +21,7 @@ const AddProduct: React.FC = () => {
         updateBasketProductsCollection } = useContext( GlobalContext );
     const history = useHistory();
 
-    const product = ( !!products.length && !!id ) ?
+    const product = ( products.length > 0 && !!id ) ?
         products.find( ( prod ) => prod.id.toString() === id.toString() ) : '';
     const category = !!product ? categories.find( ( cat: Category ) => cat.id.toString() === product?.categoryId.toString() ) : '';
     const subcategory = !!product ?

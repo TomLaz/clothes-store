@@ -64,16 +64,10 @@ const ShrFooter: React.FC = () => {
                 </div>
                 <div className='shr-footer__about-us'>
                     <div className='shr-footer__about-title'>
-                        {i18n.t( 'shr-footer.about-us' )}
+                        {i18n.t( 'shr-footer.contact-us' )}
                     </div>
                     <div className='shr-footer__category'>
                         {i18n.t( 'shr-footer.email' )}
-                    </div>
-                    <div className='shr-footer__category'>
-                        {i18n.t( 'shr-footer.our-stores' )}
-                    </div>
-                    <div className='shr-footer__category'>
-                        {i18n.t( 'shr-footer.contact-us' )}
                     </div>
                 </div>
                 <div className='shr-footer__social'>
