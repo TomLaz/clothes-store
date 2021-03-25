@@ -52,6 +52,11 @@ describe( 'ProductDetail', () => {
     });
 
     test( 'should call onRemoveProductHandler on remove button clicked', () => {
+        const img = wrapper.baseElement.querySelector( '.product-detail .product-detail__img-principal' );
+        if ( img ) {
+            fireEvent.load( img );
+        }
+
         const button = wrapper.baseElement.querySelector( '.product-detail .product-detail__svg' );
         expect( button ).toBeInTheDocument();
         if ( button ) {

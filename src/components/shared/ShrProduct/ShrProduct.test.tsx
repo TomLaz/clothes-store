@@ -63,16 +63,15 @@ describe( 'ShrProduct', () => {
 
     test( 'should call updateFavouritesCollection on add favorite button clicked', () => {
         const providerDataProps = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
-        providerDataProps.favourites.pop();
-        providerDataProps.favourites.push({
-            'createdAt': {
-                'nanoseconds': 215000000,
-                'seconds': 1615003734
-            },
-            'id': 'p0Oacugr3lahoX57pDwN2PalHLW2',
-            'products': [ 'kBU1g' ]
-        });
+        providerDataProps.favourites.splice( 0, providerDataProps.favourites.length );
+        providerDataProps.favourites.push( 'kBU1g' );
         wrapper = getRender( providerDataProps );
+
+        const img = wrapper.baseElement.querySelector( '.shr-product__img-principal' );
+        if ( img ) {
+            fireEvent.load( img );
+        }
+
         const addFavoriteButton = wrapper.baseElement.querySelector( '.shr-product .shr-product__add-favorite' );
         expect( addFavoriteButton ).toBeInTheDocument();
         if ( addFavoriteButton ) {
@@ -84,7 +83,7 @@ describe( 'ShrProduct', () => {
 
     test( 'should redirect to add product page on more info button clicked', () => {
         const providerDataProps = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
-        providerDataProps.favourites.pop();
+        providerDataProps.favourites.splice( 0, providerDataProps.favourites.length );
         wrapper = getRender( providerDataProps );
 
         const addFavoriteButton = wrapper.baseElement.querySelector( '.shr-product .shr-product__add-favorite' );

@@ -1,4 +1,4 @@
-import { BasketProducts, Category, Favourite, Filter, Product, SubCategory } from './Global.model';
+import { Category, Filter, Product, ProductProperties, SubCategory } from './Global.model';
 import { GlobalContextProps, GlobalProviderData } from './Global.provider';
 
 export function getGlobalProviderMockData( defaultGlobalProviderDataProps: GlobalProviderData ): GlobalContextProps {
@@ -161,40 +161,22 @@ export function getDefaultGlobalProviderDataProps(): GlobalProviderData {
         uid: 'p0Oacugr3lahoX57pDwN2PalHLW2'
     };
 
-    const basketProducts: BasketProducts[] = [
+    const basketProducts: ProductProperties[] = [
         {
-            'createdAt': {
-                'nanoseconds': 215000000,
-                'seconds': 1615003734
-            },
-            'id': 'p0Oacugr3lahoX57pDwN2PalHLW2',
-            'products': [
-                {
-                    'id': '1615858712400',
-                    'productId': 'g1UBk',
-                    'quantity': '2',
-                    'size': 'S'
-                },
-                {
-                    'id': '1615858721981',
-                    'productId': 'kBU1g',
-                    'quantity': '1',
-                    'size': 'XL'
-                }
-            ]
+            'id': '1615858712400',
+            'productId': 'g1UBk',
+            'quantity': '2',
+            'size': 'S'
+        },
+        {
+            'id': '1615858721981',
+            'productId': 'kBU1g',
+            'quantity': '1',
+            'size': 'XL'
         }
     ];
 
-    const favourites: Favourite[] = [
-        {
-            'createdAt': {
-                'nanoseconds': 215000000,
-                'seconds': 1615003734
-            },
-            'id': 'p0Oacugr3lahoX57pDwN2PalHLW2',
-            'products': [ 'g1UBk', 'kBU1g' ]
-        }
-    ];
+    const favourites: string[] = [ 'g1UBk', 'kBU1g' ];
 
     const filters: Filter[] = [
         {

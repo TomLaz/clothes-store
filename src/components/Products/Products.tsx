@@ -12,12 +12,22 @@ const Products: React.FC = () => {
         updateCheckedFilters, updateFilteredProducts, updateActiveMenuItem } = useContext( GlobalContext );
     const [ sortSelected, setSortSelected ] = useState( 'date' );
 
-    useEffect( (): void => {
-        updateActiveMenuItem( 'products' );
+    useEffect( () => {
+        let isUnmounted = false;
+
+        if ( !isUnmounted ) {
+            updateActiveMenuItem( 'products' );
+        }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
 
-    useEffect( (): void => {
+    useEffect( () => {
+        let isUnmounted = false;
+
         if ( filters.length > 0 && filters.length !== Object.keys( checkedFilters ).length ) {
             const elementsChecked: {
                 [key: string]: boolean
@@ -31,7 +41,9 @@ const Products: React.FC = () => {
                 }
             });
 
-            updateCheckedFilters( elementsChecked );
+            if ( !isUnmounted ) {
+                updateCheckedFilters( elementsChecked );
+            }
         }
 
         if ( filters.length > 0 &&
@@ -50,8 +62,14 @@ const Products: React.FC = () => {
                 }
             });
 
-            updateFilteredProducts( tempFilteredProducts );
+            if ( !isUnmounted ) {
+                updateFilteredProducts( tempFilteredProducts );
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ filters, filteredOptions, products, checkedFilters ] );
 

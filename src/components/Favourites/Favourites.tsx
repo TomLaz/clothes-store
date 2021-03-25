@@ -8,20 +8,19 @@ import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import './Favourites.scss';
 
 const Favourites: React.FC = () => {
-    const { data: { favourites, products, currentUser }, updateFavouritesCollection, updateActiveMenuItem } = useContext( GlobalContext );
-    const [ favouritesFiltered, setFavouritesFiltered ] = useState<string[] | undefined>( undefined );
+    const { data: { favourites, products }, updateFavouritesCollection, updateActiveMenuItem } = useContext( GlobalContext );
     const [ removeId, setRemoveId ] = useState( '' );
 
-    useEffect( (): void => {
-        if ( favourites.length > 0 ) {
-            setFavouritesFiltered( favourites.filter( item => item.id === currentUser.uid ).length > 0 ?
-                favourites.filter( item => item.id === currentUser.uid )[0].products : undefined );
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ favourites ] );
+    useEffect( () => {
+        let isUnmounted = false;
 
-    useEffect( (): void => {
-        updateActiveMenuItem( 'favourites' );
+        if ( !isUnmounted ) {
+            updateActiveMenuItem( 'favourites' );
+        }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
 
@@ -30,11 +29,9 @@ const Favourites: React.FC = () => {
     };
 
     const onConfirmRemoveHandler = (): void => {
-        const prods = favourites
-            .filter( item => item.id === currentUser.uid )[0].products
-            .filter( ( favId: string ) => favId !== removeId.toString() );
+        const prods = favourites.filter( ( favId: string ) => favId !== removeId.toString() );
 
-        updateFavouritesCollection( currentUser.uid, prods );
+        updateFavouritesCollection( prods );
         setRemoveId( '' );
     };
 
@@ -48,11 +45,10 @@ const Favourites: React.FC = () => {
                                 {i18n.t( 'favourites.title' )}
                             </h1>
                             {
-                                favouritesFiltered !== undefined &&
-                                favouritesFiltered?.length > 0 ?
+                                favourites.length > 0 ?
                                     <div className='favourites__items'>
                                         {
-                                            favouritesFiltered.map( ( favId, index ) => (
+                                            favourites.map( ( favId, index ) => (
                                                 <ProductDetail
                                                     key={index}
                                                     imgUrl={products.find( data => data.id === favId )?.imgUrl || ''}

@@ -20,18 +20,15 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
     const [ loaded, setLoaded  ] = useState( false );
 
     const addFavouriteHandler = ( id: string ): void => {
-        const prods = favourites.filter( item => item.id === currentUser.uid ).length > 0 ?
-            favourites.filter( item => item.id === currentUser.uid )[0].products : [];
+        const prods = JSON.parse( JSON.stringify( favourites ) );
 
         prods.push( id );
-        updateFavouritesCollection( currentUser.uid, prods );
+        updateFavouritesCollection( prods );
     };
 
     const removeFavouriteHandler = ( id: string ): void => {
-        const prods = favourites
-            .filter( item => item.id === currentUser.uid )[0].products
-            .filter( ( prod: string ) => prod !== id );
-        updateFavouritesCollection( currentUser.uid, prods );
+        const prods = favourites.filter( ( prod: string ) => prod !== id );
+        updateFavouritesCollection( prods );
     };
 
     return (
@@ -45,7 +42,9 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
                     {
                         <img
                             onLoad={(): void => {setLoaded( true ); } }
-                            className={loaded ?  'shr-product__img' : 'shr-product__img shr-product__img-hidden'}
+                            className={loaded ?
+                                'shr-product__img shr-product__img-principal' :
+                                'shr-product__img shr-product__img-principal shr-product__img-hidden'}
                             src={product.imgUrl}
                             alt={product.title} />
                     }
@@ -68,8 +67,7 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
                     {
                         !!currentUser ?
                             !!favourites
-                                .filter( item => item.id === currentUser.uid )
-                                .filter( data => data.products.includes( product.id ) ).length ?
+                                .filter( item => item.includes( product.id ) ).length ?
                                 <div
                                     className='shr-product__heart shr-product__remove-favorite'
                                     onClick={(): void => removeFavouriteHandler( product.id )}>

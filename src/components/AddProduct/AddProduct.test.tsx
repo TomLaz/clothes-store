@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, fireEvent, render, RenderResult, act } from '@testing-library/react';
+import { cleanup, fireEvent, render, RenderResult } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import AddProduct from './AddProduct';
 import { BrowserRouter as Router, MemoryRouter, Route } from 'react-router-dom';
@@ -38,7 +38,7 @@ describe( 'AddProduct', () => {
     };
 
     beforeEach( () => {
-        wrapper = getRender( 'g1UBk', getDefaultGlobalProviderDataProps() );
+        wrapper = getRender( 'g1UBk', JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) ) );
     });
 
     afterEach( () => {
@@ -77,11 +77,11 @@ describe( 'AddProduct', () => {
     });
 
     test( 'should add product to basket case', () => {
-        jest.useFakeTimers();
-
-        expect( addProductProviderMock.data.basketProducts[0].products.length ).not.toBe(
-            getDefaultGlobalProviderDataProps().basketProducts[0].products.length + 1
-        );
+        const quantitySelectButton = wrapper.baseElement.querySelector( '.add-product__quantity .shr-select__select' );
+        expect( quantitySelectButton ).toBeInTheDocument();
+        if ( quantitySelectButton ) {
+            fireEvent.change( quantitySelectButton, { target: { value: '1' }});
+        }
 
         const button = wrapper.baseElement.querySelector( '.add-product__add .shr-button .MuiButtonBase-root' );
         expect( button ).toBeInTheDocument();
@@ -89,19 +89,7 @@ describe( 'AddProduct', () => {
             fireEvent.click ( button );
         }
 
-        const quantitySelectButton = wrapper.baseElement.querySelector( '.add-product__quantity .shr-select__select' );
-        expect( quantitySelectButton ).toBeInTheDocument();
-        if ( quantitySelectButton ) {
-            fireEvent.change( quantitySelectButton, { target: { value: '1' }});
-        }
-
-        act( () => {
-            jest.advanceTimersByTime( 3500 );
-        });
-
-        expect( addProductProviderMock.data.basketProducts[0].products.length ).toBe(
-            getDefaultGlobalProviderDataProps().basketProducts[0].products.length + 1
-        );
+        expect( addProductProviderMock.updateBasketProductsCollection ).toHaveBeenCalled();
     });
 
     test( 'should show No Product Found message', () => {

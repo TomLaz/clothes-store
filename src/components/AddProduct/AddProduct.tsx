@@ -9,7 +9,7 @@ import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button } from '@material-ui/core';
 import GlobalService from '../../services/Global/Global.service';
 import i18n from '../../i18n';
-import { BasketProducts, Category, SubCategory } from '../../providers/Global/Global.model';
+import { Category, SubCategory } from '../../providers/Global/Global.model';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
 import SendOptions from '../SendOptions/SendOptions';
 import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
@@ -33,10 +33,18 @@ const AddProduct: React.FC = () => {
     const [ selectedImg, setSelectedImg ] = useState<string | null>( '' );
     const [ productAdded, setProductAdded ] = useState( false );
 
-    useEffect( (): void => {
+    useEffect( () => {
+        let isUnmounted = false;
+
         if ( !!product && sizeSelected === '' ) {
-            onOptionSelected( product.sizes[0].size, product.sizes[0].stock );
+            if ( !isUnmounted ) {
+                onOptionSelected( product.sizes[0].size, product.sizes[0].stock );
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ product ] );
 
@@ -63,8 +71,7 @@ const AddProduct: React.FC = () => {
         if ( currentUser === null ) {
             history.push( GlobalService.states.signIn );
         } else {
-            const prods = !!basketProducts.filter( ( item: BasketProducts ) => item.id === currentUser.uid ).length ?
-                basketProducts.filter( item => item.id === currentUser.uid )[0].products : [];
+            const prods = JSON.parse( JSON.stringify( basketProducts ) );
 
             prods.push({
                 'id': new Date().getTime().toString(),
@@ -73,7 +80,7 @@ const AddProduct: React.FC = () => {
                 'size': sizeSelected
             });
 
-            updateBasketProductsCollection( currentUser.uid, prods );
+            updateBasketProductsCollection( prods );
 
             setProductAdded( true );
             if ( !!product && !!product.sizes ) {

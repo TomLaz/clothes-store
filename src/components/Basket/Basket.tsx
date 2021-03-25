@@ -7,7 +7,7 @@ import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import ProductDetail from '../ProductDetail/ProductDetail';
 import i18n from '../../i18n';
 import ShrSpinner from '../shared/ShrSpinner/ShrSpinner';
-import { ProductToBuy, ProductProperties } from '../../providers/Global/Global.model';
+import { ProductProperties } from '../../providers/Global/Global.model';
 import NumberUtils from '../../utils/numberUtils';
 
 const Basket: React.FC = () => {
@@ -15,11 +15,9 @@ const Basket: React.FC = () => {
         updateBasketProductsCollection } = useContext( GlobalContext );
     const [ removeId, setRemoveId ] = useState( '' );
 
-    const productsToBuy: ProductToBuy[] = basketProducts.filter( item => item.id === currentUser.uid );
-
     let total = 0;
-    !!productsToBuy[0] && productsToBuy[0].products.forEach( ( prod: ProductProperties ) => {
-        const price = !!products.find( data => data.id === prod.productId )?.price ?
+    basketProducts.length > 0 && basketProducts.forEach( ( prod: ProductProperties ) => {
+        const price = products.filter( data => data.id === prod.productId ).length > 0 ?
             Number( products.find( data => data.id === prod.productId )?.price ) :
             0;
         const totalPrice = price * Number( prod.quantity );
@@ -31,10 +29,9 @@ const Basket: React.FC = () => {
     };
 
     const onConfirmRemoveHandler = (): void => {
-        const prods = basketProducts.filter( item => item.id === currentUser.uid )[0].products
-            .filter( ( prod: ProductProperties ) => prod.id.toString() !== removeId.toString() );
+        const prods = JSON.parse( JSON.stringify( basketProducts ) );
 
-        updateBasketProductsCollection( currentUser.uid, prods );
+        updateBasketProductsCollection( prods );
         setRemoveId( '' );
     };
 
@@ -42,38 +39,39 @@ const Basket: React.FC = () => {
         <ShrLayout>
             <div className='basket'>
                 {
-                    ( basketProducts.length > 0 &&
-                    currentUser.uid !== undefined ) ?
+                    ( currentUser.uid !== undefined ) ?
                         <>
                             <h1 className='basket__title'>
                                 {i18n.t( 'basket.title' )}
                             </h1>
                             <div className='basket__products'>
-                                {!!productsToBuy[0] &&
-                                productsToBuy[0].products.map( ( product: ProductProperties, index: number ) => (
-                                    <ProductDetail
-                                        key={index}
-                                        imgUrl={products.find( data => data.id === product.productId )?.imgUrl || ''}
-                                        imgAlt={products.find( data => data.id === product.productId )?.title || ''}
-                                        title={products.find( data => data.id === product.productId )?.title || ''}
-                                        productSize={product.size}
-                                        productQty={product.quantity}
-                                        productUnitPrice={products
-                                            .find( data => data.id === product.productId )?.price.toFixed( 2 ).toString() || '0'}
-                                        productPrice={!!products.find( data => data.id === product.productId )?.price ?
-                                            ( Number( products.find( data => data.id === product.productId )?.price ) *
-                                            Number( product.quantity ) ).toFixed( 2 ).toString() : '0'
-                                        }
-                                        onRemoveProductHandler={(): void => removeProductHandler( product.id )}/>
-                                ) )}
-                                {!!!total &&
-                                basketProducts.length > 0 &&
-                                currentUser.uid !== undefined &&
-                                    <div className='basket__empty'>
-                                        <div className='basket__empty-title'>
-                                            {i18n.t( 'basket.empty' )}
+                                {
+                                    basketProducts.length > 0 &&
+                                        basketProducts.map( ( product: ProductProperties, index: number ) => (
+                                            <ProductDetail
+                                                key={index}
+                                                imgUrl={products.find( data => data.id === product.productId )?.imgUrl || ''}
+                                                imgAlt={products.find( data => data.id === product.productId )?.title || ''}
+                                                title={products.find( data => data.id === product.productId )?.title || ''}
+                                                productSize={product.size}
+                                                productQty={product.quantity}
+                                                productUnitPrice={products
+                                                    .find( data => data.id === product.productId )?.price.toFixed( 2 ).toString() || '0'}
+                                                productPrice={!!products.find( data => data.id === product.productId )?.price ?
+                                                    ( Number( products.find( data => data.id === product.productId )?.price ) *
+                                                    Number( product.quantity ) ).toFixed( 2 ).toString() : '0'
+                                                }
+                                                onRemoveProductHandler={(): void => removeProductHandler( product.id )}/>
+                                        ) )
+                                }
+                                {
+                                    !!!total &&
+                                    currentUser.uid !== undefined &&
+                                        <div className='basket__empty'>
+                                            <div className='basket__empty-title'>
+                                                {i18n.t( 'basket.empty' )}
+                                            </div>
                                         </div>
-                                    </div>
                                 }
                                 <div className='basket__total'>
                                     <div className='basket__total-title'>{i18n.t( 'basket.total' )}</div>

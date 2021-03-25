@@ -29,7 +29,9 @@ const ProductDetail: React.FC<ProductDetailProps> = (
             {
                 <img
                     onLoad={(): void => {setLoaded( true ); } }
-                    className={loaded ? 'product-detail__img' : 'product-detail__img product-detail__img-hidden'}
+                    className={loaded ?
+                        'product-detail__img product-detail__img-principal' :
+                        'product-detail__img product-detail__img-principal product-detail__img-hidden'}
                     src={imgUrl}
                     alt={imgAlt} />
             }

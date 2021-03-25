@@ -53,9 +53,17 @@ const UserProfile: React.FC = () => {
     };
 
     useEffect( () => {
+        let isUnmounted = false;
+
         if ( currentUser ) {
-            setEmail( currentUser.email );
+            if ( !isUnmounted ) {
+                setEmail( currentUser.email );
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     }, [ currentUser ] );
 
     return (
@@ -64,18 +72,6 @@ const UserProfile: React.FC = () => {
                 <h1 className='user-profile__primary-title'>
                     {i18n.t( 'user-profile.title' )}
                 </h1>
-                <div className="container">
-                    <div className='user-profile__wrapper'>
-                        <div className='user-profile__top'>
-                            <h2 className='user-profile__title'>
-                                {i18n.t( 'user-profile.update' )}
-                            </h2>
-                        </div>
-                        <div>
-                            Datos del usuario
-                        </div>
-                    </div>
-                </div>
                 <div className="container">
                     <div className='user-profile__wrapper'>
                         <div className='user-profile__top'>

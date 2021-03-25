@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { MenuItems, Product, Category, SubCategory, Favourite, Filter, ProductProperties, BasketProducts } from './Global.model';
+import { MenuItems, Product, Category, SubCategory, Filter, ProductProperties } from './Global.model';
 import { auth } from '../../firebase/firebase';
 import useFirestore from '../../firebase/useFirestore';
 import firebase from 'firebase/app';
@@ -10,12 +10,12 @@ export interface GlobalProviderData {
     products: Product[];
     categories: Category[];
     subCategories: SubCategory[];
-    favourites: Favourite[];
+    favourites: string[];
     filters: Filter[];
     filteredOptions: string[];
     checkedFilters: any;
     filteredProducts: Product[];
-    basketProducts: BasketProducts[];
+    basketProducts: ProductProperties[];
     activeMenu: {[key:string]: boolean};
     loading: boolean;
 }
@@ -62,7 +62,7 @@ export const defaultGlobalProviderData: GlobalProviderData = {
     filteredOptions: [],
     checkedFilters: {},
     filteredProducts: [] as Product[],
-    basketProducts: [] as BasketProducts[],
+    basketProducts: [] as ProductProperties[],
     activeMenu: { 'home': true },
     loading: false
 };
@@ -149,7 +149,7 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateLoading( false );
     };
 
-    const updateFavourites = ( favourites: Favourite[] ): void => {
+    const updateFavourites = ( favourites: string[] ): void => {
         updateLoading( true );
 
         setProviderValue( ( prevValues ) => {
@@ -159,7 +159,7 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateLoading( false );
     };
 
-    const updateBasketProducts = ( basketProducts: BasketProducts[] ): void => {
+    const updateBasketProducts = ( basketProducts: ProductProperties[] ): void => {
         updateLoading( true );
 
         setProviderValue( ( prevValues ) => {
@@ -228,14 +228,16 @@ export const GlobalProvider: React.FC = ({ children }) => {
         updateActiveMenu( activeMenuTemp );
     };
 
-    const updateFavouritesCollection = ( uid: any, prods: any ): void => {
-        favouritesFirestore.updateCollection( uid, prods );
-        updateFavourites( favouritesFirestore.docs );
+    const updateFavouritesCollection = ( prods: any ): void => {
+        favouritesFirestore.updateCollection( providerValue.currentUser.uid, prods );
+
+        updateFavourites( prods );
     };
 
-    const updateBasketProductsCollection = ( uid: any, basketProducts: ProductProperties[] ): void => {
-        basketProductsFirestore.updateCollection( uid, basketProducts );
-        updateBasketProducts( basketProductsFirestore.docs );
+    const updateBasketProductsCollection = ( basketProducts: ProductProperties[] ): void => {
+        basketProductsFirestore.updateCollection( providerValue.currentUser.uid, basketProducts );
+
+        updateBasketProducts( basketProducts );
     };
 
     const signup = ( email: string, password: string ): Promise<firebase.auth.UserCredential> => {
@@ -262,55 +264,116 @@ export const GlobalProvider: React.FC = ({ children }) => {
         return providerValue.currentUser.updatePassword( password );
     };
 
-    useEffect( (): any => {
-        let unmounted = false;
+    useEffect( () => {
+        let isUnmounted = false;
+
         auth.onAuthStateChanged( user => {
-            if ( !unmounted ) {
+            if ( !isUnmounted ) {
                 updateCurrentUser( user );
             }
         });
 
-        return (): any => unmounted = true;
+        return () => {
+            isUnmounted = true;
+        };
     }, [] );
 
-    useEffect( (): void => {
+    useEffect( () => {
+        let isUnmounted = false;
+
         if ( productsFirestore.docs.length !== providerValue.products.length ) {
-            updateProducts( productsFirestore.docs );
+            if ( !isUnmounted ) {
+                updateProducts( productsFirestore.docs );
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ productsFirestore ] );
 
-    useEffect( (): void => {
+    useEffect( () => {
+        let isUnmounted = false;
+
         if ( categories.docs.length > 0 && providerValue.categories.length === 0 ) {
-            updateCategories( categories.docs );
+            if ( !isUnmounted ) {
+                updateCategories( categories.docs );
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ categories ] );
 
-    useEffect( (): void => {
+    useEffect( () => {
+        let isUnmounted = false;
+
         if ( subCategoriesFirestore.docs.length > 0 && providerValue.subCategories.length === 0 ) {
-            updateSubCategories( subCategoriesFirestore.docs );
+            if ( !isUnmounted ) {
+                updateSubCategories( subCategoriesFirestore.docs );
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ subCategoriesFirestore ] );
 
-    useEffect( (): void => {
-        if ( ( favouritesFirestore.docs.length > 0 && providerValue.favourites.length === 0 ) ||
-        ( !!favouritesFirestore.docs.length && providerValue.favourites !== favouritesFirestore.docs ) ) {
-            updateFavourites( favouritesFirestore.docs );
+    useEffect( () => {
+        let isUnmounted = false;
+
+        if ( favouritesFirestore.docs.length > 0 &&
+            providerValue.favourites.length === 0 &&
+            providerValue.currentUser !== undefined &&
+            providerValue.currentUser !== null ) {
+            const favs = favouritesFirestore.docs.filter( item => item.id === providerData.data.currentUser.uid ).length > 0 ?
+                favouritesFirestore.docs.filter( item => item.id === providerData.data.currentUser.uid )[0].products :
+                [];
+
+            if ( favs !== providerValue.favourites ) {
+                if ( !isUnmounted ) {
+                    updateFavourites( favs );
+                }
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ favouritesFirestore ] );
 
-    useEffect( (): void => {
-        if ( ( basketProductsFirestore.docs.length > 0 && providerValue.basketProducts.length === 0 ) ||
-        ( !!basketProductsFirestore.docs.length && providerValue.basketProducts !== basketProductsFirestore.docs ) ) {
-            updateBasketProducts( basketProductsFirestore.docs );
+    useEffect( () => {
+        let isUnmounted = false;
+
+        if ( basketProductsFirestore.docs.length > 0 &&
+            providerValue.basketProducts.length === 0 &&
+            providerValue.currentUser !== undefined &&
+            providerValue.currentUser !== null ) {
+            const prods = basketProductsFirestore.docs.filter( ( item ) => item.id === providerValue.currentUser.uid ).length > 0 ?
+                basketProductsFirestore.docs.filter( ( item ) => item.id === providerValue.currentUser.uid )[0].products :
+                [];
+
+            if ( prods.length !== providerValue.basketProducts.length ) {
+                if ( !isUnmounted ) {
+                    updateBasketProducts( prods );
+                }
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ basketProductsFirestore ] );
 
-    useEffect( ():void => {
+    useEffect( () => {
+        let isUnmounted = false;
+
         if ( providerValue.categories.length > 0 &&
             !providerValue.filters.some( r => providerValue.categories
                 .map( ( item ) => { return item.name; }).indexOf( r.name ) >= 0 ) ) {
@@ -325,8 +388,14 @@ export const GlobalProvider: React.FC = ({ children }) => {
                     'products': filtered.map( filt => filt.id )
                 });
             });
-            updateFilters( newFiltered.sort( ( a, b ) => ( a.name > b.name ) ? 1 : -1 ) );
+            if ( !isUnmounted ) {
+                updateFilters( newFiltered.sort( ( a, b ) => ( a.name > b.name ) ? 1 : -1 ) );
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ providerValue.categories ] );
 

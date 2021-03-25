@@ -40,21 +40,9 @@ export interface SubCategory {
     createdAt: CreatedAtType;
 }
 
-export interface Favourite {
-    createdAt: CreatedAtType;
-    id: string;
-    products: string[];
-}
-
 export interface Filter {
     name: string;
     products: string[];
-}
-
-export interface ProductToBuy {
-    createdAt: CreatedAtType;
-    id: string;
-    products: ProductProperties[]
 }
 
 export interface ProductProperties {
@@ -62,10 +50,4 @@ export interface ProductProperties {
     productId: string;
     quantity: string;
     size: string;
-}
-
-export interface BasketProducts {
-    createdAt: CreatedAtType;
-    id: string;
-    products: ProductProperties[]
 }

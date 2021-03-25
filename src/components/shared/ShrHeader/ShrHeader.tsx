@@ -13,7 +13,7 @@ import { GlobalContext } from '../../../providers/Global/Global.provider';
 import GlobalService from '../../../services/Global/Global.service';
 import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../ShrButton/ShrButton';
 import './ShrHeader.scss';
-import { BasketProducts, ProductProperties } from '../../../providers/Global/Global.model';
+import { ProductProperties } from '../../../providers/Global/Global.model';
 
 type ShrHeaderProps = {
     showSignIn?: boolean;
@@ -28,13 +28,13 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
         logout, updateFilteredOptions, updateCheckedFilters,
         updateFilteredProducts, updateActiveMenu, updateActiveMenuItem } = useContext( GlobalContext );
 
-    const productsToBuy: BasketProducts[] = !!currentUser ? basketProducts.filter( item => item.id === currentUser.uid ) || [] : [];
-
-    const basketQty = productsToBuy.length > 0 ?
-        productsToBuy[0].products.map( ( prod: ProductProperties ) => Number( prod.quantity ) )
+    const basketQty = basketProducts.length > 0 ?
+        basketProducts.map( ( prod: ProductProperties ) => Number( prod.quantity ) )
             .reduce( ( a: number, b: number ) => a + b, 0 ) : 0;
 
-    useEffect( (): void => {
+    useEffect( () => {
+        let isUnmounted = false;
+
         if ( filters.length > 0 && Object.keys( activeMenu ).length === 1 ) {
             const activeMenuTemp = JSON.parse( JSON.stringify( activeMenu ) );
 
@@ -42,8 +42,14 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                 activeMenuTemp[ item.name.toLowerCase() ] = false;
             });
 
-            updateActiveMenu( activeMenuTemp );
+            if ( !isUnmounted ) {
+                updateActiveMenu( activeMenuTemp );
+            }
         }
+
+        return () => {
+            isUnmounted = true;
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ filters ] );
 
@@ -89,7 +95,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                     <ShoppingBasket  />
                                     <span className='shr-header__mobile-basket-qty'>
                                         {
-                                            productsToBuy.length > 0 ?
+                                            basketProducts.length > 0 ?
                                                 basketQty : 0
                                         }
                                     </span>
@@ -317,7 +323,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                                     <ShoppingBasket aria-label={i18n.t( 'shr-header.basket' )} />
                                     <span className='shr-header__desktop-basket-qty'>
                                         {
-                                            productsToBuy.length > 0 ?
+                                            basketProducts.length > 0 ?
                                                 basketQty : 0
                                         }
                                     </span>
