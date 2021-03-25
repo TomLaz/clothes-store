@@ -72,7 +72,7 @@ describe( 'ShrFooter', () => {
         wrapper = getRender( providerDataProps() );
         const categoryButtons = wrapper.baseElement.querySelectorAll( '.shr-footer__category' );
         categoryButtons.forEach( category => {
-            if ( category.textContent === '[shr-footer.favourites]' ) {
+            if ( category.textContent === '[global.favourites]' ) {
                 fireEvent.click( category );
             }
         });

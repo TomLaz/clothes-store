@@ -45,7 +45,7 @@ const ShrFooter: React.FC = () => {
                             updateActiveMenuItem( 'favourites' );
                             history.push( GlobalService.states.favourites );
                         })}>
-                        {i18n.t( 'shr-footer.favourites' )}
+                        {i18n.t( 'global.favourites' )}
                     </div>
                     <div
                         className='shr-footer__category'

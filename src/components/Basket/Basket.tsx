@@ -16,7 +16,7 @@ const Basket: React.FC = () => {
     const [ removeId, setRemoveId ] = useState( '' );
 
     let total = 0;
-    basketProducts.length > 0 && basketProducts.forEach( ( prod: ProductProperties ) => {
+    basketProducts !== undefined && basketProducts.length > 0 && basketProducts.forEach( ( prod: ProductProperties ) => {
         const price = products.filter( data => data.id === prod.productId ).length > 0 ?
             Number( products.find( data => data.id === prod.productId )?.price ) :
             0;
@@ -29,7 +29,8 @@ const Basket: React.FC = () => {
     };
 
     const onConfirmRemoveHandler = (): void => {
-        const prods = JSON.parse( JSON.stringify( basketProducts ) );
+        const prods = JSON.parse( JSON.stringify( basketProducts ) )
+            .filter( ( prod: ProductProperties ) => prod.id.toString() !== removeId.toString() );
 
         updateBasketProductsCollection( prods );
         setRemoveId( '' );
@@ -39,10 +40,11 @@ const Basket: React.FC = () => {
         <ShrLayout>
             <div className='basket'>
                 {
-                    ( currentUser.uid !== undefined ) ?
+                    ( currentUser.uid !== undefined &&
+                        basketProducts !== undefined ) ?
                         <>
                             <h1 className='basket__title'>
-                                {i18n.t( 'basket.title' )}
+                                {i18n.t( 'global.basket' )}
                             </h1>
                             <div className='basket__products'>
                                 {

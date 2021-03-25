@@ -10,12 +10,12 @@ export interface GlobalProviderData {
     products: Product[];
     categories: Category[];
     subCategories: SubCategory[];
-    favourites: string[];
+    favourites: string[] | undefined;
     filters: Filter[];
     filteredOptions: string[];
     checkedFilters: any;
     filteredProducts: Product[];
-    basketProducts: ProductProperties[];
+    basketProducts: ProductProperties[] | undefined;
     activeMenu: {[key:string]: boolean};
     loading: boolean;
 }
@@ -57,12 +57,12 @@ export const defaultGlobalProviderData: GlobalProviderData = {
     products: [],
     categories: [],
     subCategories: [],
-    favourites: [],
+    favourites: undefined,
     filters: [],
     filteredOptions: [],
     checkedFilters: {},
     filteredProducts: [] as Product[],
-    basketProducts: [] as ProductProperties[],
+    basketProducts: undefined,
     activeMenu: { 'home': true },
     loading: false
 };
@@ -327,12 +327,14 @@ export const GlobalProvider: React.FC = ({ children }) => {
         let isUnmounted = false;
 
         if ( favouritesFirestore.docs.length > 0 &&
-            providerValue.favourites.length === 0 &&
+            providerValue.favourites === undefined &&
             providerValue.currentUser !== undefined &&
             providerValue.currentUser !== null ) {
             const favs = favouritesFirestore.docs.filter( item => item.id === providerData.data.currentUser.uid ).length > 0 ?
                 favouritesFirestore.docs.filter( item => item.id === providerData.data.currentUser.uid )[0].products :
                 [];
+
+            providerValue.favourites = providerValue.favourites === undefined ? [] : providerValue.favourites;
 
             if ( favs !== providerValue.favourites ) {
                 if ( !isUnmounted ) {
@@ -351,12 +353,14 @@ export const GlobalProvider: React.FC = ({ children }) => {
         let isUnmounted = false;
 
         if ( basketProductsFirestore.docs.length > 0 &&
-            providerValue.basketProducts.length === 0 &&
+            providerValue.basketProducts === undefined &&
             providerValue.currentUser !== undefined &&
             providerValue.currentUser !== null ) {
             const prods = basketProductsFirestore.docs.filter( ( item ) => item.id === providerValue.currentUser.uid ).length > 0 ?
                 basketProductsFirestore.docs.filter( ( item ) => item.id === providerValue.currentUser.uid )[0].products :
                 [];
+
+            providerValue.basketProducts = providerValue.basketProducts === undefined ? [] : providerValue.basketProducts;
 
             if ( prods.length !== providerValue.basketProducts.length ) {
                 if ( !isUnmounted ) {

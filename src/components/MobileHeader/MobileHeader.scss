@@ -1,0 +1,174 @@
+@import '../../styles/styles.scss';
+
+.mobile-header {
+    align-items: center;
+    background: $primary-dark-light;
+    overflow: hidden;
+    position: fixed;
+    z-index: 5;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &__bar {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1%;
+        width: 100%;
+    }
+
+    &__brand {
+        color: $primary;
+        cursor: pointer;
+    }
+
+    &__actions {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__actions .MuiButtonBase-root {
+        color: $primary;
+    }
+
+    &__actions .MuiSvgIcon-root {
+        font-size: 21px;
+    }
+
+    &__login {
+        color: $primary;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    &__burger {
+        cursor: pointer;
+    }
+
+    &__burger-span {
+        background: $primary;
+        display: block;
+        height: 3px;
+        margin: 6px;
+        width: 35px;
+    }
+
+    &__menu {
+        background: $primary-dark-light;
+        display: none;
+        padding-bottom: 100vh;
+        width: 100%;
+    }
+
+    &__sign {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        margin: 15px auto 30px auto;
+        gap: 20px;
+        width: 100%;
+        padding: 0 20px;
+        max-width: 600px;
+    }
+
+    &__sign-up,
+    &__sign-in,
+    &__logged,
+    &__user-profile {
+        margin: 0 0.2rem;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    &__welcome-message {
+        color: $primary;
+        text-transform: uppercase;
+    }
+
+    &__option {
+        color: $primary;
+        display: block;
+        margin: 0;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        transition: color 0.3s;
+        width: 100%;
+    }
+
+    &__option:hover {
+        background: $primary-dark-light-hover;
+    }
+
+    &__show {
+        display: block;
+    }
+
+    &__active {
+        background: $primary-dark-light-hover;
+        font-weight: 500;
+    }
+
+    &__basket {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        cursor: pointer;
+        color: $primary;
+        margin-right: 7px;
+    }
+
+    &__basket-qty {
+        font-size: 23px;
+        margin-top: 1px;
+    }
+
+    &__sign-in .MuiButtonBase-root,
+    &__sign-up .MuiButtonBase-root,
+    &__log-out .MuiButtonBase-root,
+    &__user-profile .MuiButtonBase-root {
+        color: $primary;
+        border: 1px solid $primary;
+    }
+
+    &__log-out,
+    &__user-profile,
+    &__sign-in,
+    &__sign-up {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    &__sign-in .MuiButtonBase-root:hover,
+    &__sign-up .MuiButtonBase-root:hover,
+    &__logged .MuiButtonBase-root:hover,
+    &__user-profile .MuiButtonBase-root:hover {
+        color: $primary;
+        border: 1px solid $primary;
+    }
+}
+
+@media (min-width: 290px) {
+    .mobile-header {
+        &__sign {
+            flex-direction: row;
+        }
+
+        &__mobile-log-out,
+        &__mobile-user-profile {
+            width: 50%;
+        }
+    }
+}
+
+@media (min-width: 980px) {
+    .mobile-header {
+        display: none;
+    }
+}

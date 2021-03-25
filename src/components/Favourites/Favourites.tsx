@@ -29,7 +29,7 @@ const Favourites: React.FC = () => {
     };
 
     const onConfirmRemoveHandler = (): void => {
-        const prods = favourites.filter( ( favId: string ) => favId !== removeId.toString() );
+        const prods = favourites?.filter( ( favId: string ) => favId !== removeId.toString() );
 
         updateFavouritesCollection( prods );
         setRemoveId( '' );
@@ -39,10 +39,11 @@ const Favourites: React.FC = () => {
         <ShrLayout>
             <div className='favourites'>
                 {
-                    products.length > 0 ?
+                    ( products.length > 0 &&
+                        favourites !== undefined ) ?
                         <>
                             <h1 className='favourites__title'>
-                                {i18n.t( 'favourites.title' )}
+                                {i18n.t( 'global.favourites' )}
                             </h1>
                             {
                                 favourites.length > 0 ?
@@ -78,7 +79,7 @@ const Favourites: React.FC = () => {
                     aria-describedby={i18n.t( 'favourites.delete-check' )}
                 >
                     <DialogTitle>
-                        {i18n.t( 'favourites.title' )}
+                        {i18n.t( 'global.favourites' )}
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>

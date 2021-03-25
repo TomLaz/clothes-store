@@ -88,14 +88,18 @@ const ForgotPassword: React.FC = () => {
                         <Link
                             className='forgot-password__forgot'
                             to={GlobalService.states.signIn}>
-                            {i18n.t( 'sign-in.title' )}
+                            <strong>
+                                {i18n.t( 'sign-in.title' )}
+                            </strong>
                         </Link>
                         <div className='forgot-password__signup'>
                             {i18n.t( 'sign-in.need-account' )}
                             <Link
                                 className='forgot-password__register'
                                 to={GlobalService.states.signUp}>
-                                {i18n.t( 'sign-up' )}
+                                <strong>
+                                    {i18n.t( 'sign-up' )}
+                                </strong>
                             </Link>
                         </div>
                     </div>

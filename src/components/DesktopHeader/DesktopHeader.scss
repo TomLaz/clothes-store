@@ -1,0 +1,163 @@
+@import '../../styles/styles.scss';
+
+.desktop-header {
+    align-items: center;
+    background: $primary-dark;
+    color: $primary;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 0.3em 1em;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+
+    &__info {
+        align-items: center;
+        display: flex;
+        gap: 1em;
+        min-width: 210px;
+        width: 20%;
+    }
+
+    &__dev {
+        cursor: pointer;
+    }
+
+    &__social {
+        margin-right: 30px;
+        padding: 6px 0;
+    }
+
+    &__social .fab {
+        font-size: 25px;
+        margin: 0 2px;
+    }
+
+    &__facebook {
+        color: $primary-social-facebook;
+        cursor: pointer;
+    }
+
+    &__facebook:hover {
+        color: $primary-social-facebook-hover;
+    }
+
+    &__instagram {
+        color: $primary-social-instagram;
+        cursor: pointer;
+    }
+
+    &__instagram:hover {
+        color: $primary-social-instagram-hover;
+    }
+
+    &__twitter {
+        color: $primary-social-twitter;
+        cursor: pointer;
+    }
+
+    &__twitter:hover {
+        color: $primary-social-twitter-hover;
+    }
+
+    &__youtube {
+        color: $primary-social-youtube;
+        cursor: pointer;
+    }
+
+    &__youtube:hover {
+        color: $primary-social-youtube-hover;
+    }
+
+    &__actions {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 80%;
+    }
+
+    &__options {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    &__option {
+        border: 1.5px solid transparent;
+        cursor: pointer;
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+        margin: 0 0.9rem;
+        padding: 5px;
+        text-transform: uppercase;
+        transition: border-color 200ms ease-in-out;
+    }
+
+    &__option:hover {
+        border-bottom: 1.5px solid $primary-lighter;
+    }
+
+    &__right {
+        display: flex;
+    }
+
+    &__sign-up,
+    &__sign-in {
+        margin: 0 0.2rem;
+    }
+
+    &__logged {
+        display: flex;
+        align-items: center;
+    }
+
+    &__basket {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        cursor: pointer;
+        margin-left: 18px;
+    }
+
+    &__basket-qty {
+        font-size: 25px;
+    }
+
+    &__sign-in .MuiButtonBase-root,
+    &__sign-up .MuiButtonBase-root,
+    &__logged .MuiButton-root {
+        color: $primary;
+        border: 1px solid $primary;
+        font-size: 12px;
+    }
+
+    &__logged .MuiIconButton-root {
+        padding: 0;
+        margin: 0 0 0 18px;
+    }
+
+    &__logged .MuiSvgIcon-root {
+        color: $primary;
+        font-size: 30px;
+    }
+
+    &__sign-in .MuiButtonBase-root:hover,
+    &__sign-up .MuiButtonBase-root:hover,
+    &__logged .MuiButton-root:hover {
+        color: $primary;
+        border: 1px solid $primary;
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 980px) {
+    .desktop-header {
+        display: flex;
+    }
+}

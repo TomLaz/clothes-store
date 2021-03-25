@@ -27,7 +27,7 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
     };
 
     const removeFavouriteHandler = ( id: string ): void => {
-        const prods = favourites.filter( ( prod: string ) => prod !== id );
+        const prods = favourites?.filter( ( prod: string ) => prod !== id );
         updateFavouritesCollection( prods );
     };
 
@@ -66,8 +66,7 @@ const ShrProduct: React.FC<ShrProductProps> = ({ product }) => {
                     </div>
                     {
                         !!currentUser ?
-                            !!favourites
-                                .filter( item => item.includes( product.id ) ).length ?
+                            !!favourites?.filter( item => item.includes( product.id ) ).length ?
                                 <div
                                     className='shr-product__heart shr-product__remove-favorite'
                                     onClick={(): void => removeFavouriteHandler( product.id )}>
