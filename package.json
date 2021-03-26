@@ -79,8 +79,7 @@
       "src/components/PrivateRoute",
       "src/components/ScrollToTop",
       "src/components/ShrLayout",
-      "src/components/MobileHeader",
-      "src/components/DesktopHeader",
+      "src/components/Home",
       "src/firebase",
       "src/providers"
     ],

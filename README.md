@@ -12,6 +12,8 @@
 <li>React Testing Library</li>
 <li>Mobile First</li>
 <li>Internationalization (i18n)</li>
+<li>Linter Code & Style</li>
+<li>Lazy Loading</li>
 </ul>
 
 <h3>Get Started</h3>

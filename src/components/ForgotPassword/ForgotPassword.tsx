@@ -1,13 +1,13 @@
 import React, { useContext, useRef, useState } from 'react';
-import './ForgotPassword.scss';
-import ShrLayout from '../shared/ShrLayout/ShrLayout';
-import { Link } from 'react-router-dom';
-import { GlobalContext } from '../../providers/Global/Global.provider';
 import { Button, TextField, TextFieldProps } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { Link } from 'react-router-dom';
 import i18n from '../../i18n';
+import { GlobalContext } from '../../providers/Global/Global.provider';
 import GlobalService from '../../services/Global/Global.service';
+import ShrLayout from '../shared/ShrLayout/ShrLayout';
+import './ForgotPassword.scss';
 
 const ForgotPassword: React.FC = () => {
     const emailRef = useRef<TextFieldProps>();

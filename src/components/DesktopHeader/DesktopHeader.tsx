@@ -13,7 +13,7 @@ import YouTubeIcon from '@material-ui/icons/YouTube';
 import ShrButton, { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from '../shared/ShrButton/ShrButton';
 import i18n from '../../i18n';
 import './DesktopHeader.scss';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 type DesktopHeaderProps = {
     showSignIn?: boolean;

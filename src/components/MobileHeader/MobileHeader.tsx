@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { GlobalContext } from '../../providers/Global/Global.provider';
 import GlobalService from '../../services/Global/Global.service';
 import { IconButton } from '@material-ui/core';
