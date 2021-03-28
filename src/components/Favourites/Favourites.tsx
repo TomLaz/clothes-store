@@ -14,9 +14,7 @@ const Favourites: React.FC = () => {
     useEffect( () => {
         let isUnmounted = false;
 
-        if ( !isUnmounted ) {
-            updateActiveMenuItem( 'favourites' );
-        }
+        !isUnmounted && updateActiveMenuItem( 'favourites' );
 
         return () => {
             isUnmounted = true;
@@ -33,6 +31,15 @@ const Favourites: React.FC = () => {
 
         updateFavouritesCollection( prods );
         setRemoveId( '' );
+    };
+
+    const onDialogClickHandler = ( e: React.MouseEvent<HTMLDivElement, MouseEvent> ): void => {
+        const element = e.target as Element;
+
+        if ( element.classList.contains( 'MuiBackdrop-root' ) ||
+        element.classList.contains( 'MuiDialog-container' ) ) {
+            setRemoveId( '' );
+        }
     };
 
     return (
@@ -74,7 +81,7 @@ const Favourites: React.FC = () => {
                 <Dialog
                     className='favourites__dialog'
                     open={!!removeId}
-                    onClose={(): void => setRemoveId( '' )}
+                    onClick={onDialogClickHandler}
                     aria-labelledby={i18n.t( 'favourites.delete-title' )}
                     aria-describedby={i18n.t( 'favourites.delete-check' )}
                 >

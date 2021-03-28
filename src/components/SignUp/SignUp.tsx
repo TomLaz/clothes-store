@@ -58,13 +58,13 @@ const SignUp: React.FC = () => {
                             <div className='sign-up__option'>
                                 <TextField
                                     className='sign-up__form-email'
-                                    fullWidth={true}
+                                    fullWidth
                                     id='email'
                                     inputRef={emailRef}
                                     label={i18n.t( 'global.email' )}
                                     name='email'
                                     placeholder='email'
-                                    required={true}
+                                    required
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -72,17 +72,17 @@ const SignUp: React.FC = () => {
                                             </InputAdornment>
                                         )
                                     }}
-                                    type='input'/>
+                                    type='email'/>
                             </div>
                             <div className='sign-up__option'>
                                 <TextField
                                     className='sign-up__form-password'
-                                    fullWidth={true}
+                                    fullWidth
                                     id='password'
                                     inputRef={passwordRef}
                                     label={i18n.t( 'global.password' )}
                                     name='password'
-                                    required={true}
+                                    required
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -95,12 +95,12 @@ const SignUp: React.FC = () => {
                             <div className='sign-up__option'>
                                 <TextField
                                     className='sign-up__form-password-confirm'
-                                    fullWidth={true}
+                                    fullWidth
                                     id='password-confirm'
                                     inputRef={passwordConfirmRef}
                                     label={i18n.t( 'global.password-confirm' )}
                                     name='password-confirm'
-                                    required={true}
+                                    required
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -120,7 +120,7 @@ const SignUp: React.FC = () => {
                                 <Button
                                     className='sign-up__submit-button'
                                     type='submit'
-                                    fullWidth={true}
+                                    fullWidth
                                     variant='contained'
                                     disabled={loading}>
                                     {i18n.t( 'sign-up' )}

@@ -47,13 +47,13 @@ const ForgotPassword: React.FC = () => {
                             <div className='forgot-password__option'>
                                 <TextField
                                     className='forgot-password__input-email'
-                                    fullWidth={true}
+                                    fullWidth
                                     id='email'
                                     inputRef={emailRef}
                                     label={i18n.t( 'global.email' )}
                                     name='email'
                                     placeholder={i18n.t( 'global.email' )}
-                                    required={true}
+                                    required
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -77,7 +77,7 @@ const ForgotPassword: React.FC = () => {
                             }
                             <div className='forgot-password__option forgot-password__button'>
                                 <Button
-                                    fullWidth={true}
+                                    fullWidth
                                     type='submit'
                                     variant='contained'
                                     disabled={loading}>

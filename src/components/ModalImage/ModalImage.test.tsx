@@ -25,12 +25,12 @@ describe( 'ModalImage', () => {
     });
 
     test( 'should render without error', () => {
-        const component = wrapper.baseElement.querySelector( '.backdrop' );
+        const component = wrapper.baseElement.querySelector( '.MuiBackdrop-root' );
         expect( component ).toBeInTheDocument();
     });
 
     test( 'should call setSelectedImg on backdrop clicked', () => {
-        const button = wrapper.baseElement.querySelector( '.backdrop' );
+        const button = wrapper.baseElement.querySelector( '.MuiBackdrop-root' );
         expect( button ).toBeInTheDocument();
         if ( button ) {
             fireEvent.click( button );
@@ -40,7 +40,7 @@ describe( 'ModalImage', () => {
     });
 
     test( 'should not call setSelectedImg on image clicked', () => {
-        const imageWrapper = wrapper.baseElement.querySelector( '.backdrop__image' );
+        const imageWrapper = wrapper.baseElement.querySelector( '.modal-image__img' );
         expect( imageWrapper ).toBeInTheDocument();
         if ( imageWrapper ) {
             fireEvent.click( imageWrapper );

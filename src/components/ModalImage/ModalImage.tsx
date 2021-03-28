@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import './ModalImage.scss';
+import { Dialog } from '@material-ui/core';
 
 type ModalImageProps = {
     selectedImg: string;
@@ -11,24 +11,25 @@ type ModalImageProps = {
 const ModalImage: React.FC<ModalImageProps> = ({ selectedImg, setSelectedImg, title }) => {
     const onClickHandler = ( e: React.MouseEvent<HTMLDivElement, MouseEvent> ): void => {
         const element = e.target as Element;
-        if ( element.classList.contains( 'backdrop' ) ) {
+
+        if ( element.classList.contains( 'MuiBackdrop-root' ) ||
+        element.classList.contains( 'MuiDialog-container' ) ) {
             setSelectedImg( null );
         }
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className='backdrop'
-            onClick={onClickHandler}>
-            <motion.img
-                className='backdrop__image'
-                initial={{ y: '-100vh' }}
-                animate={{ y: '0' }}
+        <Dialog
+            onClick={onClickHandler}
+            fullWidth
+            maxWidth='xs'
+            aria-labelledby={title}
+            open={!!selectedImg}>
+            <img
+                className='modal-image__img'
                 src={selectedImg}
                 alt={title} />
-        </motion.div>
+        </Dialog>
     );
 };
 

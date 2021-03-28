@@ -203,7 +203,7 @@ const AddProduct: React.FC = () => {
                                 <Button
                                     onClick={(): void => {history.push( GlobalService.states.home );}}
                                     type='submit'
-                                    fullWidth={true}
+                                    fullWidth
                                     variant='contained'>
                                     {i18n.t( 'add-product.home' )}
                                 </Button>

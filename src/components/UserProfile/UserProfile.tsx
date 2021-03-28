@@ -85,13 +85,13 @@ const UserProfile: React.FC = () => {
                                 className='user-profile__form'>
                                 <div className='user-profile__option'>
                                     <TextField
-                                        fullWidth={true}
+                                        fullWidth
                                         id='email'
                                         value={email || ''}
                                         label={i18n.t( 'global.email' )}
                                         name='email'
                                         placeholder='email'
-                                        required={true}
+                                        required
                                         InputProps={{
                                             readOnly: true,
                                             endAdornment: (
@@ -105,13 +105,13 @@ const UserProfile: React.FC = () => {
                                 <div className='user-profile__option'>
                                     <TextField
                                         className='user-profile__form-password'
-                                        fullWidth={true}
+                                        fullWidth
                                         id='password'
                                         value={password || ''}
                                         onChange={( e ): void => setPassword( e.target.value ) }
                                         label={i18n.t( 'global.password' )}
                                         name='password'
-                                        required={true}
+                                        required
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position='end'>
@@ -124,13 +124,13 @@ const UserProfile: React.FC = () => {
                                 <div className='user-profile__option'>
                                     <TextField
                                         className='user-profile__form-password-confirm'
-                                        fullWidth={true}
+                                        fullWidth
                                         id='password-confirm'
                                         value={passwordConfirm || ''}
                                         onChange={( e ): void => setPasswordConfirm( e.target.value ) }
                                         label={i18n.t( 'global.password-confirm' )}
                                         name='password-confirm'
-                                        required={true}
+                                        required
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position='end'>

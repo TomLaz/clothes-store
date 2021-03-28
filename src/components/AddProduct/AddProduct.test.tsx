@@ -63,7 +63,7 @@ describe( 'AddProduct', () => {
     });
 
     test( 'should open modal and show image', () => {
-        let backdrop = wrapper.baseElement.querySelector( '.backdrop' );
+        let backdrop = wrapper.baseElement.querySelector( '.MuiBackdrop-root' );
         expect( backdrop ).not.toBeInTheDocument();
 
         const image = wrapper.baseElement.querySelector( '.add-product__main-left-container .add-product__image' );
@@ -72,7 +72,7 @@ describe( 'AddProduct', () => {
             fireEvent.click( image );
         }
 
-        backdrop = wrapper.baseElement.querySelector( '.backdrop' );
+        backdrop = wrapper.baseElement.querySelector( '.MuiBackdrop-root' );
         expect( backdrop ).toBeInTheDocument();
     });
 

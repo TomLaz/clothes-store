@@ -55,7 +55,7 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                             <div className='sign-in__option'>
                                 <TextField
                                     className='sign-in__form-email'
-                                    fullWidth={true}
+                                    fullWidth
                                     id='email'
                                     inputRef={emailRef}
                                     label={i18n.t( 'global.email' )}
@@ -69,12 +69,12 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
                                             </InputAdornment>
                                         )
                                     }}
-                                    type='input'/>
+                                    type='email'/>
                             </div>
                             <div className='sign-in__option'>
                                 <TextField
                                     className='sign-in__form-password'
-                                    fullWidth={true}
+                                    fullWidth
                                     id='password'
                                     inputRef={passwordRef}
                                     label={i18n.t( 'global.password' )}
