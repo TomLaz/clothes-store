@@ -23,9 +23,7 @@ const ShrHeader: React.FC<ShrHeaderProps> = ({ showSignIn, showSignUp, showCateg
                 activeMenuTemp[ item.name.toLowerCase() ] = false;
             });
 
-            if ( !isUnmounted ) {
-                updateActiveMenu( activeMenuTemp );
-            }
+            !isUnmounted && updateActiveMenu( activeMenuTemp );
         }
 
         return () => {

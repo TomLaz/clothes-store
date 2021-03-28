@@ -46,7 +46,10 @@ describe( 'UserProfile', () => {
     });
 
     test( 'should call updatePassword function on submit button clicked', async () => {
-        wrapper = getRender( getDefaultGlobalProviderDataProps() );
+        const providerData = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
+        wrapper = getRender( providerData );
+        providerData.updatePassword = jest.fn().mockReturnValue( Promise.resolve() );
+
         const passwordInput = wrapper.baseElement.querySelector( '.user-profile__form-password .MuiInputBase-input' );
         expect( passwordInput ).toBeInTheDocument();
         if ( passwordInput ) {

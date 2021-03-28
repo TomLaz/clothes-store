@@ -121,4 +121,24 @@ describe( 'Favourites', () => {
         const empty = wrapper.baseElement.querySelector( '.favourites__empty' );
         expect( empty ).toBeInTheDocument();
     });
+
+    test( 'should not render description on first favourite product', () => {
+        cleanup();
+        const providerData = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
+        providerData.products[0].imgUrl = undefined;
+        providerData.products[0].imgAlt = undefined;
+        providerData.products[0].title = undefined;
+        providerData.products[0].price = '';
+        providerData.products[0].description = undefined;
+
+        wrapper = getRender( providerData );
+
+        const productDetails = wrapper.baseElement.querySelectorAll( '.product-detail' );
+
+        const productDescriptionRendered = productDetails[1].querySelector( '.product-detail__description' );
+        expect( productDescriptionRendered ).toBeInTheDocument();
+
+        const productDescription = productDetails[0].querySelector( '.product-detail__description' );
+        expect( productDescription ).not.toBeInTheDocument();
+    });
 });

@@ -25,18 +25,20 @@ const SignIn: React.FC<SignInType> = ({ shouldRedirect }) => {
     const onSubmitHandler = async ( e: React.FormEvent<HTMLFormElement> ): Promise<void> => {
         e.preventDefault();
 
-        try {
-            setError( '' );
-            setLoading( true );
-            await login( emailRef.current?.value, passwordRef.current?.value );
-            if ( shouldRedirect ) {
-                history.push( GlobalService.states.home );
-            }
-        } catch {
-            setError( i18n.t( 'sign-in.error' ) );
-        } finally {
-            setLoading( false );
-        }
+        setError( '' );
+        setLoading( true );
+        login( emailRef.current?.value, passwordRef.current?.value )
+            .then( () => {
+                if ( shouldRedirect ) {
+                    history.push( GlobalService.states.home );
+                }
+            })
+            .catch( () => {
+                setError( i18n.t( 'sign-in.error' ) );
+            })
+            .finally( () => {
+                setLoading( false );
+            });
     };
 
     return (

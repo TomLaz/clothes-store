@@ -50,4 +50,13 @@ describe( 'ShrHeader', () => {
         const component = wrapper.baseElement.querySelector( '.shr-header' );
         expect( component ).toBeInTheDocument();
     });
+
+    test( 'should not call to updateActiveMenu on render', () => {
+        const providerData = JSON.parse( JSON.stringify( getDefaultGlobalProviderDataProps() ) );
+        providerData.filters.length = 0;
+        providerData.updateActiveMenu = jest.fn();
+        wrapper = getRender( providerData );
+
+        expect( providerData.updateActiveMenu ).not.toHaveBeenCalled();
+    });
 });
