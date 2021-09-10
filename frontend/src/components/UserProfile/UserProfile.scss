@@ -1,0 +1,103 @@
+@import '../../styles/styles.scss';
+
+.user-profile {
+    &__primary-title {
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+        background: $primary-header-title;
+        font-weight: 100;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 600px;
+        width: 100%;
+        border-bottom: 12px solid $primary-dark;
+    }
+
+    &__top {
+        padding: 50px;
+    }
+
+    &__title {
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    &__bottom {
+        background: $primary-dark-lighter;
+        flex: 1;
+        padding: 0 50px 25px 50px;
+    }
+
+    &__error {
+        color: $primary-error;
+    }
+
+    &__form {
+        margin-bottom: 5px;
+    }
+
+    &__option .MuiFormControl-root,
+    &__option .MuiButtonBase-root {
+        margin: 15px 0;
+    }
+
+    &__added {
+        background: $primary-success-operation;
+        border-radius: 4px;
+        margin: 15px 0;
+    }
+
+    &__added-box {
+        width: 100%;
+        border: 1px solid $primary-dark;
+        color: $primary-dark;
+        transition: all 0.25s;
+        padding: 7px 21px;
+        font-size: 0.9375rem;
+        min-width: 64px;
+        box-sizing: border-box;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        border-radius: 4px;
+        letter-spacing: 0.02857em;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    &__register {
+        color: $primary-dark;
+        font-weight: 500;
+    }
+
+    &__signup {
+        margin-top: 15px;
+    }
+}
+
+@media (min-width: 500px) {
+    .user-profile {
+        &__primary-title {
+            padding: 25px;
+            font-size: 26px;
+            margin-top: 5px;
+        }
+    }
+}
+
+@media (min-width: 600px) {
+    .user-profile {
+        height: auto;
+
+        &__wrapper {
+            border: 2px solid $primary-dark;
+            margin: 50px auto;
+        }
+    }
+}

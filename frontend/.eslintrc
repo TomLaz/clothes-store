@@ -1,0 +1,47 @@
+{
+    "extends": [
+        "react-app",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules" : {
+        "react/prop-types": 0,
+        "comma-spacing": "error",
+        "quotes": [ "error", "single", { "avoidEscape": true } ],
+        "indent": [ "error", 4 ],
+        "spaced-comment": [ "error", "always" ],
+        "no-console": "error",
+        "no-debugger": "error",
+        "object-curly-spacing": [ "error", "always", { "objectsInObjects": false } ],
+        "space-in-parens": [ "error", "always", { "exceptions": ["empty", "{}"] } ],
+        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
+        "space-before-blocks": "error",
+        "array-bracket-spacing": [ "error", "always", { "arraysInArrays": false } ],
+        "array-element-newline": [ "error", "consistent" ],
+        "max-len": [ "error", {
+            "code": 190,
+            "ignorePattern": "^import\\s.+\\sfrom\\s.+;$"
+        } ],
+        "@typescript-eslint/explicit-function-return-type": ["error", {
+            "allowExpressions": true
+          }],
+        "keyword-spacing": "error",
+        "@typescript-eslint/no-unused-vars": "error",
+        "eol-last": ["error", "always"],
+        "semi": ["error", "always"],
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+        "no-trailing-spaces": "error",
+        "comma-dangle": ["error", "never"],
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/ban-types": ["error",
+            {
+                "types": {
+                    "Function": false
+                },
+                "extendDefaults": true
+            }
+        ]
+    }
+}

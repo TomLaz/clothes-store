@@ -1,0 +1,101 @@
+{
+  "name": "clothes-store",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-router-dom": "^5.1.6",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "axios": "^0.21.1",
+    "jwt-decode": "^3.1.2",
+    "firebase": "^8.0.2",
+    "i18next": "^19.8.2",
+    "jest": "^25.0.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-i18next": "^11.7.3",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "typeface-roboto": "^1.1.13",
+    "typescript": "~3.7.2",
+    "webpack-dev-server": "^3.11.0",
+    "yarn": "^1.22.10"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "precommit": "npm run codelint && npm run stylelint && react-scripts test --watchAll=false --coverage",
+    "build": "react-scripts build",
+    "test": "react-scripts test --watchAll=false --coverage --runInBand",
+    "eject": "react-scripts eject",
+    "codelint": "eslint ./src",
+    "stylelint": "stylelint src/**/*.scss"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^7.12.0",
+    "eslint-plugin-react": "^7.21.5",
+    "node-sass": "^4.14.1",
+    "stylelint": "^13.7.2",
+    "stylelint-config-standard": "^20.0.0"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "serviceWorker",
+      ".eslintrc",
+      "src/locales",
+      "setupTest",
+      "src/index.tsx",
+      "react-app-env.d.ts",
+      "i18n.ts",
+      "browserMockControl.ts",
+      "src/mocks",
+      "src/App.tsx",
+      ".provider.tsx",
+      ".container.tsx",
+      ".serive.ts",
+      "src/components/PrivateRoute",
+      "src/components/ScrollToTop",
+      "src/components/ShrLayout",
+      "src/components/Home",
+      "src/providers",
+      ".model.ts",
+      "src/utils/api",
+      "src/services"
+    ],
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "text-summary",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/*.{ts,tsx}",
+      "src/**/*.{ts,tsx}",
+      "src/**/**/*.{ts,tsx}"
+    ]
+  }
+}
